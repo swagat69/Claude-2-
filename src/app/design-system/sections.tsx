@@ -390,20 +390,27 @@ export function Typography() {
           <p className={styles.familyGlyph} style={{ fontFamily: "var(--font-family-display)" }} aria-hidden="true">
             Aa
           </p>
-          <p className="type-h3">Space Grotesk</p>
-          <p className={`type-meta ${styles.muted}`}>Display XL and Display L only. Variable 300–700. SIL Open Font License.</p>
+          <p className="type-h3">Plus Jakarta Sans</p>
+          <p className={`type-meta ${styles.muted}`}>
+            Display XL and Display L only. Warm and confident for big headlines. Variable 200–800. SIL Open Font
+            License.
+          </p>
         </div>
         <div className={styles.family}>
           <p className={styles.familyGlyph} style={{ fontFamily: "var(--font-family-ui)" }} aria-hidden="true">
             Aa
           </p>
           <p className="type-h3">Inter</p>
-          <p className={`type-meta ${styles.muted}`}>Headings, UI, forms and body. Variable 100–900. SIL Open Font License.</p>
+          <p className={`type-meta ${styles.muted}`}>
+            Headings, UI, forms and body. Built for screens, with tabular figures so amounts line up. Variable
+            100–900. SIL Open Font License.
+          </p>
         </div>
       </div>
       <p className={`type-meta ${styles.muted} ${styles.note}`}>
         Sizes scale fluidly from the 390px frame to the 1440px frame and stop at both ends. Resize the window to
-        see it.
+        see it. Chinese and Tamil text falls back to the device’s Simplified Chinese and Tamil fonts: 陈美玲 ·
+        தமிழ்.
       </p>
       <ul className={styles.typeList}>
         {(Object.entries(typeScale) as [keyof typeof typeScale, TypeStep][]).map(([name, step]) => (

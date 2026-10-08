@@ -7,7 +7,7 @@ each reviewed before the next starts.
 
 | Part | Scope | Brief | Status |
 | --- | --- | --- | --- |
-| 1 | Foundations: colour, type, space, radius, elevation, grid, motion tokens | §11–§16 | Ready for review |
+| 1 | Foundations: colour, type, space, radius, elevation, grid, motion tokens | §11–§16 | Approved 8 Oct 2026 |
 | 2 | Component library (20 families, all states) | §13 | Next |
 | 3 | Homepage with scroll motion | §6, §15 | Planned |
 | 4 | Assessment A0–A4 with branching | §7, §8 | Planned |
@@ -68,5 +68,6 @@ docs/decisions.md          decision log and open business questions
 ```
 
 Stack: Next.js 16 (App Router, Cache Components), React 19, TypeScript, CSS
-Modules on top of the token custom properties. Fonts are Inter and Space
-Grotesk via `next/font` (self-hosted, Open Font License).
+Modules on top of the token custom properties. Fonts are Inter (UI) and Plus
+Jakarta Sans (headlines) via `next/font` (self-hosted, Open Font License),
+with Simplified Chinese and Tamil system-font fallbacks.

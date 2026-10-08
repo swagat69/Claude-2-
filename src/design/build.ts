@@ -202,7 +202,7 @@ function colorToken(value: string, description?: string): Json {
 const dimension = (px: number, description?: string): Json =>
   description ? { $type: "dimension", $value: `${px}px`, $description: description } : { $type: "dimension", $value: `${px}px` };
 
-const FAMILY_NAMES = { display: "Space Grotesk", ui: "Inter" } as const;
+const FAMILY_NAMES = { display: "Plus Jakarta Sans", ui: "Inter" } as const;
 
 export function toDtcg(): Json {
   const mapValues = <T>(obj: Record<string, T>, fn: (value: T, key: string) => Json): { [key: string]: Json } =>

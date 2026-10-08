@@ -116,20 +116,20 @@
   --glow-noise-opacity: 0.025;
 
   /* font */
-  --font-family-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-family-ui: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-family-display: var(--font-plus-jakarta), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Tamil Sangam MN", "Nirmala UI", "Noto Sans Tamil", ui-sans-serif, system-ui, sans-serif;
+  --font-family-ui: var(--font-inter), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Tamil Sangam MN", "Nirmala UI", "Noto Sans Tamil", ui-sans-serif, system-ui, sans-serif;
 
   /* type */
   --type-display-xl-family: var(--font-family-display);
   --type-display-xl-size: clamp(2.625rem, 1.9286rem + 2.8571vw, 4.5rem);
   --type-display-xl-leading: 1.03;
-  --type-display-xl-weight: 680;
-  --type-display-xl-tracking: -0.045em;
+  --type-display-xl-weight: 720;
+  --type-display-xl-tracking: -0.03em;
   --type-display-l-family: var(--font-family-display);
   --type-display-l-size: clamp(2.25rem, 1.7857rem + 1.9048vw, 3.5rem);
   --type-display-l-leading: 1.06;
-  --type-display-l-weight: 650;
-  --type-display-l-tracking: -0.035em;
+  --type-display-l-weight: 680;
+  --type-display-l-tracking: -0.025em;
   --type-h1-family: var(--font-family-ui);
   --type-h1-size: clamp(1.75rem, 1.5179rem + 0.9524vw, 2.375rem);
   --type-h1-leading: 1.15;

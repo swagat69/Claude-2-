@@ -55,7 +55,7 @@ const sections: { id: string; title: string; intro: string; Content: ComponentTy
   {
     id: "typography",
     title: "Typography",
-    intro: "Space Grotesk for a few big headlines. Inter for everything people read and fill in.",
+    intro: "Plus Jakarta Sans for a few big headlines. Inter for everything people read and fill in.",
     Content: Typography,
   },
   {
@@ -125,7 +125,8 @@ const signOff = [
   },
   {
     question: "Typefaces",
-    proposal: "Space Grotesk (display) and Inter (UI). Both are free under the Open Font License and cover English well.",
+    proposal:
+      "Plus Jakarta Sans for headlines, Inter for everything else. Space Grotesk was replaced after review: its techy, monospace-derived shapes suit developer tools more than a money decision.",
   },
   {
     question: "Glow colours",
@@ -150,9 +151,9 @@ function TocList() {
         </li>
       ))}
       <li>
-        <a href="#sign-off">
+        <a href="#decisions">
           <span className={styles.tocNum}>{String(sections.length + 1).padStart(2, "0")}</span>
-          Sign-off questions
+          Decisions
         </a>
       </li>
     </ol>
@@ -189,7 +190,7 @@ export default function DesignSystemPage() {
               </p>
               <ul className={styles.heroMeta} aria-label="Document status">
                 <li>Brief v1.0 §11–§16</li>
-                <li>Proposed · awaiting Gate 3 sign-off</li>
+                <li>Approved · 8 Oct 2026</li>
                 <li>Loan matching · Singapore</li>
               </ul>
             </div>
@@ -218,7 +219,7 @@ export default function DesignSystemPage() {
               </div>
               <div className={styles.artType}>
                 <span className={styles.artGlyph}>Aa</span>
-                <span className="type-meta">Space Grotesk · Inter</span>
+                <span className="type-meta">Plus Jakarta Sans · Inter</span>
               </div>
             </div>
           </div>
@@ -247,15 +248,21 @@ export default function DesignSystemPage() {
             ))}
 
             <Section
-              id="sign-off"
+              id="decisions"
               index={sections.length + 1}
-              title="Sign-off questions"
-              intro="Where the brief was open or contradicted itself, I made these calls. Confirm or change them before Part 2 (components) builds on them."
+              title="Decisions"
+              intro="Calls made where the brief was open or contradicted itself. Approved by the product owner on 8 October 2026 (Gate 3), with the headline typeface changed after review."
             >
               <ol className={styles.signoff}>
                 {signOff.map(({ question, proposal }) => (
                   <li key={question}>
-                    <h3 className="type-h3">{question}</h3>
+                    <h3 className="type-h3">
+                      {question}
+                      <span className={styles.approved}>
+                        <Icon name="check" size={20} />
+                        Approved
+                      </span>
+                    </h3>
                     <p>{proposal}</p>
                   </li>
                 ))}
@@ -268,8 +275,7 @@ export default function DesignSystemPage() {
       <footer className={styles.footer}>
         <div className="container">
           <p className="type-meta">
-            Built from the DFX Design Brief v1.0 (8 October 2026). Foundations v0.1. Proposed values, pending product
-            and brand approval.
+            Built from the DFX Design Brief v1.0 (8 October 2026). Foundations v1.0, approved 8 October 2026.
           </p>
         </div>
       </footer>

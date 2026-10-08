@@ -82,7 +82,7 @@ a.part:hover {
   white-space: nowrap;
 }
 
-.status[data-status="Ready for review"] {
+.status[data-status="Approved"] {
   border-color: var(--palette-ink);
   background: var(--palette-lime);
 }

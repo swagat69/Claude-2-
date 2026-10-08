@@ -400,9 +400,28 @@ export interface TypeStep {
   usage: string;
 }
 
+/**
+ * Inter and Plus Jakarta Sans cover Latin only. Chinese and Tamil text (names
+ * typed into forms, future translations) falls back to the device's own
+ * Simplified Chinese and Tamil fonts, listed before system-ui so Singapore
+ * users get Simplified, not Traditional or Japanese, glyph forms.
+ */
+const systemFallback = [
+  '"PingFang SC"',
+  '"Hiragino Sans GB"',
+  '"Microsoft YaHei"',
+  '"Noto Sans SC"',
+  '"Tamil Sangam MN"',
+  '"Nirmala UI"',
+  '"Noto Sans Tamil"',
+  "ui-sans-serif",
+  "system-ui",
+  "sans-serif",
+].join(", ");
+
 export const fontFamily = {
-  display: "var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif",
-  ui: "var(--font-inter), ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  display: `var(--font-plus-jakarta), ${systemFallback}`,
+  ui: `var(--font-inter), ${systemFallback}`,
 } as const;
 
 export const typeScale = {
@@ -410,16 +429,16 @@ export const typeScale = {
     desktop: { size: 72, leading: 0.98 },
     mobile: { size: 42, leading: 1.03 },
     family: "display",
-    weight: 680,
-    tracking: "-0.045em",
+    weight: 720,
+    tracking: "-0.03em",
     usage: "Homepage hero headline only",
   },
   "display-l": {
     desktop: { size: 56, leading: 1.02 },
     mobile: { size: 36, leading: 1.06 },
     family: "display",
-    weight: 650,
-    tracking: "-0.035em",
+    weight: 680,
+    tracking: "-0.025em",
     usage: "Major section headline",
   },
   h1: {

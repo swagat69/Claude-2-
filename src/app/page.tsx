@@ -8,7 +8,7 @@ import styles from "./hub.module.css";
  * replaces this route in Part 3, and the hub moves to /hub.
  */
 const parts = [
-  { title: "Foundations", detail: "Colour, type, space, radius, elevation, grid and motion tokens.", brief: "§11–§16", href: "/design-system", status: "Ready for review" },
+  { title: "Foundations", detail: "Colour, type, space, radius, elevation, grid and motion tokens.", brief: "§11–§16", href: "/design-system", status: "Approved" },
   { title: "Component library", detail: "Buttons, inputs, choices, progress, status and result cards, and 15 more families.", brief: "§13", status: "Next" },
   { title: "Homepage", detail: "Header, hero, proof, how it works, use cases, preview, FAQ, support and footer, with scroll motion.", brief: "§6, §15", status: "Planned" },
   { title: "Assessment", detail: "Start screen, three question stages, review and consent, with branching.", brief: "§7, §8", status: "Planned" },

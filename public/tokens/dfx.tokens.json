@@ -542,21 +542,21 @@
       "desktop": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "Space Grotesk",
+          "fontFamily": "Plus Jakarta Sans",
           "fontSize": "72px",
-          "fontWeight": 680,
+          "fontWeight": 720,
           "lineHeight": 0.98,
-          "letterSpacing": "-0.045em"
+          "letterSpacing": "-0.03em"
         }
       },
       "mobile": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "Space Grotesk",
+          "fontFamily": "Plus Jakarta Sans",
           "fontSize": "42px",
-          "fontWeight": 680,
+          "fontWeight": 720,
           "lineHeight": 1.03,
-          "letterSpacing": "-0.045em"
+          "letterSpacing": "-0.03em"
         }
       }
     },
@@ -565,21 +565,21 @@
       "desktop": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "Space Grotesk",
+          "fontFamily": "Plus Jakarta Sans",
           "fontSize": "56px",
-          "fontWeight": 650,
+          "fontWeight": 680,
           "lineHeight": 1.02,
-          "letterSpacing": "-0.035em"
+          "letterSpacing": "-0.025em"
         }
       },
       "mobile": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "Space Grotesk",
+          "fontFamily": "Plus Jakarta Sans",
           "fontSize": "36px",
-          "fontWeight": 650,
+          "fontWeight": 680,
           "lineHeight": 1.06,
-          "letterSpacing": "-0.035em"
+          "letterSpacing": "-0.025em"
         }
       }
     },

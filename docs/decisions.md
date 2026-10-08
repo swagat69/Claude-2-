@@ -10,9 +10,12 @@ records who decided, what, and why, so later parts and reviewers can trace it.
 | Build format | Next.js + React | Matches brief §23 "React / Next.js + Motion" route; the design is built as real, responsive screens rather than Figma frames. |
 | Product | Loan / credit matching | Copy, use-case tiles and assessment questions assume a loan-matching service (like the Lendela reference), never implying approval or rates. |
 | Market | Singapore | SGD, +65 phone numbers, `en-SG` locale. Legal footer and disclosures still need local review. |
-| Brand | No existing assets | Placeholder "DFX" text wordmark; the brief's proposed palette; Inter + Space Grotesk. |
+| Brand | No existing assets | Placeholder "DFX" text wordmark and the brief's proposed palette. |
 
-## Proposed in Part 1: awaiting sign-off (Gate 3)
+## Part 1 foundations: approved by the product owner (Gate 3, 8 Oct 2026)
+
+All proposals below were approved as written except the headline typeface,
+which was changed after review (row 6).
 
 | # | Topic | Proposal | Reason |
 | --- | --- | --- | --- |
@@ -21,7 +24,7 @@ records who decided, what, and why, so later parts and reviewers can trace it.
 | 3 | Progress stepper | Completed = forest + check; current = lime with ink outline; upcoming = line grey. Stage names collapse to "Step N of 4 · Stage" in narrow containers. | Lime alone is 1.2:1 on white, invisible as a state marker. Four stage names don't fit side by side under ~420px. |
 | 4 | Button radius | 16px for every button. | Brief §12 radius scale says 16; H0.2 says 18 for the hero CTA. One value keeps the system consistent. |
 | 5 | Derived colours | 14 extra values (hover, pressed, field border, feedback text and tints, lime tint). | The brief's palette has no accessible versions of these; `line` (1.3:1) can't be an input border, `green` (2.9:1) can't be success text. |
-| 6 | Typefaces | Space Grotesk (Display XL / L only), Inter for everything else. | Brief §12 recommendation; both OFL, free to use. Space Grotesk tops out at 700, so Display XL uses 680 (brief: 650–750). |
+| 6 | Typefaces | Plus Jakarta Sans for Display XL / L (720 / −0.03em and 680 / −0.025em), Inter for everything else. Simplified Chinese and Tamil system fonts as fallbacks. | Replaced Space Grotesk after review: its monospace-derived shapes read as crypto / developer tooling, not a trusted money decision. Plus Jakarta Sans is warm and premium, fits the hero in two lines on a 390px phone and reaches 800 weight. Inter stays for its screen legibility and tabular figures. Tracking is looser than the brief's −0.045em because Plus Jakarta Sans collides at that setting. Fallbacks cover Chinese and Tamil names typed into forms. All fonts are OFL. |
 | 7 | Glow colours | Saturated base colours (`#F06BA8`, `#4CC26F`, `#FF9A3D`) rendered at the brief's 18–36% opacity. | At that opacity, pastel bases would barely show; these land on soft pastels over paper. |
 | 8 | Eyebrow tracking | +0.1em. | §12 type table says 0.1em, H0.2 says 0.12em. |
 
