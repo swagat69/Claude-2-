@@ -87,7 +87,8 @@ a.part:hover {
   background: var(--palette-lime);
 }
 
-.status[data-status$="in review"] {
+.status[data-status$="in review"],
+.status[data-status="In review"] {
   border-color: var(--palette-ink);
   background: var(--color-surface-selected);
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ComponentType } from "react";
 import { Icon } from "@/components/icon/Icon";
+import { DisplayText } from "@/components/type/DisplayText";
 import { Motion } from "./MotionSection";
 import {
   ArtDirection,
@@ -147,7 +148,7 @@ export default function DesignSystemPage() {
             <div className={styles.heroCopy}>
               <p className={`type-eyebrow ${styles.eyebrow}`}>Part 1 · Foundations</p>
               <h1 id="ds-title" className={`type-display-xl ${styles.heroTitle}`}>
-                Quiet clarity, with a playful signal.
+                <DisplayText>Quiet clarity, with a playful signal.</DisplayText>
               </h1>
               <p className={`type-body-l ${styles.heroLead}`}>
                 The colour, type, space, shape and motion tokens that every DFX screen is built from: homepage,

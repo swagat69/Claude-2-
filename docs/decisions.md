@@ -63,6 +63,19 @@ Approved as written.
 | 5 | Header | Sticky and compressing 78→64px from 768px; on phones a plain 64px row that scrolls away; menu as a bottom sheet; layout switches by the header's own width. | Brief H0.1 and §16 ("no large sticky nav" on mobile). |
 | 6 | Orbs | Decorative only: aria-hidden, no pointer events, ≤16px drift with a mouse and motion allowed, hidden under reduced transparency. | Brief §11, §14 and family 17. |
 
+## Part 3 homepage: proposed (owner asked me to start building)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Copy | Brief's example headline kept; loan-specific supporting line; every business fact (loan categories, support hours/channels/team, reply time, legal entity, regulatory line, who contacts users) wrapped in a visible Placeholder tag. | Brief: "Replace with category-specific approved copy before launch"; never imply claims the product can't substantiate. |
+| 2 | Proof | Trust strip uses three promises that are true by how the product works (review before sending; you choose the channel, no marketing without consent; a call only if it helps). No partner logos or testimonials. | Brief H0.3: logos only if authorised, testimonials only with permission. |
+| 3 | People | Brand-owned illustration in the support section; no stock or AI-generated people. Swap in real team photos when available. | Brief H0.8. |
+| 4 | Previews | Hero and "A look inside" use token-built illustrations of the real components, labelled "Illustrative preview", hidden from screen readers and keyboard, with no invented figures. | Brief H0.2 and H0.6. |
+| 5 | Motion | IntersectionObserver + CSS only, no animation library. Enter-once reveals; nothing hidden without JavaScript, with reduced motion, or above the fold. The preview is told by normal scrolling past a sticky panel (from 1024px only); no scroll-jacking. Hero orbs drift ≤16px with a mouse only. | Brief §14–15: one animation system, content visible with JS off, no scroll-jacking. |
+| 6 | Categories | Six tiles, including Education loan, each linking to `/assessment?goal=…` so the first question can be preselected. | Brief H0.5: 4–6 tiles; categories pending product confirmation. |
+| 7 | Routes | Build hub moved to `/hub`; placeholder pages for privacy, terms, accessibility and contact so no link 404s; a real 404 page. | A link that fails looks broken in review and in production. |
+| 8 | Headline punctuation | Display headlines tuck `, . ? !` in by 0.06em (`DisplayText`). | Plus Jakarta Sans sets a visible gap before punctuation at 56–72px. |
+
 ## Open business questions (brief §25)
 
 These must be answered before the relevant part is finalised. They don't

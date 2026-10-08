@@ -1,11 +1,27 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const routes = ["/", "/design-system", "/design-system/forms", "/design-system/feedback", "/design-system/cards"];
+const routes = [
+  "/",
+  "/assessment",
+  "/privacy",
+  "/terms",
+  "/accessibility",
+  "/contact",
+  "/hub",
+  "/design-system",
+  "/design-system/forms",
+  "/design-system/feedback",
+  "/design-system/cards",
+];
 
 for (const route of routes) {
   test(`${route} has no WCAG 2.2 AA violations`, async ({ page }) => {
     await page.goto(route);
+    // Scroll through first, so content that reveals on scroll is checked too.
+    const height = await page.evaluate(() => document.documentElement.scrollHeight);
+    for (let y = 0; y <= height; y += 500) await page.evaluate((top) => window.scrollTo(0, top), y);
+    await page.waitForTimeout(800);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       // The contrast audit's "don't use" chips fail on purpose; nothing else is excluded.

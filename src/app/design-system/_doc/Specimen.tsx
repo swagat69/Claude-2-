@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Icon } from "@/components/icon/Icon";
+import { DisplayText } from "@/components/type/DisplayText";
 import ds from "../ds.module.css";
 import styles from "./specimen.module.css";
 
@@ -10,7 +11,7 @@ export function DocHero({ id, eyebrow, title, lead, meta }: { id: string; eyebro
       <div className={`container ${styles.heroInner}`}>
         <p className={`type-eyebrow ${ds.eyebrow}`}>{eyebrow}</p>
         <h1 id={id} className={`type-display-l ${styles.heroTitle}`}>
-          {title}
+          <DisplayText>{title}</DisplayText>
         </h1>
         <p className={`type-body-l ${ds.heroLead}`}>{lead}</p>
         <ul className={ds.heroMeta} aria-label="Document status">

@@ -153,3 +153,8 @@ kbd {
 html:has(dialog:modal) {
   overflow: hidden;
 }
+
+/* See DisplayText: optical spacing for punctuation in display headlines. */
+.display-punct {
+  margin-left: -0.06em;
+}

@@ -1,0 +1,47 @@
+/* Waiting below the fold: hidden only after JS has seen it off-screen. */
+.reveal[data-reveal="pending"] {
+  opacity: 0;
+}
+
+.reveal[data-reveal="pending"][data-variant="rise"] {
+  transform: translateY(var(--motion-distance-reveal));
+}
+
+.reveal[data-reveal="in"] {
+  animation: reveal-in var(--motion-duration-results) var(--motion-easing-standard) both;
+  animation-delay: calc(var(--reveal-index, 0) * var(--motion-stagger-reveal));
+}
+
+.reveal[data-reveal="in"][data-variant="fade"] {
+  animation-name: fade-in;
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-reveal));
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Belt and braces: the component already skips reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal[data-reveal] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media print {
+  .reveal[data-reveal] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

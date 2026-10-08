@@ -18,7 +18,10 @@ export default function DesignSystemLayout({ children }: LayoutProps<"/design-sy
       {children}
       <footer className={styles.footer}>
         <div className="container">
-          <p className="type-meta">Built from the DFX Design Brief v1.0 (8 October 2026).</p>
+          <p className="type-meta">
+            Built from the DFX Design Brief v1.0 (8 October 2026). <Link href="/hub">Build hub</Link> ·{" "}
+            <Link href="/">Homepage</Link>
+          </p>
         </div>
       </footer>
     </>

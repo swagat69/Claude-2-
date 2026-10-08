@@ -9,7 +9,7 @@ each reviewed before the next starts.
 | --- | --- | --- | --- |
 | 1 | Foundations: colour, type, space, radius, elevation, grid, motion tokens | §11–§16 | Approved 8 Oct 2026 |
 | 2 | Component library (all 20 families, every state), in three batches: 2a form controls, 2b feedback and overlays, 2c cards, booking and navigation | §13 | 2a approved; 2b and 2c in review |
-| 3 | Homepage with scroll motion | §6, §15 | Planned |
+| 3 | Homepage with scroll motion | §6, §15 | In review |
 | 4 | Assessment A0–A4 with branching | §7, §8 | Planned |
 | 5 | WhatsApp / email handoff and processing | §9 | Planned |
 | 6 | Results, no-match, manual review, booking | §10 | Planned |
@@ -23,7 +23,7 @@ Requires Node 22.18 or newer (scripts run TypeScript directly).
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000; design system at /design-system (+ /forms, /feedback, /cards)
+npm run dev        # http://localhost:3000: homepage at /, build hub at /hub, design system at /design-system
 ```
 
 | Script | What it does |
@@ -59,8 +59,11 @@ element with `data-motion="reduced"`.
 ```
 src/
   app/
-    page.tsx               build hub (becomes the homepage in Part 3)
+    (site)/                public site: homepage (/), assessment stub, legal and contact
+                           placeholders, sharing SiteHeader + SiteFooter
+    hub/                   build hub listing the six parts
     design-system/         Part 1 foundations and Part 2 components documentation
+    not-found.tsx          404 page
   components/              button, form (fields, choices, select, consent, error summary),
                            progress, question, review, feedback (notice, toast, empty
                            state), overlay (dialog/sheet), status, help (info tip), faq,
@@ -75,6 +78,12 @@ e2e/                       Playwright + axe browser tests
 scripts/build-tokens.ts    writes the generated token files
 docs/decisions.md          decision log and open business questions
 ```
+
+Content that needs approved facts (legal entity, regulatory line, support
+hours and channels, loan categories, contact details) is wrapped in
+`<Placeholder>`: it renders a visible "Placeholder" tag and a
+`data-placeholder` attribute. Before launch, `grep -rn "<Placeholder" src`
+must return nothing.
 
 Stack: Next.js 16 (App Router, Cache Components), React 19, TypeScript, CSS
 Modules on top of the token custom properties. Fonts are Inter (UI) and Plus

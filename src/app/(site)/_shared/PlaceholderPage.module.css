@@ -1,0 +1,27 @@
+.page {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  max-width: calc(var(--layout-reading-measure) + 2 * var(--grid-margin));
+  min-height: 60vh;
+  padding-block: var(--space-8) var(--space-20);
+}
+
+.eyebrow {
+  margin-top: var(--space-6);
+  color: var(--color-text-secondary);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: var(--type-body-l-size);
+  line-height: var(--type-body-l-leading);
+}
+
+.note {
+  margin-top: var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}

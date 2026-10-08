@@ -1,12 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { Icon } from "@/components/icon/Icon";
+import { DisplayText } from "@/components/type/DisplayText";
 import styles from "./hub.module.css";
 
-/**
- * Temporary build hub listing the six design parts. The marketing homepage
- * replaces this route in Part 3, and the hub moves to /hub.
- */
+export const metadata: Metadata = {
+  title: "Build hub",
+  robots: { index: false, follow: false },
+};
+
+/** Build hub: the six design parts and where to review each one. */
 const parts = [
   { title: "Foundations", detail: "Colour, type, space, radius, elevation, grid and motion tokens.", brief: "§11–§16", href: "/design-system", status: "Approved" },
   {
@@ -16,7 +20,13 @@ const parts = [
     href: "/design-system/feedback",
     status: "2b–2c in review",
   },
-  { title: "Homepage", detail: "Header, hero, proof, how it works, use cases, preview, FAQ, support and footer, with scroll motion.", brief: "§6, §15", status: "Planned" },
+  {
+    title: "Homepage",
+    detail: "Header, hero, proof, how it works, who it’s for, preview, FAQ, support, final CTA and footer, with scroll motion.",
+    brief: "§6, §15",
+    href: "/",
+    status: "In review",
+  },
   { title: "Assessment", detail: "Start screen, three question stages, review and consent, with branching.", brief: "§7, §8", status: "Planned" },
   { title: "WhatsApp and email handoff", detail: "Channel choice, handoff preview, secure email link and processing state.", brief: "§9", status: "Planned" },
   { title: "Results and call", detail: "Match, manual review, no match and error states, then booking and confirmation.", brief: "§10", status: "Planned" },
@@ -26,7 +36,7 @@ export default function Hub() {
   return (
     <main id="main" className={`container ${styles.hub}`}>
       <Wordmark />
-      <h1 className={`type-display-l ${styles.title}`}>Loan matching, designed step by step.</h1>
+      <h1 className={`type-display-l ${styles.title}`}><DisplayText>Loan matching, designed step by step.</DisplayText></h1>
       <p className={`type-body-l ${styles.lead}`}>
         The DFX website is being designed in six parts, following the design brief. Each part is reviewed before
         the next one starts.
