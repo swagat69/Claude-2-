@@ -106,3 +106,40 @@ a.part:hover {
     display: block;
   }
 }
+
+/* Prototype shortcuts (Parts 5 and 6) ----------------------------------------- */
+
+.shortcuts {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  margin-top: var(--space-16);
+  padding: var(--space-6);
+  border: 2px dashed var(--color-border-field);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-sunken);
+}
+
+.shortcutGroups {
+  display: grid;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .shortcutGroups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.shortcutGroups > div {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.shortcutList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

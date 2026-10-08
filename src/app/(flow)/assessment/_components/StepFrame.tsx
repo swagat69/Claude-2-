@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode, type RefObject } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Button, ButtonLink } from "@/components/button/Button";
 import { Notice } from "@/components/feedback/Notice";
 import { ErrorSummary, type SummaryError } from "@/components/form/ErrorSummary";
@@ -14,32 +14,8 @@ import { draftStore, type Draft } from "@/lib/assessment/draft.ts";
 import { canVisit, firstIncompleteStep, pathVariant, previousStep } from "@/lib/assessment/flow.ts";
 import { STEPS, stageNames, stepInfo, type StepId } from "@/lib/assessment/questions.ts";
 import { useDraft } from "@/lib/assessment/useDraft.ts";
+import { useHeadingFocus } from "@/lib/useHeadingFocus";
 import styles from "./assessment.module.css";
-
-/* -------------------------------------------------------------------------- */
-/* Focus                                                                      */
-/* -------------------------------------------------------------------------- */
-
-let navigated = false;
-
-/**
- * True once the person has moved between pages in this document. The page
- * they first load keeps the browser's normal focus (top of the page, skip
- * link first); every later step moves focus to its heading (brief §7).
- */
-function hasNavigated() {
-  const first = performance.getEntriesByType("navigation")[0]?.name;
-  if (first && first !== window.location.href) navigated = true;
-  return navigated;
-}
-
-/** Moves focus to the first h1 inside `container` after an in-app navigation. Runs again when a preserved page is shown. */
-export function useHeadingFocus(container: RefObject<HTMLElement | null>, ready: boolean) {
-  useEffect(() => {
-    if (!ready || !hasNavigated()) return;
-    container.current?.querySelector<HTMLElement>("h1")?.focus();
-  }, [container, ready]);
-}
 
 /* -------------------------------------------------------------------------- */
 /* Guard                                                                      */

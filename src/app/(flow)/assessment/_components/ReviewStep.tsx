@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useLayoutEffect, useState, type FormEvent } from "react";
 import { ChoiceCards } from "@/components/form/Choices";
+import { Notice } from "@/components/feedback/Notice";
 import { ConsentGroup } from "@/components/form/ConsentGroup";
 import { EmailField, PhoneField } from "@/components/form/SpecialFields";
 import { TextField } from "@/components/form/TextField";
@@ -11,7 +12,8 @@ import { Placeholder } from "@/components/placeholder/Placeholder";
 import { QuestionHeading } from "@/components/question/QuestionHeading";
 import { ReviewSummary } from "@/components/review/ReviewSummary";
 import { track } from "@/lib/assessment/analytics.ts";
-import { CONSENT_VERSION, draftStore, type ConsentRecord } from "@/lib/assessment/draft.ts";
+import { CONSENT_VERSION, draftStore, type ConsentRecord, type Draft } from "@/lib/assessment/draft.ts";
+import { api } from "@/lib/service/api.ts";
 import {
   contactErrors,
   contactFieldIds,
@@ -65,6 +67,7 @@ export function ReviewStep() {
   const [summary, setSummary] = useState<FieldError[]>([]);
   const [attempt, setAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const draft = guard.state === "ready" || (guard.state === "submitted" && busy) ? guard.draft : null;
   const ready = draft !== null;
@@ -96,7 +99,7 @@ export function ReviewStep() {
     track("contact_channel_selected", { channel, consent_variant: CONSENT_VERSION });
   };
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const current = draftStore.getSnapshot();
     if (!current || busy) return;
@@ -123,22 +126,32 @@ export function ReviewStep() {
       { purpose: "marketing", channel: "email", granted: marketing.email, version: CONSENT_VERSION, timestamp },
       { purpose: "marketing", channel: "whatsapp", granted: marketing.whatsapp, version: CONSENT_VERSION, timestamp },
     ];
+    setBusy(true);
+    setSubmitError(false);
+    const sent: Draft = {
+      ...current,
+      status: "submitted",
+      answers: pruneAnswers(current.answers),
+      contact: contactForSubmission(current.contact),
+      marketing,
+      consent,
+      submittedAt: Date.now(),
+    };
+    try {
+      // The assessment API accepts the answers and the consent audit (brief §20). Safe to repeat: same draft, same assessment.
+      await api.submit(sent);
+    } catch {
+      // Never a silent failure: the answers stay here and the person can try again (brief §8).
+      setBusy(false);
+      setSubmitError(true);
+      return;
+    }
     track("assessment_submitted", {
       path_variant: pathVariant(current.answers),
       channel,
       marketing_opt_in: marketing.email || marketing.whatsapp,
     });
-    setBusy(true);
-    // Stands in for the assessment API accepting the submission and the consent audit (brief §20).
-    draftStore.update((d) => ({
-      ...d,
-      status: "submitted",
-      answers: pruneAnswers(d.answers),
-      contact: contactForSubmission(d.contact),
-      marketing,
-      consent,
-      submittedAt: Date.now(),
-    }));
+    draftStore.update(() => sent);
     router.push("/assessment/continue");
   };
 
@@ -255,6 +268,13 @@ export function ReviewStep() {
             },
           ]}
         />
+        <div role="alert" className={styles.gateLive}>
+          {submitError ? (
+            <Notice tone="error" title="We couldn’t send your answers just now">
+              Nothing was lost: your answers are still here. Check your connection and try again.
+            </Notice>
+          ) : null}
+        </div>
       </div>
     </StepFrame>
   );

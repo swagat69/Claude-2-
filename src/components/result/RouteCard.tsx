@@ -27,6 +27,8 @@ interface RouteCardProps {
   /** Required disclosures. Stays legible, never faded out. */
   smallPrint?: ReactNode;
   headingLevel?: 2 | 3;
+  /** Called when the person opens or closes "More about this route" (analytics: result_card_opened). */
+  onDetailsToggle?: (open: boolean) => void;
 }
 
 export function RouteCard({
@@ -39,6 +41,7 @@ export function RouteCard({
   details,
   smallPrint,
   headingLevel = 3,
+  onDetailsToggle,
 }: RouteCardProps) {
   const Heading = headingLevel === 2 ? "h2" : "h3";
   return (
@@ -75,7 +78,11 @@ export function RouteCard({
       <div className={styles.footer}>
         {action}
         {details ? (
-          <details className={styles.details}>
+          <details
+            className={styles.details}
+            // Only when asked for: a server-rendered card can't carry a handler.
+            onToggle={onDetailsToggle ? (e) => onDetailsToggle(e.currentTarget.open) : undefined}
+          >
             <summary>
               More about this route
               <Icon name="chevron-down" size={20} />

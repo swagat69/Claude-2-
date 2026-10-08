@@ -91,3 +91,52 @@ export function validateEmail(input: string): string | null {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return "Enter your email in the format name@example.com";
   return null;
 }
+
+/** Common email domains in Singapore, for spotting a likely typo (brief §24 "Email typo"). */
+const commonDomains = [
+  "gmail.com",
+  "yahoo.com",
+  "yahoo.com.sg",
+  "hotmail.com",
+  "outlook.com",
+  "icloud.com",
+  "live.com",
+  "singnet.com.sg",
+  "starhub.net.sg",
+];
+
+function editDistance(a: string, b: string): number {
+  const row = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let previous = row[0];
+    row[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const current = row[j];
+      row[j] = Math.min(row[j] + 1, row[j - 1] + 1, previous + (a[i - 1] === b[j - 1] ? 0 : 1));
+      previous = current;
+    }
+  }
+  return row[b.length];
+}
+
+/**
+ * "ana@gmial.com" -> "ana@gmail.com". A suggestion only, never a
+ * correction: the person decides. Null when the domain looks fine.
+ */
+export function suggestEmail(input: string): string | null {
+  const value = input.trim().toLowerCase();
+  const at = value.lastIndexOf("@");
+  if (at < 1) return null;
+  const domain = value.slice(at + 1);
+  if (!domain || commonDomains.includes(domain)) return null;
+  let best: string | null = null;
+  let bestDistance = 3;
+  for (const candidate of commonDomains) {
+    const distance = editDistance(domain, candidate);
+    if (distance < bestDistance) {
+      best = candidate;
+      bestDistance = distance;
+    }
+  }
+  return best && bestDistance <= 2 ? `${input.trim().slice(0, at)}@${best}` : null;
+}

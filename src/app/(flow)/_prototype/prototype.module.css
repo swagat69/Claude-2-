@@ -1,0 +1,116 @@
+/* Deliberately unlike the product: dashed, monospace label, so no one mistakes it for a design. */
+
+.panel {
+  margin-top: var(--space-12);
+  border: 2px dashed var(--color-border-field);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-sunken);
+}
+
+.panel summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  min-height: var(--size-target-min);
+  padding: var(--space-3) var(--space-5);
+  cursor: pointer;
+}
+
+.tag {
+  padding: 2px 8px;
+  border: 1px solid var(--color-text-primary);
+  border-radius: var(--radius-mini);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-5);
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.note {
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}
+
+.setting {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.setting legend {
+  margin-bottom: var(--space-2);
+  padding: 0;
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}
+
+.options label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-target-min);
+  cursor: pointer;
+}
+
+.options input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--color-action-primary-bg);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.message {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 34rem;
+  padding: var(--space-4);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-raised);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.message[data-mine] {
+  justify-self: end;
+  background: var(--color-surface-selected);
+}
+
+.from {
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}
+
+.from strong {
+  color: var(--color-text-primary);
+}
+
+.messageBody {
+  display: grid;
+  gap: var(--space-2);
+  overflow-wrap: anywhere;
+}

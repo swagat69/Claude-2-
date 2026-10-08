@@ -123,9 +123,9 @@ test("happy path: answers, review, contact choice and separate consent", async (
   await page.getByRole("button", { name: "Continue with email" }).click();
 
   await expect(page).toHaveURL(/\/assessment\/continue$/);
-  await expect(h1(page)).toHaveText("Next, get your secure link by email");
+  await expect(h1(page)).toHaveText("Get a secure link by email");
   await expect(h1(page)).toBeFocused();
-  await expect(page.getByText("ana@example.com")).toBeVisible();
+  await expect(page.getByLabel("Email address")).toHaveValue("ana@example.com");
 
   const draft = await stored(page);
   expect(draft.status).toBe("submitted");
@@ -347,8 +347,7 @@ test("contact details: format checked on blur, and only the chosen channel is re
   await expect(page.getByText("Enter an 8-digit Singapore number, like 9123 4567").first()).toBeVisible();
   await page.getByLabel("Mobile number").fill("+65 9123 4567");
   await page.getByRole("button", { name: "Continue with WhatsApp" }).click();
-  await expect(h1(page)).toHaveText("Next, continue in WhatsApp");
-  await expect(page.getByText("+65 9123 4567")).toBeVisible();
+  await expect(h1(page)).toHaveText("Continue in WhatsApp");
   expect((await stored(page)).contact).toEqual({ channel: "whatsapp", mobile: "9123 4567" });
 });
 
@@ -418,9 +417,13 @@ test("every assessment state passes WCAG 2.2 AA and fits 320px", async ({ page }
   await page.getByLabel("Mobile number").fill("81234567");
   await page.getByRole("button", { name: "Continue with WhatsApp" }).click();
   await expect(page).toHaveURL(/continue$/);
+  await expect(h1(page)).toHaveText("Continue in WhatsApp");
   await check();
-  await page.getByRole("button", { name: "Start a new assessment" }).click();
-  await expect(page).toHaveURL(/\/assessment$/);
+  // The start screen knows the answers were sent.
+  await page.goto("/assessment");
+  await expect(page.getByText("You’ve already sent your answers")).toBeVisible();
+  await check();
+  await page.evaluate(() => sessionStorage.clear());
   await page.goto("/assessment/goal");
   await expect(page).toHaveURL(/\/assessment$/);
   await page.getByRole("button", { name: "Begin" }).click();

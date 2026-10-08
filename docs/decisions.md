@@ -94,6 +94,30 @@ Approved as written.
 
 Fixed along the way: the skip link now targets the visible `main` (Next 16 keeps recent pages in the DOM, hidden, each with its own `#main`); smooth scrolling is limited to marketing and docs pages and turned off during page changes (`data-scroll-behavior`); clicking the drawn checkbox square now ticks it (it used to swallow the click).
 
+## Part 5 handoff and processing: proposed (owner asked to finish all parts)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Stand-in services | Until DFX's assessment API, messaging and scheduler exist, one prototype module (`src/lib/service/api.ts`) plays their part, with realistic delays, in this browser's localStorage so links work across tabs. Dashed "Prototype only" panels show what WhatsApp or the inbox would receive and let reviewers trigger every state. The hub has "Jump to a state" shortcuts. All of it is removed when the real services connect. | Brief §22 asks for clickable happy, no-match, link-expiry, form-error and channel-failure routes. |
+| 2 | Lifecycle | The brief's §20 states as a small state machine with only the allowed transitions (unit tested): submitted → awaiting contact → verified → processing → result / human review / no match / failed → booking. | Brief §20: prevents "submitted", "messaged", "result ready" and "call booked" getting mixed up. |
+| 3 | WhatsApp (W1) | Click-to-chat preview: the named business account, the exact prefilled message (a short reference, never answers), "Nothing is sent until you press send". After opening: "Waiting for your message", plus help if WhatsApp didn't open (retry, copy the message, switch to email). The business number is a Placeholder, so the prototype simulates the chat. | Brief W1, §19 WhatsApp guardrails, §8 "launch fails". |
+| 4 | Email (E1) | Email prefilled and editable, with a typo hint ("Did you mean ana@gmail.com?"). Status shows what the email service actually reported: sending → sent → delivered, or bounced with "Change the address". 60-second resend wait, 3 sends per 15 minutes (Placeholders). | Brief E1: never claim delivery because a request was queued; rate-limit resend. |
+| 5 | Resume links | `/resume?token=…`: single use, 24 hours (Placeholder). Expired, used and broken links each say so plainly and offer "Send me a new link", which always answers the same way so it never reveals whether an email has an assessment. The tab that opened the link gets a session; the result never appears in a URL. | Brief §8, §9 "what the handoff must preserve", §24 "Email typo/expiration/resend". |
+| 6 | Processing (M1) | Under a second: straight to the result. Longer: the three real steps from the service's own state, no percentage, a live status for screen readers, and focus moves to the result when it arrives. | Brief M1. |
+
+## Part 6 results and booking: proposed (owner asked to finish all parts)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Results engine | A stand-in (`src/lib/service/engine.ts`) with Placeholder routes per goal and reasons taken from answers but never repeating income, age or residency. "Not sure yet" and pending business registration go to a person. The real engine replaces it; the page never scores or ranks. | Brief §20: the UI must not invent fit. |
+| 2 | Routes found (R1) | Status card, then 1–2 "Suggested route" cards "in no particular order" with reasons, dated example facts and small print, then "Answers you sent". Call panel beside it (8/4) from 1024px; on phones after the explanation, plus a bottom call button only after the first route has been read and never over the panel. "No thanks, keep my results" keeps everything on screen. | Brief R1, results-card anatomy, C1. |
+| 3 | A person needs to look (R2) | What we know, what's missing, why a call helps; "Talk it through" or "Continue later". No failure framing or urgency. | Brief R2. |
+| 4 | No match (R3) | The reason, "Check and change my answers" (a new check with everything filled in), other places to get help (Placeholder list), and a separate, unticked "tell me if something comes up". No call invitation, and the booking page redirects away. | Brief R3: dignity, correction, no unrelated sales funnel. |
+| 5 | Error (R4) | "We couldn't load your result just now", answers safe, Try again, Get help. Automatic retries with backoff happen in the data layer before this screen appears. Never shown as "no match". | Brief R4. |
+| 6 | Booking (C1) | Phone or video, the agenda and length beside the form, Singapore time always labelled with the device's zone offered, nothing preselected, unavailable times visible but disabled. Confirm rechecks the slot; if it was just taken, the slot is marked unavailable and every other choice is kept. Rescheduling keeps the old booking until the new one is confirmed. | Brief C1, §20 "check availability at confirm time", §24 "Booking slot conflict". |
+| 7 | Confirmation (C2) | Only after the scheduler confirms: date, time and zone (and the device's time if different), how and with whom, what to have ready, an add-to-calendar file (.ics, UTC), change time, and cancel with a confirmation. | Brief C2, §24 "Timezone and daylight saving". |
+| 8 | Analytics | The brief §21 events for Parts 5–6 (handoff, resume, processing, result, card opened, call CTA, booking) through the same allow-list: codes, counts and coarse time buckets only. | Brief §21. |
+
 ## Open business questions (brief §25)
 
 These must be answered before the relevant part is finalised. They don't
@@ -102,10 +126,10 @@ block Parts 1–2.
 - Exact assessment topics, fields and qualification logic (Part 4 runs on placeholders until then).
 - Which hard stops are real policy, and their wording (Part 4).
 - How long answers may be kept in the browser, and whether a saved draft may be resumed later (Part 4).
-- Are results instant, manually reviewed, or both? What can safely be shown? (blocks Part 6)
+- Are results instant, manually reviewed, or both? What can safely be shown, and how long are results kept? (Part 6 runs on a stand-in)
 - What "right profile" means operationally: hard gates, CRM fit rubric (Parts 4, 6).
-- WhatsApp and email: alternatives, sequential or simultaneous? Which WhatsApp account/provider? What consent wording? (Part 5)
-- Who books the call: external scheduler, CRM workflow or a representative? Working hours? (Part 6)
+- WhatsApp and email: which WhatsApp Business account and number, which email provider, link lifetime and resend limits, consent wording (Part 5 runs on Placeholders).
+- Who books the call: which scheduler or CRM, working hours, public holidays, phone or video tool, and is the call free? (Part 6)
 - Approved claims, testimonials, partner logos, legal entity and disclosures (Part 3).
 - Regulatory status in Singapore and required disclosures for a loan-matching service.
 - Analytics, CRM and hosting stack.

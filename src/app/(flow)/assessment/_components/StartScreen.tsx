@@ -12,7 +12,7 @@ import { draftStore, type Draft } from "@/lib/assessment/draft.ts";
 import { firstIncompleteStep } from "@/lib/assessment/flow.ts";
 import { goalOptions, stepInfo } from "@/lib/assessment/questions.ts";
 import { useDraft } from "@/lib/assessment/useDraft.ts";
-import { useHeadingFocus } from "./StepFrame";
+import { useHeadingFocus } from "@/lib/useHeadingFocus";
 import styles from "./assessment.module.css";
 
 const stages = [

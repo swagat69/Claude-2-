@@ -1,0 +1,388 @@
+/*
+ * Results and booking (brief §10, §16). Results: 8/4 columns from 1024px,
+ * result first and the call invitation beside it; on phones the invitation
+ * follows the explanation. Booking: one 720px column plus a call summary.
+ */
+
+.pending {
+  min-height: 50vh;
+}
+
+.narrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+  max-width: var(--layout-result-detail);
+  margin-inline: auto;
+}
+
+.narrow h1:focus,
+.resultMain h1:focus,
+.bookingMain h1:focus {
+  outline: none;
+}
+
+.muted {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.muted > svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.live:empty {
+  position: absolute;
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-target-min);
+  color: var(--color-text-link);
+  font-weight: 600;
+}
+
+.actionsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+@media (max-width: 767.98px) {
+  .primary {
+    width: 100%;
+  }
+}
+
+/* R1 layout ----------------------------------------------------------------- */
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-10);
+  max-width: var(--layout-container-max);
+  margin-inline: auto;
+}
+
+/* Room for the sticky call bar, so it never covers the last lines. */
+.resultGrid[data-bar] {
+  padding-bottom: calc(var(--size-button-height) + var(--space-8));
+}
+
+@media (min-width: 1024px) {
+  .resultGrid {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  .resultSide {
+    position: sticky;
+    top: var(--space-6);
+  }
+}
+
+/* The status card spans the column, like the route cards under it. */
+.resultMain > :first-child {
+  max-width: none;
+}
+
+.resultMain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+  min-width: 0;
+}
+
+.routes {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.routes > p {
+  margin-top: calc(-1 * var(--space-3));
+}
+
+.sideCard {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  padding: var(--space-6);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+.sideTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--type-h3-size);
+  font-weight: 600;
+}
+
+.sideLabel {
+  font-weight: 600;
+}
+
+.callBar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--z-sticky-cta);
+  padding: var(--space-3) var(--grid-margin) calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-raised);
+}
+
+@media (min-width: 1024px) {
+  .callBar {
+    display: none;
+  }
+}
+
+/* R2, R3 -------------------------------------------------------------------- */
+
+.knownList {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.knownList dt {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.section {
+  display: grid;
+  gap: var(--space-4);
+  padding-top: var(--space-8);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.resources {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.resources li {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.resources a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  justify-self: start;
+  min-height: var(--size-target-min);
+  font-weight: 600;
+}
+
+.answers {
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.answers summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--size-choice-row-min);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.answers summary::-webkit-details-marker {
+  display: none;
+}
+
+.answers[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.answersBody {
+  display: grid;
+  gap: var(--space-4);
+  padding-bottom: var(--space-4);
+}
+
+/* C1 booking ------------------------------------------------------------------- */
+
+.bookingGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+  max-width: calc(var(--layout-form-measure) + var(--space-16) + var(--layout-help-rail));
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .bookingGrid {
+    grid-template-columns: minmax(0, var(--layout-form-measure)) var(--layout-help-rail);
+    column-gap: var(--space-16);
+    align-items: start;
+  }
+
+  .bookingRail {
+    position: sticky;
+    top: var(--space-6);
+  }
+}
+
+/* On phones the call summary comes before the form, as context. */
+@media (max-width: 1023.98px) {
+  .bookingRail {
+    order: -1;
+  }
+
+  .bookingMain {
+    display: contents;
+  }
+
+  .bookingMain > :first-child {
+    order: -2;
+  }
+}
+
+.bookingMain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.bookingMain > :first-child {
+  justify-self: start;
+  margin-left: calc(-1 * var(--space-3));
+}
+
+.pageHead {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.pageHead h1 {
+  font-size: clamp(1.5rem, 1.3214rem + 0.7326vw, 2rem);
+}
+
+.bookingForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+}
+
+.when {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.slotTarget:focus {
+  outline: none;
+}
+
+.callFacts {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.callFacts li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.agenda {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 1.25em;
+}
+
+/* C2 confirmation -------------------------------------------------------------- */
+
+.confirmCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  justify-items: start;
+  padding: var(--space-8) var(--space-5);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-raised);
+}
+
+@media (min-width: 768px) {
+  .confirmCard {
+    padding: var(--space-10);
+  }
+}
+
+.confirmCard > * {
+  max-width: 100%;
+}
+
+.confirmed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-feedback-success-bg);
+  color: var(--color-text-success);
+  font-weight: 600;
+}
+
+.details {
+  display: grid;
+  width: 100%;
+}
+
+.details > div {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+@media (min-width: 640px) {
+  .details > div {
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+.details dt {
+  color: var(--color-text-secondary);
+}
+
+.details dd {
+  display: grid;
+  gap: var(--space-1);
+  overflow-wrap: anywhere;
+}
+
+.prepare {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.prepare ul {
+  display: grid;
+  gap: var(--space-1);
+  padding-left: 1.25em;
+}

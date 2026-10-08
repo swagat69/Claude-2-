@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { Icon } from "@/components/icon/Icon";
 import { DisplayText } from "@/components/type/DisplayText";
+import { PrototypeShortcuts } from "./PrototypeShortcuts";
 import styles from "./hub.module.css";
 
 export const metadata: Metadata = {
@@ -34,8 +35,20 @@ const parts = [
     href: "/assessment",
     status: "In review",
   },
-  { title: "WhatsApp and email handoff", detail: "Channel choice, handoff preview, secure email link and processing state.", brief: "§9", status: "Planned" },
-  { title: "Results and call", detail: "Match, manual review, no match and error states, then booking and confirmation.", brief: "§10", status: "Planned" },
+  {
+    title: "WhatsApp and email handoff",
+    detail: "Handoff preview, secure email link with real delivery states, the resume link and the processing state.",
+    brief: "§9",
+    href: "#prototype",
+    status: "In review",
+  },
+  {
+    title: "Results and call",
+    detail: "Match, manual review, no match and error states, then booking and confirmation.",
+    brief: "§10",
+    href: "#prototype",
+    status: "In review",
+  },
 ];
 
 export default function Hub() {
@@ -76,6 +89,7 @@ export default function Hub() {
           );
         })}
       </ol>
+      <PrototypeShortcuts />
     </main>
   );
 }
