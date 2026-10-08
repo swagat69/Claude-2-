@@ -28,7 +28,9 @@ which was changed after review (row 6).
 | 7 | Glow colours | Saturated base colours (`#F06BA8`, `#4CC26F`, `#FF9A3D`) rendered at the brief's 18–36% opacity. | At that opacity, pastel bases would barely show; these land on soft pastels over paper. |
 | 8 | Eyebrow tracking | +0.1em. | §12 type table says 0.1em, H0.2 says 0.12em. |
 
-## Part 2a form components: proposed, awaiting sign-off
+## Part 2a form components: approved by the product owner (8 Oct 2026)
+
+Approved as written.
 
 | # | Topic | Proposal | Reason |
 | --- | --- | --- | --- |

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/design-system/components");
+  await page.goto("/design-system/forms");
 });
 
 test("choice cards: arrow keys select, and an empty submit is explained", async ({ page }) => {

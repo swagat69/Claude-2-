@@ -31,20 +31,40 @@
   font-weight: 500;
 }
 
+/* Four tabs don't fit a 320px phone in one row: two by two until there's room. */
 .nav {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-1);
   padding: 3px;
   border: var(--border-hairline) solid var(--color-border-subtle);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-field);
   background: var(--color-surface-raised);
   list-style: none;
 }
 
+.topbarInner > nav {
+  flex: 1 1 100%;
+}
+
+@media (min-width: 560px) {
+  .nav {
+    grid-auto-columns: auto;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    border-radius: var(--radius-pill);
+  }
+
+  .topbarInner > nav {
+    flex: 0 0 auto;
+  }
+}
+
 .nav a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  min-height: 38px;
+  justify-content: center;
+  min-height: var(--size-target-min);
   padding-inline: var(--space-4);
   border-radius: var(--radius-pill);
   color: var(--color-text-secondary);
@@ -56,6 +76,12 @@
 
 .nav a:hover {
   color: var(--color-text-primary);
+}
+
+@media (min-width: 560px) {
+  .nav a {
+    min-height: 38px;
+  }
 }
 
 .nav a[aria-current="page"] {

@@ -13,7 +13,7 @@ const parts = [
     title: "Component library",
     detail: "2a form controls are ready; 2b feedback and overlays, and 2c cards and booking, follow.",
     brief: "§13",
-    href: "/design-system/components",
+    href: "/design-system/forms",
     status: "2a in review",
   },
   { title: "Homepage", detail: "Header, hero, proof, how it works, use cases, preview, FAQ, support and footer, with scroll motion.", brief: "§6, §15", status: "Planned" },

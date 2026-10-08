@@ -148,3 +148,8 @@ kbd {
     --color-surface-glass: var(--palette-white);
   }
 }
+
+/* No background scrolling behind a modal dialog or sheet. */
+html:has(dialog:modal) {
+  overflow: hidden;
+}

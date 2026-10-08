@@ -7,7 +7,10 @@ import { ErrorSummary, type SummaryError } from "@/components/form/ErrorSummary"
 import { CurrencyField, EmailField, PhoneField } from "@/components/form/SpecialFields";
 import { Stepper } from "@/components/progress/Stepper";
 import { validateAmount, validateEmail, validateSgPhone } from "@/lib/format";
-import styles from "./components.module.css";
+import specimen from "../_doc/specimen.module.css";
+import forms from "./forms.module.css";
+
+const styles = { ...specimen, ...forms };
 
 export function BusyButtonDemo() {
   const [state, setState] = useState<"idle" | "busy" | "done">("idle");

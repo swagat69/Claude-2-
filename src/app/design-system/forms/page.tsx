@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { Button, ButtonLink } from "@/components/button/Button";
 import { Checkbox, ChoiceCards, Chips, Segmented, type ChoiceOption } from "@/components/form/Choices";
 import { ConsentGroup } from "@/components/form/ConsentGroup";
@@ -9,62 +8,16 @@ import { Stepper } from "@/components/progress/Stepper";
 import { QuestionHeading } from "@/components/question/QuestionHeading";
 import { ReviewSummary } from "@/components/review/ReviewSummary";
 import { Section, Sub } from "../_doc/Section";
+import { Decisions, DocHero, type Decision, Example, Frame, Spec, State, States } from "../_doc/Specimen";
 import { Toc } from "../_doc/Toc";
 import ds from "../ds.module.css";
 import { AssessmentStepDemo, BusyButtonDemo, StepperDemo, TextInputsDemo } from "./demos";
-import styles from "./components.module.css";
+import styles from "./forms.module.css";
 
 export const metadata: Metadata = {
   title: "Form components · Design system",
   description: "DFX form components: buttons, inputs, choices, select, progress, question heading, review and consent.",
 };
-
-/* -------------------------------------------------------------------------- */
-/* Doc helpers                                                                */
-/* -------------------------------------------------------------------------- */
-
-function States({ children, wide }: { children: ReactNode; wide?: boolean }) {
-  return <div className={wide ? `${styles.states} ${styles.statesWide}` : styles.states}>{children}</div>;
-}
-
-function State({ label, children, dark }: { label: string; children: ReactNode; dark?: boolean }) {
-  return (
-    <figure className={styles.state}>
-      <div className={dark ? `${styles.stage} ${styles.stageDark}` : styles.stage}>{children}</div>
-      <figcaption>{label}</figcaption>
-    </figure>
-  );
-}
-
-function Example({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div className={styles.example}>
-      <p className={`type-eyebrow ${styles.exampleTitle}`}>{title}</p>
-      {children}
-    </div>
-  );
-}
-
-function Spec({ test, a11y, figma }: { test: ReactNode; a11y: ReactNode; figma: string }) {
-  return (
-    <dl className={styles.spec}>
-      <div>
-        <dt>Test rule</dt>
-        <dd>{test}</dd>
-      </div>
-      <div>
-        <dt>Accessibility</dt>
-        <dd>{a11y}</dd>
-      </div>
-      <div>
-        <dt>Figma</dt>
-        <dd>
-          <code>{figma}</code>
-        </dd>
-      </div>
-    </dl>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 /* Sample data                                                                */
@@ -113,7 +66,7 @@ const sections = [
   { id: "decisions", title: "Decisions" },
 ];
 
-const decisions = [
+const decisions: Decision[] = [
   {
     question: "Error message above the field",
     proposal:
@@ -147,26 +100,16 @@ const decisions = [
 
 /* -------------------------------------------------------------------------- */
 
-export default function ComponentsPage() {
+export default function FormsPage() {
   return (
     <main id="main">
-      <section className={ds.hero} aria-labelledby="components-title">
-        <div className={`container ${styles.heroInner}`}>
-          <p className={`type-eyebrow ${ds.eyebrow}`}>Part 2a · Form components</p>
-          <h1 id="components-title" className={`type-display-l ${styles.heroTitle}`}>
-            Light to answer, and never lose an answer.
-          </h1>
-          <p className={`type-body-l ${ds.heroLead}`}>
-            The controls the four-step assessment is built from. Every component uses the approved tokens and
-            native HTML underneath, and shows each of its states below.
-          </p>
-          <ul className={ds.heroMeta} aria-label="Document status">
-            <li>Brief §7, §13 · families 01–07 and 19</li>
-            <li>In review</li>
-            <li>Axe and keyboard tested</li>
-          </ul>
-        </div>
-      </section>
+      <DocHero
+        id="forms-title"
+        eyebrow="Part 2a · Form components"
+        title="Light to answer, and never lose an answer."
+        lead="The controls the four-step assessment is built from. Every component uses the approved tokens and native HTML underneath, and shows each of its states below."
+        meta={["Brief §7, §13 · families 01–07 and 19", "Approved · 8 Oct 2026", "Axe and keyboard tested"]}
+      />
 
       <div className={`container ${ds.layout}`}>
         <Toc items={sections} />
@@ -618,25 +561,18 @@ export default function ComponentsPage() {
             title="Assembled: step A1"
             intro="The parts above composed into the first assessment step. Press Continue without choosing to see the error handling."
           >
-            <div className={styles.frame}>
+            <Frame>
               <AssessmentStepDemo />
-            </div>
+            </Frame>
           </Section>
 
           <Section
             id="decisions"
             index={10}
             title="Decisions"
-            intro="Calls I made in this batch. Confirm or change them before the assessment screens (Part 4) build on them."
+            intro="Calls made in this batch where the brief was open or contradicted itself. Approved by the product owner on 8 October 2026."
           >
-            <ol className={ds.signoff}>
-              {decisions.map(({ question, proposal }) => (
-                <li key={question}>
-                  <h3 className="type-h3">{question}</h3>
-                  <p>{proposal}</p>
-                </li>
-              ))}
-            </ol>
+            <Decisions items={decisions} approved />
           </Section>
         </div>
       </div>

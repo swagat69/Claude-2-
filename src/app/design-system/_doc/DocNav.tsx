@@ -6,7 +6,9 @@ import styles from "../shell.module.css";
 
 const links = [
   { href: "/design-system", label: "Foundations" },
-  { href: "/design-system/components", label: "Components" },
+  { href: "/design-system/forms", label: "Forms" },
+  { href: "/design-system/feedback", label: "Feedback" },
+  { href: "/design-system/cards", label: "Cards" },
 ];
 
 export function DocNav() {

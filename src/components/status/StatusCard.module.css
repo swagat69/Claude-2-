@@ -1,0 +1,147 @@
+.card {
+  --tone-fg: var(--color-text-secondary);
+  --tone-bg: var(--color-surface-sunken);
+  --tone-band: var(--color-border-field);
+
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--layout-result-detail);
+  padding: var(--space-6) var(--space-5);
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-top: 4px solid var(--tone-band);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  animation: status-in var(--motion-duration-results) var(--motion-easing-standard) both;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--space-8);
+  }
+}
+
+.card[data-status="fit"] {
+  --tone-fg: var(--color-feedback-success-fg);
+  --tone-bg: var(--color-feedback-success-bg);
+  --tone-band: var(--color-feedback-success-border);
+}
+
+.card[data-status="review"] {
+  --tone-fg: var(--color-feedback-info-fg);
+  --tone-bg: var(--color-feedback-info-bg);
+  --tone-band: var(--color-feedback-info-border);
+}
+
+/* Warm and calm: not suitable is not a failure (brief R3: "no red panic screen"). */
+.card[data-status="no-match"] {
+  --tone-fg: var(--color-text-primary);
+  --tone-bg: var(--palette-peach);
+  --tone-band: var(--palette-peach);
+}
+
+.card[data-status="unavailable"] {
+  --tone-fg: var(--color-feedback-warning-fg);
+  --tone-bg: var(--color-feedback-warning-bg);
+  --tone-band: var(--color-feedback-warning-border);
+}
+
+@keyframes status-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-reveal));
+  }
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--tone-bg);
+  color: var(--tone-fg);
+}
+
+.eyebrow {
+  color: var(--tone-fg);
+  font-size: var(--type-meta-size);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--layout-reading-measure);
+  color: var(--color-text-secondary);
+}
+
+.steps {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+}
+
+.stepMark {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--color-border-field);
+  border-radius: 50%;
+}
+
+.steps li[data-state="done"] {
+  color: var(--color-text-primary);
+}
+
+.steps li[data-state="done"] .stepMark {
+  border-color: var(--color-feedback-success-border);
+  background: var(--color-feedback-success-bg);
+  color: var(--color-feedback-success-fg);
+}
+
+.steps li[data-state="done"] .stepMark svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Static marker, no spinner: the wait may be indefinite (brief R4). */
+.steps li[data-state="current"] {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.steps li[data-state="current"] .stepMark {
+  border: 2px solid var(--palette-ink);
+  background: radial-gradient(circle, var(--palette-ink) 0 3px, transparent 3.5px), var(--palette-lime);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin-top: var(--space-3);
+}

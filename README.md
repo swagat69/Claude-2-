@@ -23,7 +23,7 @@ Requires Node 22.18 or newer (scripts run TypeScript directly).
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000; /design-system and /design-system/components
+npm run dev        # http://localhost:3000; design system at /design-system (+ /forms, /feedback, /cards)
 ```
 
 | Script | What it does |

@@ -1,0 +1,90 @@
+.notice {
+  --tone-fg: var(--color-feedback-info-fg);
+  --tone-bg: var(--color-feedback-info-bg);
+  --tone-border: var(--color-feedback-info-border);
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-3);
+  max-width: var(--layout-form-measure);
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
+  border-left: 4px solid var(--tone-border);
+  border-radius: var(--radius-field);
+  background: var(--tone-bg);
+  animation: notice-in var(--motion-duration-validation) var(--motion-easing-out) both;
+}
+
+.notice[data-tone="success"] {
+  --tone-fg: var(--color-feedback-success-fg);
+  --tone-bg: var(--color-feedback-success-bg);
+  --tone-border: var(--color-feedback-success-border);
+}
+
+.notice[data-tone="warning"] {
+  --tone-fg: var(--color-feedback-warning-fg);
+  --tone-bg: var(--color-feedback-warning-bg);
+  --tone-border: var(--color-feedback-warning-border);
+}
+
+.notice[data-tone="error"] {
+  --tone-fg: var(--color-feedback-error-fg);
+  --tone-bg: var(--color-feedback-error-bg);
+  --tone-border: var(--color-feedback-error-border);
+}
+
+@keyframes notice-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.icon {
+  display: flex;
+  padding-top: 1px;
+  color: var(--tone-fg);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: 2px;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.text {
+  font-size: 0.9375rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.dismiss {
+  display: grid;
+  place-items: center;
+  width: var(--size-target-min);
+  height: var(--size-target-min);
+  margin: calc(var(--space-3) * -1) calc(var(--space-2) * -1) 0 0;
+  border: 0;
+  border-radius: var(--radius-field);
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.dismiss:hover {
+  background: rgba(25, 32, 34, 0.06);
+}
+
+@media (forced-colors: active) {
+  .notice {
+    border: 1px solid CanvasText;
+    border-left-width: 4px;
+  }
+}

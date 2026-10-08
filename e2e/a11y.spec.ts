@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const routes = ["/", "/design-system", "/design-system/components"];
+const routes = ["/", "/design-system", "/design-system/forms", "/design-system/feedback"];
 
 for (const route of routes) {
   test(`${route} has no WCAG 2.2 AA violations`, async ({ page }) => {
@@ -22,3 +22,16 @@ for (const route of routes) {
     expect(overflow).toBe(0);
   });
 }
+
+test("an open dialog has no WCAG 2.2 AA violations", async ({ page }) => {
+  await page.goto("/design-system/feedback");
+  await page.locator("#dialogs").getByRole("button", { name: "Start again" }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
+  expect(results.violations.map((v) => v.id)).toEqual([]);
+});
+
+test("the old /design-system/components URL redirects to forms", async ({ page }) => {
+  await page.goto("/design-system/components");
+  await expect(page).toHaveURL(/\/design-system\/forms$/);
+});

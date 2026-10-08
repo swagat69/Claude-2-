@@ -1,0 +1,66 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.trigger {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-link);
+}
+
+/* 44px touch area around the 28px visual. */
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+
+.trigger:hover,
+.trigger[aria-expanded="true"] {
+  background: var(--color-surface-sunken);
+}
+
+.bubble {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: var(--z-raised);
+  display: none;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 2 * var(--grid-margin)));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-field);
+  background: var(--palette-ink);
+  color: var(--palette-white);
+  box-shadow: var(--shadow-overlay);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.bubble[data-open] {
+  display: block;
+  animation: tip-in var(--motion-duration-hover) var(--motion-easing-out) both;
+}
+
+.bubble a {
+  color: var(--palette-lime);
+}
+
+@keyframes tip-in {
+  from {
+    opacity: 0;
+  }
+}

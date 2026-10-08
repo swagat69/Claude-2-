@@ -1,0 +1,122 @@
+/* Bottom sheet by default (phones), centred modal from 768px. */
+
+.dialog {
+  width: 100%;
+  max-width: 100%;
+  max-height: min(90dvh, 100% - var(--space-6));
+  margin: auto 0 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background: var(--color-surface-raised);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-overlay);
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-duration-step) var(--motion-easing-out),
+    transform var(--motion-duration-step) var(--motion-easing-standard),
+    overlay var(--motion-duration-step) allow-discrete,
+    display var(--motion-duration-step) allow-discrete;
+}
+
+.dialog::backdrop {
+  background: rgba(25, 32, 34, 0.48);
+  opacity: 1;
+  transition: opacity var(--motion-duration-step) var(--motion-easing-out);
+}
+
+@starting-style {
+  .dialog[open] {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-card));
+  }
+
+  .dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .dialog {
+    width: calc(100% - 2 * var(--grid-margin));
+    max-width: 560px;
+    max-height: min(85dvh, 760px);
+    margin: auto;
+    border-radius: var(--radius-card);
+  }
+
+  .dialog[data-size="small"] {
+    max-width: 440px;
+  }
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+  padding: var(--space-6) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 768px) {
+  .panel {
+    padding: var(--space-8);
+  }
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-4);
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: var(--size-target-min);
+  height: var(--size-target-min);
+  margin: calc(var(--space-2) * -1) calc(var(--space-2) * -1) 0 0;
+  border: 0;
+  border-radius: var(--radius-field);
+  background: transparent;
+}
+
+.close:hover {
+  background: var(--color-surface-sunken);
+}
+
+.description {
+  margin-top: var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+.content {
+  margin-top: var(--space-5);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.footer > * {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .footer > * {
+    width: auto;
+  }
+}
