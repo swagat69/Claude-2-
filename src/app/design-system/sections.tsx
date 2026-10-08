@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 import { Icon, iconNames } from "@/components/icon/Icon";
 import { contrastRatio } from "@/design/contrast";
 import {
@@ -21,46 +21,11 @@ import {
   type PaletteName,
   type TypeStep,
 } from "@/design/tokens";
+import { Sub } from "./_doc/Section";
 import styles from "./ds.module.css";
 
 const hex = (name: PaletteName) => palette[name].value;
 const ratio = (pair: ContrastPair) => contrastRatio(hex(pair.fg), hex(pair.bg));
-
-export function Section({
-  id,
-  index,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  index: number;
-  title: string;
-  intro: ReactNode;
-  children: ReactNode;
-}) {
-  return (
-    <section id={id} className={styles.section} aria-labelledby={`${id}-title`}>
-      <header className={styles.sectionHead}>
-        <p className={`type-eyebrow ${styles.sectionNum}`}>{String(index).padStart(2, "0")}</p>
-        <h2 id={`${id}-title`} className={`type-h1 ${styles.sectionTitle}`}>
-          {title}
-        </h2>
-        <p className={`type-body-l ${styles.sectionIntro}`}>{intro}</p>
-      </header>
-      {children}
-    </section>
-  );
-}
-
-function Sub({ title, children }: { title: string; children?: ReactNode }) {
-  return (
-    <div className={styles.sub}>
-      <h3 className="type-h2">{title}</h3>
-      {children ? <p className={styles.subIntro}>{children}</p> : null}
-    </div>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 
@@ -266,6 +231,8 @@ function ContrastRow({ pair, pass }: { pair: ContrastPair; pass: boolean }) {
   return (
     <li className={styles.contrastRow}>
       <span
+        // Failing samples are deliberate "don't" illustrations; the axe test skips only these.
+        data-axe-exempt={pass ? undefined : "contrast-example"}
         className={styles.contrastSample}
         style={
           pair.kind === "non-text"
@@ -640,7 +607,8 @@ export function TokenFiles() {
           <code>src/styles/tokens.css</code> holds the custom properties and type classes. Both files are
           generated from <code>src/design/tokens.ts</code>; edit that, then run <code>npm run tokens</code>.
         </p>
-        <pre className={styles.code}>
+        {/* Focusable so keyboard users can scroll it when it overflows on phones. */}
+        <pre className={styles.code} tabIndex={0} role="region" aria-label="CSS example">
           <code>{`.primary {
   height: var(--size-button-height);
   border-radius: var(--radius-button);

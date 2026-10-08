@@ -28,6 +28,17 @@ which was changed after review (row 6).
 | 7 | Glow colours | Saturated base colours (`#F06BA8`, `#4CC26F`, `#FF9A3D`) rendered at the brief's 18–36% opacity. | At that opacity, pastel bases would barely show; these land on soft pastels over paper. |
 | 8 | Eyebrow tracking | +0.1em. | §12 type table says 0.1em, H0.2 says 0.12em. |
 
+## Part 2a form components: proposed, awaiting sign-off
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Error position | Error message between label and field, plus an error summary at the top after a failed submit. | Brief §13 says "error below field", but §16 says the keyboard must never cover an error; below the field, an open keyboard hides it. GOV.UK pattern, which the brief cites [R8]. |
+| 2 | Validation timing | Format errors appear on blur; missing answers on submit. Errors clear, and the summary changes, only on the next submit. | Clearing on blur moved the button just as people pressed it, losing the press (caught by the browser tests; brief §14 forbids moving a target while it's tapped). |
+| 3 | "Not sure" | Shown apart, under an "or" divider (cards) or dashed (chips). | Reads as a legitimate answer, not one more option to compare. |
+| 4 | Busy buttons | `aria-busy` + `aria-disabled`, ignoring repeat presses, instead of `disabled`. | Keeps keyboard focus; still prevents duplicate submissions. |
+| 5 | Select | Native select; a searchable combobox only for lists of ~15+ options; ≤5 options use choice cards. | Most reliable on phones and with screen readers. |
+| 6 | Marketing consent | One unticked checkbox per channel (email, WhatsApp), separate from the required processing notice. | Brief §17 and §19; Singapore's PDPA Do Not Call rules cover marketing to phone numbers. Wording needs legal review. |
+
 ## Open business questions (brief §25)
 
 These must be answered before the relevant part is finalised. They don't

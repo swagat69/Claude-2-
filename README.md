@@ -8,7 +8,7 @@ each reviewed before the next starts.
 | Part | Scope | Brief | Status |
 | --- | --- | --- | --- |
 | 1 | Foundations: colour, type, space, radius, elevation, grid, motion tokens | §11–§16 | Approved 8 Oct 2026 |
-| 2 | Component library (20 families, all states) | §13 | Next |
+| 2 | Component library (20 families, all states), in three batches: 2a form controls, 2b feedback and overlays, 2c cards and booking | §13 | 2a in review |
 | 3 | Homepage with scroll motion | §6, §15 | Planned |
 | 4 | Assessment A0–A4 with branching | §7, §8 | Planned |
 | 5 | WhatsApp / email handoff and processing | §9 | Planned |
@@ -23,14 +23,15 @@ Requires Node 22.18 or newer (scripts run TypeScript directly).
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000, design system at /design-system
+npm run dev        # http://localhost:3000; /design-system and /design-system/components
 ```
 
 | Script | What it does |
 | --- | --- |
 | `npm run dev` / `build` / `start` | Next.js; both `dev` and `build` regenerate tokens first |
 | `npm run tokens` | Regenerates token files from `src/design/tokens.ts` |
-| `npm test` | Contrast audit (every allowed colour pair meets WCAG 2.2 AA), fluid type maths, generated files up to date |
+| `npm test` | Unit tests: contrast audit (every allowed colour pair meets WCAG 2.2 AA), fluid type maths, generated files up to date, Singapore phone / S$ amount / email rules |
+| `npm run test:e2e` | Browser tests on a production build: axe WCAG 2.2 AA scan of every page, no sideways scroll at 320px, keyboard and error flows. Desktop and mobile Chromium |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
 | `npm run typecheck` | Generates Next route types, then `tsc --noEmit` |
 
@@ -59,10 +60,13 @@ element with `data-motion="reduced"`.
 src/
   app/
     page.tsx               build hub (becomes the homepage in Part 3)
-    design-system/         Part 1: living foundations documentation
-  components/              shared components (icon set, wordmark; library grows in Part 2)
+    design-system/         Part 1 foundations and Part 2 components documentation
+  components/              button, form (fields, choices, select, consent, error summary),
+                           progress, question, review, icon, brand
   design/                  tokens, generators and the contrast audit
+  lib/format.ts            Singapore phone, S$ amount and email formatting and validation
   styles/tokens.css        generated
+e2e/                       Playwright + axe browser tests
 scripts/build-tokens.ts    writes the generated token files
 docs/decisions.md          decision log and open business questions
 ```

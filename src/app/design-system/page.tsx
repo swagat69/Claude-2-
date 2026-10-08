@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import type { ComponentType } from "react";
-import { Wordmark } from "@/components/brand/Wordmark";
 import { Icon } from "@/components/icon/Icon";
 import { Motion } from "./MotionSection";
 import {
@@ -11,12 +9,13 @@ import {
   Contrast,
   Grid,
   Icons,
-  Section,
   Shape,
   Space,
   TokenFiles,
   Typography,
 } from "./sections";
+import { Section } from "./_doc/Section";
+import { Toc } from "./_doc/Toc";
 import styles from "./ds.module.css";
 
 export const metadata: Metadata = {
@@ -139,43 +138,9 @@ const signOff = [
   },
 ];
 
-function TocList() {
-  return (
-    <ol className={styles.tocList}>
-      {sections.map(({ id, title }, i) => (
-        <li key={id}>
-          <a href={`#${id}`}>
-            <span className={styles.tocNum}>{String(i + 1).padStart(2, "0")}</span>
-            {title}
-          </a>
-        </li>
-      ))}
-      <li>
-        <a href="#decisions">
-          <span className={styles.tocNum}>{String(sections.length + 1).padStart(2, "0")}</span>
-          Decisions
-        </a>
-      </li>
-    </ol>
-  );
-}
-
 export default function DesignSystemPage() {
   return (
     <>
-      <header className={styles.topbar}>
-        <div className={`container ${styles.topbarInner}`}>
-          <Link href="/" className={styles.brand}>
-            <Wordmark />
-            <span className={styles.brandLabel}>Design system</span>
-          </Link>
-          <p className={styles.status}>
-            <span className={styles.statusDot} aria-hidden="true" />
-            Part 1 of 6 · Foundations
-          </p>
-        </div>
-      </header>
-
       <main id="main">
         <section className={styles.hero} aria-labelledby="ds-title">
           <div className={`container ${styles.heroInner}`}>
@@ -226,19 +191,7 @@ export default function DesignSystemPage() {
         </section>
 
         <div className={`container ${styles.layout}`}>
-          <nav className={styles.toc} aria-label="On this page">
-            <details className={styles.tocMobile}>
-              <summary>
-                On this page
-                <Icon name="chevron-down" size={20} />
-              </summary>
-              <TocList />
-            </details>
-            <div className={styles.tocDesktop}>
-              <p className={`type-eyebrow ${styles.muted}`}>On this page</p>
-              <TocList />
-            </div>
-          </nav>
+          <Toc items={[...sections, { id: "decisions", title: "Decisions" }]} />
 
           <div className={styles.content}>
             {sections.map(({ id, title, intro, Content }, i) => (
@@ -272,13 +225,6 @@ export default function DesignSystemPage() {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <div className="container">
-          <p className="type-meta">
-            Built from the DFX Design Brief v1.0 (8 October 2026). Foundations v1.0, approved 8 October 2026.
-          </p>
-        </div>
-      </footer>
     </>
   );
 }

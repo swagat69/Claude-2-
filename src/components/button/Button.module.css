@@ -1,0 +1,199 @@
+.button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  max-width: 100%;
+  border: var(--border-hairline) solid transparent;
+  border-radius: var(--radius-button);
+  font-family: var(--font-family-ui);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-duration-hover) var(--motion-easing-out),
+    border-color var(--motion-duration-hover) var(--motion-easing-out),
+    box-shadow var(--motion-duration-hover) var(--motion-easing-out),
+    transform var(--motion-duration-press) var(--motion-easing-out);
+}
+
+.button svg {
+  flex-shrink: 0;
+}
+
+.label {
+  min-width: 0;
+}
+
+/* Sizes */
+
+.large {
+  min-height: var(--size-button-height);
+  padding: var(--space-3) var(--space-6);
+  font-size: 1rem;
+}
+
+.compact {
+  min-height: var(--size-button-height-compact);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.9375rem;
+}
+
+.full {
+  width: 100%;
+}
+
+/* Variants */
+
+.primary {
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+}
+
+.secondary {
+  border-color: var(--color-action-secondary-border);
+  background: var(--color-action-secondary-bg);
+  color: var(--color-action-secondary-fg);
+}
+
+.tertiary {
+  padding-inline: var(--space-3);
+  background: transparent;
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.destructive {
+  background: var(--palette-red);
+  color: var(--palette-white);
+}
+
+.accent {
+  background: var(--color-action-accent-bg);
+  color: var(--color-action-accent-fg);
+}
+
+.accent:focus-visible,
+.accent[data-preview="focus-visible"] {
+  outline-color: var(--color-focus-ring-inverse);
+}
+
+/* Hover: only on devices with a real pointer, so touch doesn't get sticky hover. */
+
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--color-action-primary-bg-hover);
+    transform: translateY(var(--motion-distance-lift));
+  }
+
+  .secondary:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--color-action-secondary-bg-hover);
+    border-color: var(--color-border-strong);
+  }
+
+  .tertiary:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--color-surface-sunken);
+    text-decoration-thickness: 2px;
+  }
+
+  .destructive:hover:not(:disabled, [aria-disabled="true"]) {
+    background: var(--palette-error-text);
+  }
+
+  .accent:hover:not(:disabled, [aria-disabled="true"]) {
+    box-shadow: inset 0 0 0 2px var(--palette-ink);
+  }
+}
+
+.primary[data-preview="hover"] {
+  background: var(--color-action-primary-bg-hover);
+  transform: translateY(var(--motion-distance-lift));
+}
+
+.secondary[data-preview="hover"] {
+  background: var(--color-action-secondary-bg-hover);
+  border-color: var(--color-border-strong);
+}
+
+.tertiary[data-preview="hover"] {
+  background: var(--color-surface-sunken);
+  text-decoration-thickness: 2px;
+}
+
+.destructive[data-preview="hover"] {
+  background: var(--palette-error-text);
+}
+
+.accent[data-preview="hover"] {
+  box-shadow: inset 0 0 0 2px var(--palette-ink);
+}
+
+/* Pressed: a small scale, never a spring overshoot. */
+
+.button:active:not(:disabled, [aria-disabled="true"]),
+.button[data-preview="pressed"] {
+  transform: scale(var(--motion-scale-press));
+}
+
+.primary:active:not(:disabled, [aria-disabled="true"]),
+.primary[data-preview="pressed"] {
+  background: var(--color-action-primary-bg-pressed);
+}
+
+.button[data-preview="focus-visible"] {
+  outline: var(--border-focus-width) solid var(--color-focus-ring);
+  outline-offset: var(--border-focus-offset);
+}
+
+.accent[data-preview="focus-visible"] {
+  outline-color: var(--color-focus-ring-inverse);
+}
+
+/* Disabled: still readable, clearly inert. */
+
+.button:disabled {
+  border-color: transparent;
+  background: var(--color-action-disabled-bg);
+  color: var(--color-action-disabled-fg);
+  text-decoration: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Busy: keeps colour and focus, ignores presses. */
+
+.button[aria-busy="true"] {
+  cursor: progress;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2400ms;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (forced-colors: active) {
+  .button {
+    border-color: ButtonText;
+  }
+}

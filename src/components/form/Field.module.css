@@ -1,0 +1,223 @@
+/* Shared field anatomy: label → hint → error → control (brief §7, GOV.UK error pattern). */
+
+.field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.field[data-invalid] {
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-feedback-error-border);
+}
+
+.label {
+  font-size: var(--type-body-size);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.optional {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.hint {
+  max-width: var(--layout-reading-measure);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-feedback-error-fg);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  animation: error-in var(--motion-duration-validation) var(--motion-easing-out) both;
+}
+
+.error svg {
+  flex-shrink: 0;
+  margin-top: -1px;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Fieldset ---------------------------------------------------------------- */
+
+.fieldset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fieldset[data-invalid] {
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-feedback-error-border);
+}
+
+.legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  font-size: var(--type-body-size);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.legend + * {
+  clear: both;
+}
+
+.legend[data-style="question"] {
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  letter-spacing: var(--type-h3-tracking);
+}
+
+.legend[data-style="page-heading"] h1 {
+  margin-bottom: var(--space-1);
+}
+
+.legend h1:focus {
+  outline: none;
+}
+
+/* Text-like control ------------------------------------------------------- */
+
+.control {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--size-input-height);
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--color-border-field);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-raised);
+  transition:
+    border-color var(--motion-duration-hover) var(--motion-easing-out),
+    box-shadow var(--motion-duration-validation) var(--motion-easing-out);
+}
+
+.control[data-width="short"] {
+  max-width: 11rem;
+}
+
+.control[data-width="medium"] {
+  max-width: 20rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .control:hover:not([data-disabled]) {
+    border-color: var(--color-border-strong);
+  }
+}
+
+.control[data-preview="hover"] {
+  border-color: var(--color-border-strong);
+}
+
+.control:focus-within,
+.control[data-preview="focus"] {
+  border-color: var(--color-border-strong);
+  outline: var(--border-focus-width) solid var(--color-focus-ring);
+  outline-offset: var(--border-focus-offset);
+}
+
+[data-invalid] .control {
+  border-color: var(--color-feedback-error-border);
+  box-shadow: inset 0 0 0 1px var(--color-feedback-error-border);
+}
+
+.control[data-disabled] {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+
+.input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: var(--size-input-height);
+  padding-inline: var(--space-4);
+  border: 0;
+  background: transparent;
+  font-size: var(--type-body-size);
+  outline: none;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.affix {
+  flex-shrink: 0;
+  padding-inline: var(--space-4) 0;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.affix + .input {
+  padding-left: var(--space-2);
+}
+
+.suffix {
+  flex-shrink: 0;
+  padding-right: var(--space-4);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.verified {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-1);
+  padding-right: var(--space-3);
+  color: var(--color-feedback-success-fg);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.control[data-verified] {
+  border-color: var(--color-feedback-success-border);
+}
+
+/* Select: native element with our chevron on top. */
+
+.selectWrap {
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  padding-right: var(--space-12);
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.selectWrap svg {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  .control {
+    border-color: CanvasText;
+  }
+}

@@ -1,0 +1,72 @@
+/* Design-system shell: top bar with page nav, and footer. */
+
+/* Top bar ----------------------------------------------------------------- */
+
+.topbar {
+  border-bottom: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.topbarInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  min-height: var(--size-header-height-compact);
+  padding-block: var(--space-2);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--size-target-min);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.brandLabel {
+  padding-left: var(--space-3);
+  border-left: var(--border-hairline) solid var(--color-border-subtle);
+  font-weight: 500;
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-1);
+  padding: 3px;
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  list-style: none;
+}
+
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--motion-duration-hover) var(--motion-easing-out);
+}
+
+.nav a:hover {
+  color: var(--color-text-primary);
+}
+
+.nav a[aria-current="page"] {
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+}
+
+/* Footer ------------------------------------------------------------------ */
+
+.footer {
+  padding-block: var(--space-8);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+}

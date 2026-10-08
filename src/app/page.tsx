@@ -9,7 +9,13 @@ import styles from "./hub.module.css";
  */
 const parts = [
   { title: "Foundations", detail: "Colour, type, space, radius, elevation, grid and motion tokens.", brief: "§11–§16", href: "/design-system", status: "Approved" },
-  { title: "Component library", detail: "Buttons, inputs, choices, progress, status and result cards, and 15 more families.", brief: "§13", status: "Next" },
+  {
+    title: "Component library",
+    detail: "2a form controls are ready; 2b feedback and overlays, and 2c cards and booking, follow.",
+    brief: "§13",
+    href: "/design-system/components",
+    status: "2a in review",
+  },
   { title: "Homepage", detail: "Header, hero, proof, how it works, use cases, preview, FAQ, support and footer, with scroll motion.", brief: "§6, §15", status: "Planned" },
   { title: "Assessment", detail: "Start screen, three question stages, review and consent, with branching.", brief: "§7, §8", status: "Planned" },
   { title: "WhatsApp and email handoff", detail: "Channel choice, handoff preview, secure email link and processing state.", brief: "§9", status: "Planned" },
@@ -38,7 +44,7 @@ export default function Hub() {
               <span className={styles.status} data-status={part.status}>
                 {part.status}
               </span>
-              {part.href ? <Icon name="arrow-right" className={styles.arrow} /> : null}
+              {part.href ? <Icon name="arrow-right" className={styles.arrow} /> : <span aria-hidden="true" />}
             </>
           );
           return (
