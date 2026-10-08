@@ -30,6 +30,10 @@
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
 }
 
+.statesSingle {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* No overflow clipping, so tooltips and menus inside a specimen can extend past it. */
 .state {
   display: flex;
@@ -157,8 +161,9 @@
   font-weight: 600;
 }
 
+/* Empty: out of the layout but still in the accessibility tree, so it is announced when it fills. */
 .demoStatus:empty {
-  display: none;
+  position: absolute;
 }
 
 /* Assembled step: a page-like frame on the paper canvas. */

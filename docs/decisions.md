@@ -41,6 +41,28 @@ Approved as written.
 | 5 | Select | Native select; a searchable combobox only for lists of ~15+ options; ≤5 options use choice cards. | Most reliable on phones and with screen readers. |
 | 6 | Marketing consent | One unticked checkbox per channel (email, WhatsApp), separate from the required processing notice. | Brief §17 and §19; Singapore's PDPA Do Not Call rules cover marketing to phone numbers. Wording needs legal review. |
 
+## Part 2b feedback and overlays: proposed (owner asked me to proceed on my calls)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Toasts | Only for confirmations that already worked; never errors. 6s, paused on hover/focus, max three, always closable. | A toast disappears; brief §13 says a critical error must persist until the person can act. |
+| 2 | Dialogs | Native `<dialog>`: bottom sheet on phones, centred from 768px; backdrop closes unless that would lose work; destructive confirmations focus the safe choice. | Thumb reach on phones; native focus handling and inert background. |
+| 3 | Waiting | Processing lists real backend steps with a static marker; no spinner, percentage or fake delay; says you can leave. | Brief M1 and R4. |
+| 4 | "No match" tone | Peach, distinct from orange (system problem) and red (form error). | Brief R3: dignity, "no red panic screen". |
+| 5 | Help tips | Toggletips opened by click/tap, never hover-only; text announced via a live region. | Brief §13 family 14: touch, mouse and keyboard. |
+| 6 | FAQ | Native `<details>`, optional single-open mode; nothing opens by itself. | Brief H0.7 and family 15. |
+
+## Part 2c cards, booking and navigation: proposed (owner asked me to proceed on my calls)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Result cards | "Suggested route", never "Top pick" or a match %; facts only when verified, with their date; placeholders labelled. | Brief §10 results-card anatomy and §19 trust cues. |
+| 2 | Result layout | Result 8 columns, call invitation 4 on wide screens; call panel after the explanation on phones; declining keeps results. | Brief R1 and C1. |
+| 3 | Lime button | Only on the forest advisor panel. | Keeps Part 1 decision 1; the invitation stands out without competing with the result. |
+| 4 | Booking | Singapore time with UTC offset always shown; device zone offered when different; full/taken slots visible but disabled; single-column times on phones; choosing ≠ booking. | Brief C1, C2 and §24 timezone/DST scenario. |
+| 5 | Header | Sticky and compressing 78→64px from 768px; on phones a plain 64px row that scrolls away; menu as a bottom sheet; layout switches by the header's own width. | Brief H0.1 and §16 ("no large sticky nav" on mobile). |
+| 6 | Orbs | Decorative only: aria-hidden, no pointer events, ≤16px drift with a mouse and motion allowed, hidden under reduced transparency. | Brief §11, §14 and family 17. |
+
 ## Open business questions (brief §25)
 
 These must be answered before the relevant part is finalised. They don't

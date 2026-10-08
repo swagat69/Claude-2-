@@ -11,10 +11,10 @@ const parts = [
   { title: "Foundations", detail: "Colour, type, space, radius, elevation, grid and motion tokens.", brief: "§11–§16", href: "/design-system", status: "Approved" },
   {
     title: "Component library",
-    detail: "2a form controls are ready; 2b feedback and overlays, and 2c cards and booking, follow.",
+    detail: "Form controls approved. Feedback and overlays, and cards, booking and navigation, are ready for review.",
     brief: "§13",
-    href: "/design-system/forms",
-    status: "2a in review",
+    href: "/design-system/feedback",
+    status: "2b–2c in review",
   },
   { title: "Homepage", detail: "Header, hero, proof, how it works, use cases, preview, FAQ, support and footer, with scroll motion.", brief: "§6, §15", status: "Planned" },
   { title: "Assessment", detail: "Start screen, three question stages, review and consent, with branching.", brief: "§7, §8", status: "Planned" },

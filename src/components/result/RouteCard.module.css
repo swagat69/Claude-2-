@@ -1,0 +1,157 @@
+.card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  animation: card-in var(--motion-duration-results) var(--motion-easing-standard) both;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--space-8);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-distance-reveal));
+  }
+}
+
+/* Result tab: the one place a ticket cut appears on the results screen (brief §11). */
+.eyebrow {
+  --notch: 5px;
+  justify-self: start;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-mini);
+  background: var(--palette-sage);
+  color: var(--palette-ink);
+  font-size: var(--type-meta-size);
+  font-weight: 650;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+}
+
+.title {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.fit {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.fitLabel {
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+  font-weight: 600;
+}
+
+.reasons {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.reasons li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.reasons svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-feedback-success-fg);
+}
+
+.factsWrap {
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-block: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.facts dt {
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}
+
+.facts dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.asOf {
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+
+.details {
+  flex-basis: 100%;
+}
+
+.details summary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-target-min);
+  color: var(--color-text-link);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.details summary::-webkit-details-marker {
+  display: none;
+}
+
+.details summary svg {
+  transition: transform var(--motion-duration-hover) var(--motion-easing-out);
+}
+
+.details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.detailsBody {
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--layout-reading-measure);
+  padding-top: var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+.smallPrint {
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+  line-height: 1.5;
+}

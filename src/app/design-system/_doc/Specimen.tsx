@@ -24,8 +24,9 @@ export function DocHero({ id, eyebrow, title, lead, meta }: { id: string; eyebro
 }
 
 /** Grid of labelled specimens, one per state or variant. */
-export function States({ children, wide }: { children: ReactNode; wide?: boolean }) {
-  return <div className={wide ? `${styles.states} ${styles.statesWide}` : styles.states}>{children}</div>;
+export function States({ children, wide, single }: { children: ReactNode; wide?: boolean; single?: boolean }) {
+  const layout = single ? styles.statesSingle : wide ? styles.statesWide : undefined;
+  return <div className={[styles.states, layout].filter(Boolean).join(" ")}>{children}</div>;
 }
 
 export function State({ label, children, dark }: { label: string; children: ReactNode; dark?: boolean }) {

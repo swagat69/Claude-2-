@@ -1,0 +1,100 @@
+.tile {
+  position: relative;
+  border-radius: var(--radius-tile);
+}
+
+.tile:has(.link:focus-visible) {
+  outline: var(--border-focus-width) solid var(--color-focus-ring);
+  outline-offset: var(--border-focus-offset);
+}
+
+.ticket {
+  --notch: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  min-height: 200px;
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-tile);
+  background: var(--tile-bg);
+  color: var(--tile-fg);
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Whole-tile hit area. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-tile);
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.text {
+  max-width: 32ch;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
+.icon {
+  display: flex;
+  transition: transform var(--motion-duration-hover) var(--motion-easing-out);
+}
+
+.explore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+  border: 1.5px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: var(--type-meta-size);
+  font-weight: 650;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover .icon {
+    transform: translateY(var(--motion-distance-icon-lift));
+  }
+
+  .tile:hover .explore {
+    background: var(--tile-fg);
+    color: var(--tile-bg);
+  }
+}
+
+@media (forced-colors: active) {
+  .ticket {
+    border: 2px solid CanvasText;
+  }
+}

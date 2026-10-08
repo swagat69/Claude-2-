@@ -1,0 +1,157 @@
+.header {
+  container-type: inline-size;
+  z-index: var(--z-header);
+  border-bottom: var(--border-hairline) solid transparent;
+  transition:
+    background-color var(--motion-duration-header) var(--motion-easing-out),
+    border-color var(--motion-duration-header) var(--motion-easing-out);
+}
+
+@media (min-width: 768px) {
+  .header[data-sticky] {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* Transparent over the top of the hero; paper with a keyline once compressed. */
+.header[data-compact] {
+  border-bottom-color: var(--color-border-subtle);
+  background: var(--color-surface-base);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: calc(var(--layout-container-max) + 2 * var(--grid-margin));
+  min-height: var(--size-header-height-compact);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+  transition: min-height var(--motion-duration-header) var(--motion-easing-out);
+}
+
+@media (min-width: 768px) {
+  .inner {
+    min-height: var(--size-header-height);
+  }
+
+  .header[data-compact] .inner {
+    min-height: var(--size-header-height-compact);
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-target-min);
+  margin-right: auto;
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.linkList {
+  display: flex;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-target-min);
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-field);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.link:hover {
+  background: var(--color-surface-sunken);
+}
+
+.link[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-target-min);
+  padding-inline: var(--space-3);
+  border: var(--border-hairline) solid var(--color-border-field);
+  border-radius: var(--radius-button);
+  background: var(--color-surface-raised);
+  font-weight: 600;
+}
+
+.menuButton:hover {
+  border-color: var(--color-border-strong);
+}
+
+/* Narrow: logo, short CTA and Menu. (Scoped under .header so these beat the button's own display.) */
+.header .wideNav,
+.header .ctaLong {
+  display: none;
+}
+
+/* Wide: full links and the long CTA (container width, so previews behave too). */
+@container (min-width: 960px) {
+  .header .wideNav {
+    display: block;
+  }
+
+  .header .ctaLong {
+    display: inline-flex;
+  }
+
+  .header .ctaShort,
+  .header .menuButton {
+    display: none;
+  }
+
+  .actions {
+    margin-left: var(--space-4);
+  }
+}
+
+/* Menu sheet */
+
+.sheetNav .linkList {
+  flex-direction: column;
+  gap: 0;
+}
+
+.sheetNav .link {
+  width: 100%;
+  min-height: var(--size-choice-row-min);
+  padding-inline: 0;
+  border-bottom: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: 0;
+  font-size: 1.125rem;
+}
+
+.sheetNav .link:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.sheetCta {
+  margin-top: var(--space-6);
+}
+
+.back {
+  margin-left: calc(var(--space-3) * -1);
+}

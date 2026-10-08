@@ -1,0 +1,21 @@
+.orb {
+  position: absolute;
+  width: min(var(--orb-size), 90vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, var(--orb-color), transparent);
+  opacity: var(--orb-opacity);
+  filter: blur(var(--glow-blur-min));
+  pointer-events: none;
+  transform: translate(
+    calc(var(--px, 0) * var(--motion-distance-parallax)),
+    calc(var(--py, 0) * var(--motion-distance-parallax))
+  );
+  transition: transform 700ms var(--motion-easing-out);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .orb {
+    display: none;
+  }
+}

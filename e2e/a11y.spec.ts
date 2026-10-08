@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const routes = ["/", "/design-system", "/design-system/forms", "/design-system/feedback"];
+const routes = ["/", "/design-system", "/design-system/forms", "/design-system/feedback", "/design-system/cards"];
 
 for (const route of routes) {
   test(`${route} has no WCAG 2.2 AA violations`, async ({ page }) => {
@@ -13,6 +13,17 @@ for (const route of routes) {
       .analyze();
     const summary = results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`);
     expect(summary).toEqual([]);
+  });
+
+  test(`${route} loads without console errors`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on("console", (message) => {
+      if (message.type() === "error") errors.push(message.text());
+    });
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto(route);
+    await page.waitForLoadState("networkidle");
+    expect(errors).toEqual([]);
   });
 
   test(`${route} never scrolls sideways at 320px`, async ({ page }) => {

@@ -1,0 +1,93 @@
+/* Cards page: specimen layouts. */
+
+.cardStack {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--layout-result-detail);
+}
+
+.narrowCol {
+  max-width: 420px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-4);
+}
+
+/* Orb stage: decorative glow behind nothing readable. */
+.orbStage {
+  position: relative;
+  display: grid;
+  place-items: end start;
+  min-height: 340px;
+  padding: var(--space-5);
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-hero);
+  background: var(--color-surface-base);
+}
+
+.orbBlush {
+  top: -30%;
+  right: -10%;
+}
+
+.orbGreen {
+  bottom: -40%;
+  left: -10%;
+}
+
+.orbAmber {
+  top: 20%;
+  left: 40%;
+}
+
+.orbCaption {
+  position: relative;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-mini);
+  background: var(--color-surface-raised);
+  font-size: var(--type-meta-size);
+  font-weight: 500;
+}
+
+/* Header previews */
+
+.headerPreview {
+  width: 100%;
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-base);
+}
+
+.phoneWidth {
+  max-width: 390px;
+}
+
+/* Assembled results: 8 / 4 columns from 1200px of content width. */
+
+.results {
+  display: grid;
+  gap: var(--space-5);
+  container-type: inline-size;
+}
+
+@media (min-width: 1200px) {
+  .results {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    align-items: start;
+  }
+
+  .resultsAside {
+    position: sticky;
+    top: var(--space-6);
+  }
+}
+
+.resultsMain {
+  display: grid;
+  gap: var(--space-4);
+}

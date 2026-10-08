@@ -197,3 +197,27 @@
     border-color: ButtonText;
   }
 }
+
+/* On forest / ink surfaces (mark the container data-surface="inverse"). */
+
+:global([data-surface="inverse"]) .tertiary {
+  color: var(--color-text-inverse);
+}
+
+:global([data-surface="inverse"]) .secondary {
+  border-color: var(--color-text-inverse-secondary);
+  background: transparent;
+  color: var(--color-text-inverse);
+}
+
+:global([data-surface="inverse"]) .button:focus-visible {
+  outline-color: var(--color-focus-ring-inverse);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :global([data-surface="inverse"]) .tertiary:hover:not(:disabled, [aria-disabled="true"]),
+  :global([data-surface="inverse"]) .secondary:hover:not(:disabled, [aria-disabled="true"]) {
+    border-color: var(--color-text-inverse);
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
