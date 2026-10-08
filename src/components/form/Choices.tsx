@@ -44,6 +44,7 @@ export function ChoiceCards({
   legend,
   legendStyle,
   hint,
+  help,
   error,
   optional,
   name,
@@ -90,7 +91,7 @@ export function ChoiceCards({
     </label>
   );
   return (
-    <Fieldset legend={legend} legendStyle={legendStyle} hint={hint} error={error} optional={optional}>
+    <Fieldset legend={legend} legendStyle={legendStyle} hint={hint} help={help} error={error} optional={optional}>
       <div className={styles.cards} data-columns={columns}>
         {main.map(card)}
       </div>
@@ -152,6 +153,7 @@ export function Segmented({
   legend,
   legendStyle,
   hint,
+  help,
   error,
   optional,
   name,
@@ -163,7 +165,7 @@ export function Segmented({
   disabled,
 }: GroupProps) {
   return (
-    <Fieldset legend={legend} legendStyle={legendStyle} hint={hint} error={error} optional={optional}>
+    <Fieldset legend={legend} legendStyle={legendStyle} hint={hint} help={help} error={error} optional={optional}>
       <div className={styles.segmented}>
         {options.map((option) => (
           <label key={option.value} className={styles.segment} data-preview={option.preview}>
@@ -190,9 +192,11 @@ export function Segmented({
 /* -------------------------------------------------------------------------- */
 
 export function Chips({
+  id,
   legend,
   legendStyle,
   hint,
+  help,
   error,
   optional,
   name,
@@ -202,6 +206,8 @@ export function Chips({
   onValuesChange,
   disabled,
 }: Omit<GroupProps, "value" | "defaultValue" | "onValueChange" | "required"> & {
+  /** Given to the first checkbox. */
+  id?: string;
   values?: string[];
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
@@ -211,11 +217,12 @@ export function Chips({
     onValuesChange?.(checked ? [...current, option] : current.filter((v) => v !== option));
   };
   return (
-    <Fieldset legend={legend} legendStyle={legendStyle} hint={hint} error={error} optional={optional}>
+    <Fieldset legend={legend} legendStyle={legendStyle} hint={hint} help={help} error={error} optional={optional}>
       <div className={styles.chips}>
-        {options.map((option) => (
+        {options.map((option, i) => (
           <label key={option.value} className={styles.chip} data-preview={option.preview} data-not-sure={option.notSure || undefined}>
             <input
+              id={i === 0 ? id : undefined}
               type="checkbox"
               className={styles.native}
               name={name}

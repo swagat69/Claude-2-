@@ -20,6 +20,7 @@ export type TextFieldProps = FieldMeta &
 export function TextField({
   label,
   hint,
+  help,
   error,
   optional,
   prefix,
@@ -42,6 +43,7 @@ export function TextField({
         {label}
       </Label>
       {hint ? <Hint id={hintId}>{hint}</Hint> : null}
+      {help}
       {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
       <div
         className={styles.control}
@@ -92,6 +94,7 @@ export type SelectProps = FieldMeta &
     placeholder?: string;
     width?: "full" | "medium" | "short";
     preview?: "hover" | "focus";
+    labelStyle?: "label" | "question";
     children?: ReactNode;
   };
 
@@ -99,12 +102,14 @@ export type SelectProps = FieldMeta &
 export function Select({
   label,
   hint,
+  help,
   error,
   optional,
   options,
   placeholder = "Select an option",
   width = "full",
   preview,
+  labelStyle,
   id,
   className,
   disabled,
@@ -113,10 +118,11 @@ export function Select({
   const { inputId, hintId, errorId } = useFieldIds(id);
   return (
     <div className={[styles.field, className].filter(Boolean).join(" ")} data-invalid={error ? true : undefined}>
-      <Label htmlFor={inputId} optional={optional}>
+      <Label htmlFor={inputId} optional={optional} labelStyle={labelStyle}>
         {label}
       </Label>
       {hint ? <Hint id={hintId}>{hint}</Hint> : null}
+      {help}
       {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
       <div
         className={`${styles.control} ${styles.selectWrap}`}

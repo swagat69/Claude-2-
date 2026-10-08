@@ -27,7 +27,13 @@ const parts = [
     href: "/",
     status: "In review",
   },
-  { title: "Assessment", detail: "Start screen, three question stages, review and consent, with branching.", brief: "§7, §8", status: "Planned" },
+  {
+    title: "Assessment",
+    detail: "Start screen, three question stages, review and consent, with branching, a hard stop and saved answers.",
+    brief: "§7, §8",
+    href: "/assessment",
+    status: "In review",
+  },
   { title: "WhatsApp and email handoff", detail: "Channel choice, handoff preview, secure email link and processing state.", brief: "§9", status: "Planned" },
   { title: "Results and call", detail: "Match, manual review, no match and error states, then booking and confirmation.", brief: "§10", status: "Planned" },
 ];

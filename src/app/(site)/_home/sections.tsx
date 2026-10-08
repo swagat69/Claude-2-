@@ -7,7 +7,7 @@ import { Icon, type IconName } from "@/components/icon/Icon";
 import { Reveal } from "@/components/motion/Reveal";
 import { Placeholder } from "@/components/placeholder/Placeholder";
 import { DisplayText } from "@/components/type/DisplayText";
-import { assessmentHref } from "@/config/site";
+import { startHref } from "@/config/site";
 import styles from "./home.module.css";
 
 function SectionHead({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children?: ReactNode }) {
@@ -127,7 +127,7 @@ export function WhoItsFor() {
                 icon={tile.icon}
                 title={tile.title}
                 text={tile.text}
-                href={`${assessmentHref}?goal=${tile.goal}`}
+                href={startHref("tile", tile.goal)}
                 linkLabel="Start here"
               />
             </Reveal>
@@ -268,7 +268,7 @@ export function FinalCta() {
               A few short questions, then a clear next step. What happens after that is up to you.
             </p>
             <div className={styles.heroCtas}>
-              <ButtonLink href={assessmentHref} variant="accent" iconEnd="arrow-right" className={styles.heroCta}>
+              <ButtonLink href={startHref("final")} variant="accent" iconEnd="arrow-right" className={styles.heroCta}>
                 Find my next step
               </ButtonLink>
               <a href="#how-it-works" className={`${styles.textLink} ${styles.textLinkInverse}`}>

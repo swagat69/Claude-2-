@@ -2,13 +2,23 @@
 
 export const assessmentHref = "/assessment";
 
+/**
+ * Link into the assessment. `from` records which button was used, as a code
+ * (brief §24: every entry point reaches the same start screen; only the
+ * tracking differs). `goal` preselects the first answer.
+ */
+export function startHref(from: "hero" | "final" | "header" | "tile" | "footer", goal?: string) {
+  const params = new URLSearchParams(goal ? { goal, from } : { from });
+  return `${assessmentHref}?${params}`;
+}
+
 export const navLinks = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#who-its-for", label: "Who it’s for" },
   { href: "/#faqs", label: "FAQs" },
 ];
 
-export const navCta = { href: assessmentHref, label: "Start assessment", shortLabel: "Start" };
+export const navCta = { href: startHref("header"), label: "Start assessment", shortLabel: "Start" };
 
 export const footerGroups = [
   {
@@ -17,7 +27,7 @@ export const footerGroups = [
       { href: "/#how-it-works", label: "How it works" },
       { href: "/#who-its-for", label: "Who it’s for" },
       { href: "/#faqs", label: "FAQs" },
-      { href: assessmentHref, label: "Start assessment" },
+      { href: startHref("footer"), label: "Start assessment" },
     ],
   },
   {

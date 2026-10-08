@@ -2,7 +2,7 @@ import { ButtonLink } from "@/components/button/Button";
 import { AmbientOrb } from "@/components/decor/AmbientOrb";
 import { Icon } from "@/components/icon/Icon";
 import { DisplayText } from "@/components/type/DisplayText";
-import { assessmentHref } from "@/config/site";
+import { startHref } from "@/config/site";
 import { CallPreview, QuestionPreview, ResultPreview } from "./previews";
 import styles from "./home.module.css";
 
@@ -31,7 +31,7 @@ export function Hero() {
             helps.
           </p>
           <div className={styles.heroCtas}>
-            <ButtonLink href={assessmentHref} iconEnd="arrow-right" className={styles.heroCta}>
+            <ButtonLink href={startHref("hero")} iconEnd="arrow-right" className={styles.heroCta}>
               Find my next step
             </ButtonLink>
             <a href="#how-it-works" className={styles.textLink}>

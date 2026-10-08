@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/brand/Wordmark";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { DocNav } from "./_doc/DocNav";
 import styles from "./shell.module.css";
 
 export default function DesignSystemLayout({ children }: LayoutProps<"/design-system">) {
   return (
     <>
+      <SmoothScroll />
       <header className={styles.topbar}>
         <div className={`container ${styles.topbarInner}`}>
           <Link href="/" className={styles.brand}>

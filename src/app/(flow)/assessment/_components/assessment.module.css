@@ -1,0 +1,511 @@
+/*
+ * Assessment layout (brief §7, §16). One column of at most 720px; the
+ * situation step adds a 280px rail and the review a 300px rail from 1024px.
+ * Question titles run 24px on phones to 32px on desktop (brief A1).
+ */
+
+.step {
+  --main-w: var(--layout-form-measure);
+  --frame-w: var(--main-w);
+  --question-title: clamp(1.5rem, 1.3214rem + 0.7326vw, 2rem);
+}
+
+.step h1,
+.start h1,
+.outcome h1 {
+  scroll-margin-top: var(--space-6);
+}
+
+.step h1 {
+  font-size: var(--question-title);
+}
+
+.step h1:focus,
+.start h1:focus,
+.outcome h1:focus {
+  outline: none;
+}
+
+.top,
+.columns,
+.pending,
+.submitted {
+  width: 100%;
+  max-width: var(--frame-w);
+  margin-inline: auto;
+}
+
+.top {
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.top > * {
+  max-width: var(--main-w);
+}
+
+.top > :first-child {
+  justify-self: start;
+  margin-left: calc(-1 * var(--space-3));
+}
+
+.pending {
+  min-height: 50vh;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-10);
+}
+
+.mainColumn {
+  display: grid;
+  gap: var(--space-10);
+  min-width: 0;
+}
+
+.form,
+.questions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+@media (max-width: 767.98px) {
+  .submit {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .step[data-rail] {
+    --main-w: 700px;
+    --rail-w: 280px;
+    --frame-w: calc(var(--main-w) + var(--space-16) + var(--rail-w));
+  }
+
+  .step[data-rail][data-wide] {
+    --main-w: var(--layout-result-detail);
+    --rail-w: var(--layout-help-rail);
+  }
+
+  .step[data-rail] .columns {
+    grid-template-columns: minmax(0, var(--main-w)) var(--rail-w);
+    column-gap: var(--space-16);
+    align-items: start;
+  }
+
+  .rail {
+    position: sticky;
+    top: var(--space-6);
+  }
+
+  .mobileNote {
+    display: none;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .rail[data-desktop-only] {
+    display: none;
+  }
+}
+
+/* Questions --------------------------------------------------------------- */
+
+.question {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+/* A follow-up that appears after a choice fades in; focus stays where it was (brief A2). */
+.question[data-reveal],
+.panel[data-reveal] {
+  animation: reveal var(--motion-duration-reveal) var(--motion-easing-out) both;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+/* An empty live region takes no space but stays in the accessibility tree. */
+.gateLive:empty {
+  position: absolute;
+}
+
+.block {
+  padding-top: var(--space-8);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-5);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+@media (min-width: 768px) {
+  .panel {
+    padding: var(--space-8);
+  }
+}
+
+.panelTitle {
+  margin-bottom: calc(-1 * var(--space-2));
+}
+
+.panelLead {
+  max-width: var(--layout-reading-measure);
+  color: var(--color-text-secondary);
+}
+
+.panelNote {
+  font-size: var(--type-meta-size);
+}
+
+/* Rails and notes ---------------------------------------------------------- */
+
+.railCard {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+.railList {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.railItem {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.railIcon,
+.goodIcon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-sunken);
+}
+
+.railText,
+.stageText {
+  display: block;
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.railSteps {
+  display: grid;
+  gap: var(--space-3);
+  padding-left: 1.25em;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.railSteps li::marker {
+  font-weight: 700;
+}
+
+.railHelp {
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+}
+
+.trustNote {
+  display: flex;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+}
+
+.trustNote svg {
+  flex: none;
+}
+
+/* Footer: saved state and Start again --------------------------------------- */
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding-top: var(--space-5);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.saved {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--type-meta-size);
+}
+
+.saved svg {
+  flex: none;
+}
+
+.footer > button {
+  margin-left: calc(-1 * var(--space-3));
+}
+
+.submitted {
+  display: grid;
+  gap: var(--space-6);
+  max-width: var(--main-w);
+}
+
+/* A0: start screen ------------------------------------------------------- */
+
+.start {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  max-width: var(--layout-form-measure);
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-5);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-raised);
+}
+
+@media (min-width: 768px) {
+  .start {
+    padding: var(--space-12);
+  }
+}
+
+.eyebrow {
+  color: var(--color-text-secondary);
+}
+
+.startTitle {
+  margin-top: calc(-1 * var(--space-3));
+}
+
+.startLead {
+  margin-top: calc(-1 * var(--space-2));
+  color: var(--color-text-secondary);
+}
+
+.stages {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.stage {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-sunken);
+}
+
+.stageNum {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: var(--border-emphasis) solid var(--color-text-primary);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised);
+  font-weight: 700;
+}
+
+.begin {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+
+.preset {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-selected);
+}
+
+.preset svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+@media (max-width: 767.98px) {
+  .begin,
+  .beginButton {
+    width: 100%;
+  }
+
+  .begin {
+    justify-items: stretch;
+  }
+}
+
+.goodToKnow {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6) 0 0;
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+  list-style: none;
+}
+
+.goodToKnow li {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* A4: who sees what -------------------------------------------------------- */
+
+/* Matches the panels above it; wins over the component's own max-width. */
+.questions .consent {
+  max-width: none;
+}
+
+.sharing {
+  display: grid;
+}
+
+.sharingRow {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.sharingRow dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+}
+
+.sharingRow dt svg {
+  flex: none;
+}
+
+.sharingRow dd {
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 640px) {
+  .sharingRow {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+/* Outcomes: hard stop and saved ------------------------------------------- */
+
+.outcome {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-8);
+  max-width: var(--layout-form-measure);
+  margin-inline: auto;
+}
+
+.resources {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.resources ul {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.resources li {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.resources a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  justify-self: start;
+  font-weight: 600;
+}
+
+.continueCard {
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-5);
+  border: var(--border-hairline) solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-raised);
+}
+
+@media (min-width: 768px) {
+  .continueCard {
+    padding: var(--space-12);
+  }
+}
+
+.facts {
+  display: grid;
+}
+
+.facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-top: var(--border-hairline) solid var(--color-border-subtle);
+}
+
+.facts dt {
+  color: var(--color-text-secondary);
+}
+
+.facts dd {
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.outcomeActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}

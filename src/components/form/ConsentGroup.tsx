@@ -17,6 +17,7 @@ interface ConsentGroupProps {
   processing: ReactNode;
   /** Optional marketing permissions, one per channel. Always unchecked by default. */
   marketing?: MarketingConsent[];
+  className?: string;
 }
 
 /**
@@ -24,10 +25,10 @@ interface ConsentGroupProps {
  * permission is a separate, optional, unchecked checkbox (brief §13 family
  * 19, §17). Continuing the request never depends on marketing consent.
  */
-export function ConsentGroup({ policyVersion, privacyHref, processing, marketing = [] }: ConsentGroupProps) {
+export function ConsentGroup({ policyVersion, privacyHref, processing, marketing = [], className }: ConsentGroupProps) {
   const titleId = useId();
   return (
-    <section className={styles.consent} aria-labelledby={titleId}>
+    <section className={[styles.consent, className].filter(Boolean).join(" ")} aria-labelledby={titleId}>
       <h2 id={titleId} className="type-h3">
         How we use your information
       </h2>

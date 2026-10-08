@@ -173,6 +173,8 @@
 }
 
 .box {
+  /* Purely visual: clicks fall through to the 44px native checkbox underneath. */
+  pointer-events: none;
   display: grid;
   grid-row: 1;
   place-items: center;

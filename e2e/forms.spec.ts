@@ -92,3 +92,13 @@ test("marketing consent is optional and starts unticked", async ({ page }) => {
   }
   await expect(consent.locator('input[name="consent_policy_version"]')).toHaveValue("2026-10-draft");
 });
+
+test("clicking the checkbox square itself ticks it", async ({ page }) => {
+  const box = page.locator("#consent").getByRole("checkbox").first();
+  await box.scrollIntoViewIfNeeded();
+  const bounds = await box.boundingBox();
+  if (!bounds) throw new Error("checkbox has no box");
+  // The middle of the drawn square, where people actually tap.
+  await page.mouse.click(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+  await expect(box).toBeChecked();
+});

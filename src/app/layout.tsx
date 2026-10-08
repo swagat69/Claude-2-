@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { SkipLink } from "@/components/nav/SkipLink";
 import "@/styles/tokens.css";
 import "./globals.css";
 
@@ -30,11 +31,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-SG" className={`${inter.variable} ${plusJakarta.variable}`}>
+    // data-scroll-behavior: Next turns smooth scrolling off while it changes page, so new pages start at the top at once.
+    <html lang="en-SG" className={`${inter.variable} ${plusJakarta.variable}`} data-scroll-behavior="smooth">
       <body>
-        <a className="skip-link" href="#main">
-          Skip to main content
-        </a>
+        <SkipLink />
         {children}
       </body>
     </html>

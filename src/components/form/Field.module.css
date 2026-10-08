@@ -17,6 +17,12 @@
   line-height: 1.4;
 }
 
+.label[data-style="question"] {
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-leading);
+  letter-spacing: var(--type-h3-tracking);
+}
+
 .optional {
   color: var(--color-text-secondary);
   font-weight: 400;

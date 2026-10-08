@@ -10,7 +10,7 @@ each reviewed before the next starts.
 | 1 | Foundations: colour, type, space, radius, elevation, grid, motion tokens | §11–§16 | Approved 8 Oct 2026 |
 | 2 | Component library (all 20 families, every state), in three batches: 2a form controls, 2b feedback and overlays, 2c cards, booking and navigation | §13 | 2a approved; 2b and 2c in review |
 | 3 | Homepage with scroll motion | §6, §15 | In review |
-| 4 | Assessment A0–A4 with branching | §7, §8 | Planned |
+| 4 | Assessment A0–A4 with branching (placeholder questions) | §7, §8 | In review |
 | 5 | WhatsApp / email handoff and processing | §9 | Planned |
 | 6 | Results, no-match, manual review, booking | §10 | Planned |
 
@@ -23,15 +23,15 @@ Requires Node 22.18 or newer (scripts run TypeScript directly).
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000: homepage at /, build hub at /hub, design system at /design-system
+npm run dev        # http://localhost:3000: homepage at /, assessment at /assessment, build hub at /hub, design system at /design-system
 ```
 
 | Script | What it does |
 | --- | --- |
 | `npm run dev` / `build` / `start` | Next.js; both `dev` and `build` regenerate tokens first |
 | `npm run tokens` | Regenerates token files from `src/design/tokens.ts` |
-| `npm test` | Unit tests: contrast audit (every allowed colour pair meets WCAG 2.2 AA), fluid type maths, generated files up to date, Singapore phone / S$ amount / email rules, booking time zones and daylight saving |
-| `npm run test:e2e` | Browser tests on a production build: axe WCAG 2.2 AA scan and console-error check of every page, no sideways scroll at 320px, keyboard, dialog, error and booking flows. Desktop and mobile Chromium |
+| `npm test` | Unit tests: contrast audit (every allowed colour pair meets WCAG 2.2 AA), fluid type maths, generated files up to date, Singapore phone / S$ amount / email rules, booking time zones and daylight saving, assessment routing, validation, hard stops and pruning, saved-answer storage, analytics privacy filter |
+| `npm run test:e2e` | Browser tests on a production build: axe WCAG 2.2 AA scan and console-error check of every page, no sideways scroll at 320px, keyboard, dialog, error and booking flows, and the assessment's QA scenarios from brief §24 (branching, change from review, hard stop, refresh and Back, deep links, start again, no PII in analytics). Desktop and mobile Chromium |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
 | `npm run typecheck` | Generates Next route types, then `tsc --noEmit` |
 
@@ -59,8 +59,10 @@ element with `data-motion="reduced"`.
 ```
 src/
   app/
-    (site)/                public site: homepage (/), assessment stub, legal and contact
-                           placeholders, sharing SiteHeader + SiteFooter
+    (site)/                public site: homepage (/), legal and contact placeholders,
+                           sharing SiteHeader + SiteFooter
+    (flow)/assessment/     Part 4: start screen, goal, situation, preferences, review,
+                           hard stop and a Part 5 stub, in a focused shell
     hub/                   build hub listing the six parts
     design-system/         Part 1 foundations and Part 2 components documentation
     not-found.tsx          404 page
@@ -73,6 +75,8 @@ src/
   design/                  tokens, generators and the contrast audit
   lib/format.ts            Singapore phone, S$ amount and email formatting and validation
   lib/time.ts              booking times: Singapore time by default, any zone, DST-safe
+  lib/assessment/          questions (one file, all placeholders), routing and validation,
+                           saved draft (sessionStorage), privacy-safe analytics
   styles/tokens.css        generated
 e2e/                       Playwright + axe browser tests
 scripts/build-tokens.ts    writes the generated token files

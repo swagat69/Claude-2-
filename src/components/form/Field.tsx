@@ -7,6 +7,8 @@ export interface FieldMeta {
   /** Always visible; placeholders are never labels. */
   label: ReactNode;
   hint?: ReactNode;
+  /** Extra help after the hint, such as a "Why we ask" disclosure. Not part of the accessible description. */
+  help?: ReactNode;
   /** Says how to fix the problem, e.g. "Enter your email in the format name@example.com". */
   error?: string | null;
   /** Marks the field "(optional)". Required is the default and is not labelled. */
@@ -25,9 +27,20 @@ export function describedBy(...ids: unknown[]): string | undefined {
   return present.length ? present.join(" ") : undefined;
 }
 
-export function Label({ htmlFor, optional, children }: { htmlFor: string; optional?: boolean; children: ReactNode }) {
+export function Label({
+  htmlFor,
+  optional,
+  labelStyle = "label",
+  children,
+}: {
+  htmlFor: string;
+  optional?: boolean;
+  /** "question" matches a question legend, for a select asked as a question. */
+  labelStyle?: "label" | "question";
+  children: ReactNode;
+}) {
   return (
-    <label htmlFor={htmlFor} className={styles.label}>
+    <label htmlFor={htmlFor} className={styles.label} data-style={labelStyle === "question" ? "question" : undefined}>
       {children}
       {optional ? <span className={styles.optional}> (optional)</span> : null}
     </label>
@@ -65,6 +78,7 @@ export function Fieldset({
   legend,
   legendStyle = "label",
   hint,
+  help,
   error,
   optional,
   id,
@@ -100,6 +114,7 @@ export function Fieldset({
         )}
       </legend>
       {hint ? <Hint id={hintId}>{hint}</Hint> : null}
+      {help}
       {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
       {children}
     </fieldset>

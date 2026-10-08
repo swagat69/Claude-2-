@@ -15,7 +15,7 @@ test("hero promise, CTA and first paint", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Make the right next move, with clarity.");
   const cta = page.getByRole("main").getByRole("link", { name: "Find my next step" }).first();
-  await expect(cta).toHaveAttribute("href", "/assessment");
+  await expect(cta).toHaveAttribute("href", "/assessment?from=hero");
   await expect(page.getByText("Illustrative preview").first()).toBeVisible();
   await page.waitForTimeout(900);
   expect(await page.getByRole("heading", { level: 1 }).evaluate((h) => getComputedStyle(h).opacity)).toBe("1");
@@ -98,10 +98,11 @@ test("the product preview follows the story as you scroll", async ({ page, isMob
 test("category tiles start the assessment with that goal", async ({ page }) => {
   await page.goto("/");
   const link = page.getByRole("link", { name: "Debt consolidation" });
-  await expect(link).toHaveAttribute("href", "/assessment?goal=consolidation");
+  await expect(link).toHaveAttribute("href", "/assessment?goal=consolidation&from=tile");
   await link.click();
-  await expect(page).toHaveURL(/\/assessment\?goal=consolidation$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("The assessment starts here");
+  await expect(page).toHaveURL(/\/assessment\?goal=consolidation&from=tile$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Let’s find the next step that fits you.");
+  await expect(page.getByText("Starting with Debt consolidation")).toBeVisible();
 });
 
 test("every footer link resolves", async ({ page, request }) => {

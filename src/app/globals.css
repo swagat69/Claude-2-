@@ -17,8 +17,9 @@ html {
   scroll-padding-top: calc(var(--size-header-height-compact) + var(--space-4));
 }
 
+/* Smooth in-page scrolling on marketing pages only (see SmoothScroll). */
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html[data-smooth-scroll] {
     scroll-behavior: smooth;
   }
 }
@@ -140,6 +141,11 @@ kbd {
 
 .skip-link:focus-visible {
   transform: none;
+}
+
+/* Focus lands on <main> after the skip link; the region itself needs no ring. */
+main[tabindex="-1"]:focus {
+  outline: none;
 }
 
 /* Glass falls back to solid when transparency is unwelcome (brief §11). */

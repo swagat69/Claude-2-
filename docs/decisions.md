@@ -76,12 +76,32 @@ Approved as written.
 | 7 | Routes | Build hub moved to `/hub`; placeholder pages for privacy, terms, accessibility and contact so no link 404s; a real 404 page. | A link that fails looks broken in review and in production. |
 | 8 | Headline punctuation | Display headlines tuck `, . ? !` in by 0.06em (`DisplayText`). | Plus Jakarta Sans sets a visible gap before punctuation at 56–72px. |
 
+## Part 4 assessment: proposed (owner said "next"; placeholder questions)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Questions | Realistic Singapore placeholders kept in one file (`src/lib/assessment/questions.ts`): goal (+ debts to combine, or business registration); situation by goal (residency, age range, work, income range, home type, or trading time and revenue range; timing); preferences (amount range, repayment period, priorities). Money is asked as ranges with "Not sure" or "I'd rather not say"; income and revenue are optional. | Brief §7: "Product, operations and legal must approve every question." One source of truth makes swapping them a one-file change (§17). |
+| 2 | Hard stops | Three example gates, all tagged Placeholder: not living in Singapore, under 21, business registered outside Singapore. The reason shows next to the answer as soon as it is chosen; Continue leads to a stop page with the plain reason, "Change my answer", contact, and other places to get help. Nothing is sent. | Brief §8: verified hard gates only, state the real policy, never "you failed", always a way back. |
+| 3 | Pages and state | One URL per step, so browser Back works. Answers save as they change, in `sessionStorage` for this tab only: they survive refresh and Back, are cleared when the tab closes or after 1 hour unused (Placeholder), and "Start again" clears them after a confirmation. | Brief §7 "Back preserves values", "defined expiry and revocation route"; §24 "resume after tab closed … otherwise explains safe restart". |
+| 4 | Branching | Only questions the goal needs are asked. Changing goal names the answers that will be removed before Continue, then removes them; after the review has been seen, Continue skips straight back to it unless a new question needs answering. | Brief §8, A4 "Change returns to summary", §24 "Select and change goal". |
+| 5 | Validation | Missing answers only on Continue; format problems (mobile, email) on blur; errors clear only on the next Continue. Error summary above the heading, inline errors by each field. | Part 2a rule, brief §7 field spec and §18. |
+| 6 | Focus and progress | Focus moves to the step's heading after each in-app move, never on first load. Named stages ("Step 2 of 4 · Your situation"), no percentage. | Brief §7 "focus returns to heading", "show stage names not fake 75%". |
+| 7 | Layout | Focused shell (logo, "Get help", slim footer) instead of the marketing header. One 720px column; situation adds a 280px "What to expect" rail and the review a 300px "What happens next" rail from 1024px. Phones get a one-line trust note instead of the situation rail, and full-width buttons. | Brief A0–A4 responsive rules. |
+| 8 | Review and consent | Summary with a Change link per group; channel choice (WhatsApp or email) asks only for that channel's detail; first name optional; "Who sees what" before anything is sent; required-processing notice plus separate, unticked marketing boxes per channel; consent recorded with purpose, channel, wording version and time. The button names the channel: "Continue with WhatsApp". | Brief A4, §17, §19. |
+| 9 | Analytics | Brief §21 events pushed to `window.dataLayer` through an allow-list: codes and counts only. Values with spaces, @ or long digit runs are refused. Homepage buttons add `?from=hero` etc., so starts are attributed without changing where they lead. | Brief §21, §24 "Analytics privacy", "Start from hero & final CTA". |
+| 10 | Without JavaScript | The start screen still explains everything; a notice says the questions need JavaScript and links to contact; the Begin button is hidden rather than dead. | Answers live in the browser until a backend exists; an honest fallback beats a broken form. |
+| 11 | After submit | `/assessment/continue` is a stub until Part 5 designs the WhatsApp/email handoff. Going Back to a step after sending shows a notice instead of the form, without trapping Back. | Brief §20 states: nothing is editable after "submitted". |
+
+Fixed along the way: the skip link now targets the visible `main` (Next 16 keeps recent pages in the DOM, hidden, each with its own `#main`); smooth scrolling is limited to marketing and docs pages and turned off during page changes (`data-scroll-behavior`); clicking the drawn checkbox square now ticks it (it used to swallow the click).
+
 ## Open business questions (brief §25)
 
 These must be answered before the relevant part is finalised. They don't
 block Parts 1–2.
 
-- Exact assessment topics, fields and qualification logic (blocks Part 4).
+- Exact assessment topics, fields and qualification logic (Part 4 runs on placeholders until then).
+- Which hard stops are real policy, and their wording (Part 4).
+- How long answers may be kept in the browser, and whether a saved draft may be resumed later (Part 4).
 - Are results instant, manually reviewed, or both? What can safely be shown? (blocks Part 6)
 - What "right profile" means operationally: hard gates, CRM fit rubric (Parts 4, 6).
 - WhatsApp and email: alternatives, sequential or simultaneous? Which WhatsApp account/provider? What consent wording? (Part 5)
