@@ -44,7 +44,6 @@ export function BookingScreen() {
   const [summary, setSummary] = useState<SummaryError[]>([]);
   const [attempt, setAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
-  const [taken, setTaken] = useState(false);
 
   const kind = record?.result?.kind;
   const allowed = kind === "fit" || kind === "review";
@@ -85,7 +84,6 @@ export function BookingScreen() {
       if (message) found.phone = message;
     }
     if (!slot) found.slot = "Choose a time for your call";
-    setTaken(false);
     setErrors(found);
     setSummary(
       Object.entries(found).map(([field, message]) => ({ fieldId: fieldIds[field as Field], message: message! })),
@@ -107,8 +105,8 @@ export function BookingScreen() {
       if (error instanceof ServiceError && error.code === "taken") {
         track("booking_failed", { reason_code: "taken" });
         setSlot(null);
-        setTaken(true);
-        const message = "That time has just been taken. Choose another time.";
+        const message =
+          "That time has just been taken by someone else. Choose another time; your other choices are kept.";
         setErrors({ slot: message });
         setSummary([{ fieldId: fieldIds.slot, message }]);
         setAttempt((n) => n + 1);
@@ -207,14 +205,6 @@ export function BookingScreen() {
                 />
               </div>
             </section>
-
-            <div role="alert" className={styles.live}>
-              {taken ? (
-                <Notice tone="warning" title="That time has just been taken">
-                  Someone booked it while you were choosing. Your other choices are kept; pick another time.
-                </Notice>
-              ) : null}
-            </div>
 
             <p className={styles.muted}>
               <Icon name="info" size={20} />

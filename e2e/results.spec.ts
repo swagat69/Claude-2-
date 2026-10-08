@@ -244,7 +244,7 @@ test("booking: missing choices are explained, a taken slot is rechecked, then it
   const start = await first.getAttribute("value");
   await first.check();
   await button(page, "Confirm this time").click();
-  await expect(page.getByRole("alert", { name: "There is a problem" })).toContainText("That time has just been taken");
+  await expect(page.getByRole("alert", { name: "There is a problem" })).toContainText("That time has just been taken by someone else");
   await expect(page.locator(`input[name=slot][value="${start}"]`)).toBeDisabled();
   // The other choices are kept.
   await expect(page.getByRole("radio", { name: /^Phone call/ })).toBeChecked();
