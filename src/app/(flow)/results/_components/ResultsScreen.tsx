@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/form/Choices";
 import { Icon } from "@/components/icon/Icon";
 import { business } from "@/config/business";
 import { help } from "@/config/help";
+import { media } from "@/config/media";
 import { RouteCard } from "@/components/result/RouteCard";
 import { ReviewSummary } from "@/components/review/ReviewSummary";
 import { StatusCard } from "@/components/status/StatusCard";
@@ -36,6 +37,7 @@ export const callDetails = {
   duration: `About ${business.call.minutes} minutes, free`,
   format: `Phone, or video on ${business.call.videoTool}`,
   agenda: ["Check what you need", "Walk through the routes that may fit", "Agree next steps, if any"],
+  photo: { asset: media.specialistPhoto, needed: "A real headshot of the DFX loan specialist who takes calls" },
 };
 
 /** Shared by the results, booking and confirmation pages: who is signed in through a link, and their assessment. */
@@ -313,6 +315,7 @@ function Fit({ record }: { record: ServerRecord }) {
         ) : (
           <AdvisorPanel
             who={callDetails.who}
+            photo={callDetails.photo}
             title="Want to walk through your options?"
             body="In a short call, we’ll review your needs and answer your questions. There’s no obligation."
             duration={callDetails.duration}

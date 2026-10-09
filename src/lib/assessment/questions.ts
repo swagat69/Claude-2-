@@ -127,7 +127,7 @@ export const goalOptions: Option[] = [
     value: "education",
     label: "Education loan",
     description: "Course fees for you or someone in your family.",
-    icon: "document",
+    icon: "graduation",
   },
   {
     value: "not-sure",

@@ -62,6 +62,11 @@
   color: var(--palette-ink);
 }
 
+/* A thin lime ring ties the photo to the panel's accent. */
+.photo {
+  box-shadow: 0 0 0 2px var(--palette-lime);
+}
+
 .body {
   color: var(--color-text-inverse-secondary);
 }

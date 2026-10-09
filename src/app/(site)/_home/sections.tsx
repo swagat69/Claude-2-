@@ -1,11 +1,17 @@
+import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { ButtonLink } from "@/components/button/Button";
 import { CategoryTile, type TileTheme } from "@/components/category/CategoryTile";
+import type { PictogramName } from "@/components/category/Pictogram";
 import { AmbientOrb } from "@/components/decor/AmbientOrb";
 import { Faq, type FaqItem } from "@/components/faq/Faq";
 import { Icon, type IconName } from "@/components/icon/Icon";
 import { Reveal } from "@/components/motion/Reveal";
+import { Photo } from "@/components/photo/Photo";
+import { Placeholder } from "@/components/placeholder/Placeholder";
 import { DisplayText } from "@/components/type/DisplayText";
+import { business } from "@/config/business";
+import { media } from "@/config/media";
 import { startHref } from "@/config/site";
 import styles from "./home.module.css";
 
@@ -60,7 +66,40 @@ export function TrustStrip() {
           </Reveal>
         ))}
       </ul>
+      <LenderLogos />
     </section>
+  );
+}
+
+/** Logos of lenders DFX may name; labelled empty spaces until then (src/config/media.ts). */
+function LenderLogos() {
+  const logos = media.lenderLogos;
+  return (
+    <div className={`container ${styles.lenders}`}>
+      <p className={styles.lendersTitle}>
+        Banks and financial institutions we work with
+        {logos.length ? null : <Placeholder note="Logos of lenders DFX has written permission to name" />}
+      </p>
+      <ul className={styles.lenderList}>
+        {logos.length
+          ? logos.map((logo) => (
+              <li key={logo.name}>
+                <Image
+                  src={logo.src}
+                  alt={logo.name}
+                  width={logo.width}
+                  height={logo.height}
+                  className={styles.lenderLogo}
+                />
+              </li>
+            ))
+          : Array.from({ length: media.lenderLogoSlots }, (_, i) => (
+              <li key={i} className={styles.lenderSlot}>
+                Lender logo
+              </li>
+            ))}
+      </ul>
+    </div>
   );
 }
 
@@ -115,45 +154,45 @@ export function HowItWorks() {
 
 /* H0.5 ---------------------------------------------------------------------- */
 
-const tiles: { theme: TileTheme; icon: IconName; title: string; text: string; goal: string }[] = [
+const tiles: { theme: TileTheme; pictogram: PictogramName; title: string; text: string; goal: string }[] = [
   {
     theme: "green",
-    icon: "wallet",
+    pictogram: "personal",
     title: "Personal loan",
     text: "For everyday costs, travel or a big purchase.",
     goal: "personal",
   },
   {
     theme: "orange",
-    icon: "layers",
+    pictogram: "consolidation",
     title: "Debt consolidation",
     text: "Bring several debts into one monthly repayment.",
     goal: "consolidation",
   },
   {
     theme: "lime",
-    icon: "home",
+    pictogram: "renovation",
     title: "Home renovation",
     text: "For works on a home you own or rent.",
     goal: "renovation",
   },
   {
     theme: "blue",
-    icon: "briefcase",
+    pictogram: "business",
     title: "Business loan",
     text: "Working capital or equipment for your business.",
     goal: "business",
   },
   {
     theme: "peach",
-    icon: "document",
+    pictogram: "education",
     title: "Education loan",
     text: "Course fees for you or someone in your family.",
     goal: "education",
   },
   {
     theme: "sage",
-    icon: "help",
+    pictogram: "not-sure",
     title: "Not sure yet",
     text: "Answer a few questions and we’ll suggest where to start.",
     goal: "not-sure",
@@ -172,7 +211,7 @@ export function WhoItsFor() {
             <Reveal key={tile.goal} index={i % 3} amount={0.2} className={styles.tileCell}>
               <CategoryTile
                 theme={tile.theme}
-                icon={tile.icon}
+                pictogram={tile.pictogram}
                 title={tile.title}
                 text={tile.text}
                 href={startHref("tile", tile.goal)}
@@ -241,28 +280,39 @@ export function Expectations() {
 
 /* H0.8 ---------------------------------------------------------------------- */
 
+/** A real photo of the team, or a labelled space for one (brief H0.8: authentic people only). */
 export function Support() {
   return (
-    <section className={styles.section} aria-labelledby="support-title">
+    <section className={`${styles.section} ${styles.supportSection}`} aria-labelledby="support-title">
       <div className={`container ${styles.supportGrid}`}>
-        <div className={styles.supportArt} aria-hidden="true">
-          <span className={styles.shapeMessage}>
-            <span />
-            <span />
-            <span />
-          </span>
-          <span className={styles.shapeTicket}>
-            <Icon name="phone" size={32} />
-          </span>
-          <span className={styles.shapeCircle} />
-          <span className={styles.shapeTile}>
-            <Icon name="message" size={32} />
-          </span>
+        <figure className={styles.supportFigure}>
+          <div className={styles.supportGlow} aria-hidden="true">
+            <AmbientOrb color="amber" size={380} depth={0} className={styles.supportOrbAmber} />
+            <AmbientOrb color="green" size={340} depth={0} className={styles.supportOrbGreen} />
+          </div>
+          <Reveal className={styles.supportPhoto} variant="fade" amount={0.3}>
+            <Photo
+              asset={media.supportPhoto}
+              needed="A real photo of DFX’s loan specialists, ideally the people who take the calls"
+              label="Team photo"
+              sizes="(min-width: 1024px) 440px, 90vw"
+            />
+          </Reveal>
+          <Reveal className={styles.callTicket} variant="fade" index={2} amount={0.5}>
+            <span className={styles.callTicketIcon} aria-hidden="true">
+              <Icon name="phone" size={20} />
+            </span>
+            <span>
+              <strong>Free {business.call.minutes}-minute call</strong>
+              <span>Phone or {business.call.videoTool}</span>
+            </span>
+          </Reveal>
           <Reveal className={styles.annotation} variant="fade" index={3} amount={0.5}>
             <Icon name="clock" size={20} />
-            Replies within one working day
+            Replies {business.support.replyTime}
           </Reveal>
-        </div>
+          <figcaption className={styles.supportCaption}>{business.support.team}</figcaption>
+        </figure>
         <div>
           <SectionHead id="support-title" eyebrow="Real support" title="Talk to a person when you want to.">
             Our team can walk you through your result by phone or video, or answer questions on WhatsApp or email.
@@ -270,15 +320,15 @@ export function Support() {
           <ul className={styles.supportList}>
             <li>
               <Icon name="clock" />
-              <span>Monday to Friday, 9am to 6pm Singapore time, except public holidays</span>
+              <span>{business.support.hours}</span>
             </li>
             <li>
               <Icon name="message" />
-              <span>WhatsApp and email</span>
+              <span>{business.support.channels}</span>
             </li>
             <li>
               <Icon name="user" />
-              <span>Loan specialists based in Singapore</span>
+              <span>{business.support.team}</span>
             </li>
           </ul>
           <ButtonLink href="/contact" variant="secondary" iconEnd="arrow-right">
@@ -291,6 +341,12 @@ export function Support() {
 }
 
 /* H0.9 ---------------------------------------------------------------------- */
+
+const finalTickets: { title: string; text: string; icon: IconName }[] = [
+  { title: "Your goals", text: "A few short questions", icon: "check" },
+  { title: "Your result", text: "Routes that may fit, and why", icon: "route" },
+  { title: "A call", text: `Only if you want one, free`, icon: "phone" },
+];
 
 export function FinalCta() {
   return (
@@ -316,6 +372,18 @@ export function FinalCta() {
                 Read how it works
               </a>
             </div>
+          </div>
+          <div className={styles.finalTickets} aria-hidden="true">
+            {finalTickets.map((ticket, i) => (
+              <div key={ticket.title} className={styles.finalTicket}>
+                <span className={styles.finalTicketNum}>{String(i + 1).padStart(2, "0")}</span>
+                <span>
+                  <strong>{ticket.title}</strong>
+                  {ticket.text}
+                </span>
+                <Icon name={ticket.icon} size={20} />
+              </div>
+            ))}
           </div>
         </Reveal>
       </div>

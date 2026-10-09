@@ -433,8 +433,7 @@
   background:
     radial-gradient(circle at 20% 20%, rgba(240, 107, 168, 0.36), transparent 60%),
     radial-gradient(circle at 80% 50%, rgba(255, 154, 61, 0.36), transparent 60%),
-    radial-gradient(circle at 40% 90%, rgba(76, 194, 111, 0.36), transparent 60%),
-    var(--color-surface-base);
+    radial-gradient(circle at 40% 90%, rgba(76, 194, 111, 0.36), transparent 60%), var(--color-surface-base);
 }
 
 .balanceAccent {
@@ -837,7 +836,7 @@
 .grain {
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: var(--texture-grain);
   opacity: var(--glow-noise-opacity);
   pointer-events: none;
 }

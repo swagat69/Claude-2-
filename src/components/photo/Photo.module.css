@@ -1,0 +1,78 @@
+.photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.portrait {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder: warm studio backdrop in the brand's peach and sage, with grain. */
+.empty {
+  background:
+    radial-gradient(120% 80% at 18% 0%, rgba(255, 255, 255, 0.5), transparent 60%),
+    linear-gradient(
+      168deg,
+      var(--palette-peach) 0%,
+      color-mix(in oklab, var(--palette-peach) 55%, var(--palette-sage)) 62%,
+      color-mix(in oklab, var(--palette-peach) 30%, var(--palette-sage)) 100%
+    );
+}
+
+.empty::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--texture-grain);
+  opacity: calc(var(--glow-noise-opacity) * 2);
+  pointer-events: none;
+}
+
+.silhouette {
+  position: absolute;
+  inset: 12% 0 0;
+  width: 100%;
+  height: 88%;
+  fill: color-mix(in oklab, var(--palette-ink) 16%, transparent);
+}
+
+.avatar .silhouette {
+  inset: 18% 0 0;
+  height: 82%;
+}
+
+.label {
+  position: absolute;
+  z-index: 1;
+  top: var(--space-4);
+  left: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--palette-white) 88%, transparent);
+  color: var(--palette-ink);
+  font-size: var(--type-meta-size);
+  font-weight: 600;
+}
+
+@media (forced-colors: active) {
+  .empty {
+    border: 1px dashed CanvasText;
+  }
+}

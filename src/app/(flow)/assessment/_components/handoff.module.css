@@ -79,15 +79,50 @@
   background: var(--color-surface-sunken);
 }
 
-.appIcon {
+.profile {
+  position: relative;
   display: grid;
   flex: none;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-pill);
-  background: var(--color-action-primary-bg);
-  color: var(--palette-lime);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--palette-forest);
+}
+
+/* The wordmark as a profile picture: white letters, lime signal. */
+.profileMark {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 1px;
+  color: var(--palette-white);
+  font-family: var(--font-family-display);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.profileMark::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: var(--palette-lime);
+}
+
+/* WhatsApp's own green, as its brand rules ask. */
+.whatsappBadge {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--color-surface-sunken);
+  border-radius: 50%;
+  background: #25d366;
+  color: var(--palette-white);
 }
 
 .accountName {

@@ -151,6 +151,18 @@ The info pages are now real: privacy notice (written to the PDPA obligations),
 terms of use, contact and an accessibility statement. Privacy and terms carry
 one Placeholder each: review by a Singapore lawyer before launch.
 
+## Visual pass: proposed (owner asked to work on visuals, with placeholders for missing data, 9 Oct 2026)
+
+| # | Topic | Proposal | Reason |
+| --- | --- | --- | --- |
+| 1 | Photos of people | Real-photo slots, not illustrations: a 4:5 team photo in the homepage support section (square on phones) and a headshot beside the call invitation on results. Until DFX supplies them, each shows a labelled placeholder at its final size (peach and sage backdrop, a plain head-and-shoulders outline, a Placeholder tag). Files go in `/public/media` and are named in `src/config/media.ts`. | Brief H0.8 and §11: "a single human support image can do more trust work than a gallery"; never stock or generated people. Same size now means nothing moves when the photo arrives. |
+| 2 | Lender logos | A quiet strip under the proof points, "Banks and financial institutions we work with", with five dashed placeholder spaces. Real logos show in greyscale, and only those DFX has written permission to use. | Brief H0.3: partner logos only if authorised. |
+| 3 | Loan-type tiles | Filled geometric pictograms (wallet, merging debts, house, briefcase, mortarboard, compass) drawn in each tile's text colour, with cut-outs in the tile colour; a 3 by 2 grid on desktop (no orphan row); a graduation-cap icon for education in the assessment too. | Brief §12: "occasional filled pictograms for high-chroma tiles"; image 4. Drawing in the text colour keeps every tile's checked contrast. |
+| 4 | Hero | The glow now fades out before the hero ends (the green orb used to stop at a hard line), with a 2.5% grain over the artwork side only; "Illustrative preview" sits under the cards. | Brief §11: smooth falloff, grain on the hero illustration, never over small text. |
+| 5 | Final call to action | A decorative stack of three tickets (your goals, your result, a call if you want one) fills the empty half of the forest panel from 1180px; hidden from assistive tech and on smaller screens. | Brief §11: the ticket idea belongs in timeline milestones; balances the panel without a second button. |
+| 6 | Icons and share image | Favicon, app icon and Apple touch icon from the text wordmark (white on forest, lime signal); a 1200 by 630 share image echoing the hero. Rendered with the site's fonts by `scripts/render-brand.mjs`; rerun it when a real logo arrives. Set `SITE_URL` once the domain exists, so share links use it. | The site had no favicon or share preview; links shared on WhatsApp would show a blank card. |
+| 7 | WhatsApp screen | The account row shows DFX's profile picture with the WhatsApp mark, in WhatsApp's own green. | Brief W1: "verification panel with WhatsApp icon"; Meta's brand rules allow the mark to show a WhatsApp action, unmodified. |
+
 ## Still needed from DFX
 
 Only DFX can supply these. Each is a Placeholder tag on the site.
@@ -160,5 +172,8 @@ Only DFX can supply these. Each is a Placeholder tag on the site.
 - Email domain and sending address (contact page, email handoff).
 - Data Protection Officer contact (privacy notice, contact page).
 - A Singapore lawyer's review of the privacy notice, terms and the regulatory line.
-- A Vercel account, if you'd like a live preview link.
-- Later: lending partners' own criteria (to replace the indicative rules), names or photos of the people who take calls, and any lender logos or customer quotes you have permission to use.
+- A Vercel account, if you'd like a live preview link, and the domain (set as `SITE_URL`).
+- Photos: a team photo for the homepage and a headshot of the person who takes calls (`src/config/media.ts`).
+- Lender logos you have written permission to use.
+- A logo, if one is commissioned (the icons regenerate from it with `node scripts/render-brand.mjs`).
+- Later: lending partners' own criteria (to replace the indicative rules), and any customer quotes you have permission to use.

@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icon/Icon";
+import { Photo } from "@/components/photo/Photo";
+import { Placeholder } from "@/components/placeholder/Placeholder";
+import type { PhotoAsset } from "@/config/media";
 import styles from "./AdvisorPanel.module.css";
 
 interface AdvisorPanelProps {
@@ -7,6 +10,8 @@ interface AdvisorPanelProps {
   body: ReactNode;
   /** A real role, e.g. "A DFX loan specialist". A name and photo only when they are genuine. */
   who: string;
+  /** Their real headshot; null holds a labelled space for it. Leave out for a plain icon. */
+  photo?: { asset: PhotoAsset | null; needed: string };
   duration: string;
   format: string;
   /** What the call covers, so the commitment is clear before booking (brief C1). */
@@ -27,14 +32,31 @@ function Meta({ icon, children }: { icon: IconName; children: ReactNode }) {
 }
 
 /** Call invitation shown after the result has been explained (brief §10 C1, family 12). */
-export function AdvisorPanel({ title, body, who, duration, format, agenda, action, decline }: AdvisorPanelProps) {
+export function AdvisorPanel({
+  title,
+  body,
+  who,
+  photo,
+  duration,
+  format,
+  agenda,
+  action,
+  decline,
+}: AdvisorPanelProps) {
   return (
     <aside className={styles.panel} data-surface="inverse" aria-label="Talk to our team">
       <div className={styles.who}>
-        <span className={styles.avatar} aria-hidden="true">
-          <Icon name="user" />
-        </span>
-        <p>{who}</p>
+        {photo ? (
+          <Photo asset={photo.asset} needed={photo.needed} variant="avatar" size={48} className={styles.photo} />
+        ) : (
+          <span className={styles.avatar} aria-hidden="true">
+            <Icon name="user" />
+          </span>
+        )}
+        <p>
+          {who}
+          {photo && !photo.asset ? <Placeholder note={photo.needed} /> : null}
+        </p>
       </div>
       <h2 className={`type-h2 ${styles.title}`}>{title}</h2>
       <p className={styles.body}>{body}</p>

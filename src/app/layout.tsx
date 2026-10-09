@@ -16,12 +16,25 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const description = "Check your loan options in a few short questions, then decide whether to speak with the DFX team.";
+
 export const metadata: Metadata = {
+  // The live domain is DFX's to choose: set SITE_URL once it exists. Until then Next uses the deployment's own URL.
+  metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : undefined,
   title: {
     default: "DFX",
     template: "%s · DFX",
   },
-  description: "Check your loan options in a few short questions, then decide whether to speak with the DFX team.",
+  description,
+  // Icons and share images come from the files in this folder (scripts/render-brand.mjs).
+  openGraph: {
+    siteName: "DFX",
+    title: "DFX · Find the loan route that fits you",
+    description,
+    locale: "en_SG",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {

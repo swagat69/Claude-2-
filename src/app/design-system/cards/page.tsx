@@ -54,7 +54,10 @@ function PersonalLoanCard() {
       }
       details={
         <>
-          <p>A fixed amount repaid in equal monthly instalments. The lender sets the rate after looking at your application.</p>
+          <p>
+            A fixed amount repaid in equal monthly instalments. The lender sets the rate after looking at your
+            application.
+          </p>
           <p>Placeholder: approved explanation of fees and early-repayment terms.</p>
         </>
       }
@@ -201,16 +204,52 @@ export default function CardsPage() {
             intro="Who DFX is for, as ticket tiles from image 4. The whole tile is the target; the title is the link."
           >
             <div className={styles.tiles}>
-              <CategoryTile theme="green" icon="wallet" title="Personal loan" text="For everyday costs, travel or a big purchase." href="#tiles" />
-              <CategoryTile theme="orange" icon="layers" title="Debt consolidation" text="Bring several debts into one monthly repayment." href="#tiles" />
-              <CategoryTile theme="lime" icon="home" title="Home renovation" text="For works on a home you own or rent." href="#tiles" />
-              <CategoryTile theme="blue" icon="briefcase" title="Business loan" text="Working capital or equipment for your business." href="#tiles" />
-              <CategoryTile theme="sage" icon="help" title="Not sure yet" text="Answer a few questions and we’ll suggest where to start." href="#tiles" />
-              <CategoryTile theme="forest" icon="route" title="Compare routes" text="See how the main loan types differ before you start." href="#tiles" />
+              <CategoryTile
+                theme="green"
+                pictogram="personal"
+                title="Personal loan"
+                text="For everyday costs, travel or a big purchase."
+                href="#tiles"
+              />
+              <CategoryTile
+                theme="orange"
+                pictogram="consolidation"
+                title="Debt consolidation"
+                text="Bring several debts into one monthly repayment."
+                href="#tiles"
+              />
+              <CategoryTile
+                theme="lime"
+                pictogram="renovation"
+                title="Home renovation"
+                text="For works on a home you own or rent."
+                href="#tiles"
+              />
+              <CategoryTile
+                theme="blue"
+                pictogram="business"
+                title="Business loan"
+                text="Working capital or equipment for your business."
+                href="#tiles"
+              />
+              <CategoryTile
+                theme="sage"
+                pictogram="not-sure"
+                title="Not sure yet"
+                text="Answer a few questions and we’ll suggest where to start."
+                href="#tiles"
+              />
+              <CategoryTile
+                theme="forest"
+                pictogram="routes"
+                title="Compare routes"
+                text="See how the main loan types differ before you start."
+                href="#tiles"
+              />
             </div>
             <Spec
               test="Text contrast checked on every fill; focus ring visible outside the ticket cut; no hover-only content."
-              a11y="One link per tile (its title) with a stretched hit area; the icon and “Explore” label are decorative."
+              a11y="One link per tile (its title) with a stretched hit area; the pictogram and “Explore” label are decorative. Pictograms are filled shapes in the tile’s text colour, with cut-outs in the tile colour."
               figma="Tile / theme=orange / state=focus"
             />
           </Section>
@@ -278,7 +317,10 @@ export default function CardsPage() {
               <div className={styles.results}>
                 <div className={styles.resultsMain}>
                   <StatusCard status="fit" title="Here are the options worth exploring.">
-                    <p>Based on your answers, two routes may fit. Nothing is approved yet: lenders make the final decision.</p>
+                    <p>
+                      Based on your answers, two routes may fit. Nothing is approved yet: lenders make the final
+                      decision.
+                    </p>
                   </StatusCard>
                   <PersonalLoanCard />
                   <ConsolidationCard />

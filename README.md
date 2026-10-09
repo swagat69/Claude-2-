@@ -80,9 +80,10 @@ src/
                            progress, question, review, feedback (notice, toast, empty
                            state), overlay (dialog/sheet), status, help (info tip), faq,
                            result (route card), advisor, booking (slot picker),
-                           category (ticket tile), decor (ambient orb), nav (header,
+                           category (ticket tile, pictograms), photo (real photo or placeholder), decor (ambient orb), nav (header,
                            back link), icon, brand
-  config/                  business facts and policies, independent help services
+  config/                  business facts and policies, independent help services, photo and
+                           logo slots (media.ts)
   design/                  tokens, generators and the contrast audit
   lib/format.ts            Singapore phone, S$ amount and email formatting and validation
   lib/time.ts              booking times: Singapore time by default, any zone, DST-safe
@@ -94,11 +95,13 @@ src/
   styles/tokens.css        generated
 e2e/                       Playwright + axe browser tests
 scripts/build-tokens.ts    writes the generated token files
+scripts/render-brand.mjs   renders the favicon, app icons and share image from scripts/brand/
 docs/decisions.md          decision log, sources, and what DFX still needs to supply
 ```
 
 Facts only DFX can supply (legal entity and UEN, WhatsApp number, email
-address, Data Protection Officer contact) and the pending legal review are wrapped in
+address, Data Protection Officer contact, team photos, lender logos) and the
+pending legal review are wrapped in
 `<Placeholder>`: it renders a visible "Placeholder" tag and a
 `data-placeholder` attribute. Before launch, `grep -rn "<Placeholder" src`
 must return nothing.

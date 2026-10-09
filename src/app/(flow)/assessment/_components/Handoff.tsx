@@ -9,6 +9,7 @@ import { Notice } from "@/components/feedback/Notice";
 import { EmailField } from "@/components/form/SpecialFields";
 import { Icon } from "@/components/icon/Icon";
 import { Placeholder } from "@/components/placeholder/Placeholder";
+import { WhatsAppMark } from "@/components/brand/WhatsAppMark";
 import { track } from "@/lib/assessment/analytics.ts";
 import { draftStore } from "@/lib/assessment/draft.ts";
 import { firstIncompleteStep, type Channel } from "@/lib/assessment/flow.ts";
@@ -172,8 +173,12 @@ function WhatsAppHandoff({ record, onSwitch }: { record: ServerRecord; onSwitch:
       </p>
 
       <div className={styles.account}>
-        <span className={styles.appIcon} aria-hidden="true">
-          <Icon name="message" />
+        {/* The account's profile picture (DFX's icon) with the WhatsApp mark, as people will see it in the app. */}
+        <span className={styles.profile} aria-hidden="true">
+          <span className={styles.profileMark}>DFX</span>
+          <span className={styles.whatsappBadge}>
+            <WhatsAppMark size={14} />
+          </span>
         </span>
         <div>
           <p className={styles.accountName}>
