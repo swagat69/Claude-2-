@@ -1,30 +1,29 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icon/Icon";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import type { GateReason } from "@/lib/assessment/questions.ts";
 import styles from "./assessment.module.css";
 
 /**
  * Hard-stop wording (brief §8): states the policy plainly, never "you
- * failed", and always leaves a way to correct a mistaken answer.
- * PLACEHOLDER: the policies themselves need product and legal approval.
+ * failed", and always leaves a way to correct a mistaken answer. The rules
+ * match what Singapore banks require (docs/decisions.md).
  */
 export const gateCopy: Record<GateReason, { inline: string; title: string; body: string }> = {
   residency: {
     inline: "We can only help people who live in Singapore at the moment.",
     title: "We can only help people living in Singapore",
-    body: "The lenders we work with can only lend to people who live in Singapore, so we can’t suggest a route for you right now.",
+    body: "The banks and financial institutions we work with lend only to people who live in Singapore as citizens, permanent residents or work pass holders, so we can’t suggest a route for you right now.",
   },
   age: {
     inline: "We can only help people aged 21 or over.",
     title: "We can only help people aged 21 or over",
-    body: "The lenders we work with can only lend to people aged 21 or over, so we can’t suggest a route for you right now.",
+    body: "The banks and financial institutions we work with lend only to people aged 21 or over, so we can’t suggest a route for you right now.",
   },
   "business-jurisdiction": {
     inline: "We can only help businesses registered in Singapore at the moment.",
     title: "We can only help businesses registered in Singapore",
-    body: "The lenders we work with can only lend to businesses registered in Singapore, so we can’t suggest a route for this business right now.",
+    body: "The banks and financial institutions we work with lend only to businesses registered in Singapore with a UEN, so we can’t suggest a route for this business right now.",
   },
 };
 
@@ -83,8 +82,8 @@ export function ReviewRail() {
       <ol className={styles.railSteps}>
         <li>You open WhatsApp or get a secure link by email. Your answers stay saved here.</li>
         <li>
-          We check your answers.{" "}
-          <Placeholder note="Whether matching is automated, reviewed by a person, or both, and how long it takes" />
+          We check your answers straight away. If anything needs a closer look, a specialist reviews it within one
+          working day.
         </li>
         <li>You see the routes that may fit, and why.</li>
         <li>You decide whether to talk to us. A call is never required.</li>

@@ -6,7 +6,7 @@ import { Button, ButtonLink } from "@/components/button/Button";
 import { Faq } from "@/components/faq/Faq";
 import { Notice } from "@/components/feedback/Notice";
 import { Icon, type IconName } from "@/components/icon/Icon";
-import { Placeholder } from "@/components/placeholder/Placeholder";
+import { business } from "@/config/business";
 import { safeSource, track } from "@/lib/assessment/analytics.ts";
 import { draftStore, type Draft } from "@/lib/assessment/draft.ts";
 import { firstIncompleteStep } from "@/lib/assessment/flow.ts";
@@ -22,13 +22,12 @@ const stages = [
   { name: "Review", text: "Check every answer, then choose WhatsApp or email." },
 ];
 
-const goodToKnow: { icon: IconName; title: string; text: string; placeholder?: string }[] = [
+const goodToKnow: { icon: IconName; title: string; text: string }[] = [
   { icon: "lock", title: "No account needed", text: "Your answers stay in this browser tab until you send them." },
   {
     icon: "shield",
     title: "No credit check here",
-    text: "Answering these questions doesn’t involve a credit check. A lender may run one if you apply with them.",
-    placeholder: "Credit-check wording confirmed by legal",
+    text: "Answering these questions doesn’t involve a credit check. If you later apply, the lender will check your credit report.",
   },
   {
     icon: "route",
@@ -154,9 +153,7 @@ export function StartScreen({ goal, from }: { goal: string | null; from: string 
               </span>
               <span>
                 <strong>{item.title}</strong>
-                <span className={styles.stageText}>
-                  {item.text} {item.placeholder ? <Placeholder note={item.placeholder} /> : null}
-                </span>
+                <span className={styles.stageText}>{item.text}</span>
               </span>
             </li>
           ))}
@@ -170,9 +167,8 @@ export function StartScreen({ goal, from }: { goal: string | null; from: string 
                 <>
                   <p>No one, until you send them on the last step. Then only the DFX team, to prepare your result.</p>
                   <p>
-                    <Placeholder note="Whether and when details are shared with lenders">
-                      We’ll ask you before sharing anything with a lender.
-                    </Placeholder>
+                    We never pass your details to a lender unless you agree, for that lender. Your answers are deleted{" "}
+                    {business.retentionDays} days after your last activity, unless you go ahead with a lender.
                   </p>
                 </>
               ),
@@ -182,8 +178,8 @@ export function StartScreen({ goal, from }: { goal: string | null; from: string 
               answer: (
                 <p>
                   Your answers are kept in this browser tab, so you can go back or refresh without losing them. They’re
-                  cleared when you close the tab, or after an hour without changes.{" "}
-                  <Placeholder note="Save-and-resume policy and expiry, confirmed by product and legal" />
+                  cleared when you close the tab, or after an hour without changes, so no one else using this device can
+                  see them. Once you’ve sent them, the link we send you brings you back to your result.
                 </p>
               ),
             },

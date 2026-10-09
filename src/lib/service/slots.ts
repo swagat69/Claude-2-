@@ -1,12 +1,39 @@
 /**
  * PLACEHOLDER availability. Real slots come from the scheduler and are
  * checked again at confirm time (brief §20). This generates the next five
- * Singapore working days from `now`, at fixed Singapore times, with some
- * already taken, so the booking screen behaves like the real thing.
- * Public holidays are not excluded yet.
+ * Singapore working days from `now`, skipping public holidays, at fixed
+ * Singapore times (calls start 9:00 to 17:30, within 9am to 6pm working
+ * hours), with some already taken, so the booking screen behaves like the
+ * real thing.
  */
 
 import type { Slot } from "../time.ts";
+
+/**
+ * Singapore public holidays on weekdays, including Mondays in lieu (MOM
+ * gazetted lists for 2026 and 2027). Hari Raya dates are subject to
+ * confirmation each year; update this list when MOM publishes the next year.
+ */
+export const SG_PUBLIC_HOLIDAYS = new Set([
+  "2026-01-01",
+  "2026-02-17",
+  "2026-02-18",
+  "2026-04-03",
+  "2026-05-01",
+  "2026-05-27",
+  "2026-06-01",
+  "2026-08-10",
+  "2026-11-09",
+  "2026-12-25",
+  "2027-01-01",
+  "2027-02-08",
+  "2027-03-10",
+  "2027-03-26",
+  "2027-05-17",
+  "2027-05-20",
+  "2027-08-09",
+  "2027-10-28",
+]);
 
 /** Singapore has no daylight saving: always UTC+8. */
 const SGT_OFFSET_HOURS = 8;
@@ -33,6 +60,7 @@ export function availableSlots(now: Date, days = 5): Slot[] {
     const date = new Date(Date.UTC(year, month, day + offset));
     const weekday = date.getUTCDay();
     if (weekday === 0 || weekday === 6) continue;
+    if (SG_PUBLIC_HOLIDAYS.has(date.toISOString().slice(0, 10))) continue;
     found++;
     for (const time of TIMES_SGT) {
       const [hours, minutes] = time.split(":").map(Number);

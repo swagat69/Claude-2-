@@ -8,7 +8,7 @@ import { ConsentGroup } from "@/components/form/ConsentGroup";
 import { EmailField, PhoneField } from "@/components/form/SpecialFields";
 import { TextField } from "@/components/form/TextField";
 import { Icon, type IconName } from "@/components/icon/Icon";
-import { Placeholder } from "@/components/placeholder/Placeholder";
+import { business } from "@/config/business";
 import { QuestionHeading } from "@/components/question/QuestionHeading";
 import { ReviewSummary } from "@/components/review/ReviewSummary";
 import { track } from "@/lib/assessment/analytics.ts";
@@ -251,8 +251,10 @@ export function ReviewStep() {
           privacyHref="/privacy"
           processing={
             <>
-              We use your answers and contact details to prepare your result and, if you ask for one, a call.{" "}
-              <Placeholder note="Required processing notice, approved by legal for Singapore (PDPA)" />
+              By continuing, you agree that DFX uses your answers and contact details to prepare your result, contact
+              you about it through the channel you chose and, if you book one, arrange a call. We keep them for{" "}
+              {business.retentionDays} days after your last activity, and never pass them to a lender without your
+              agreement.
             </>
           }
           marketing={[
@@ -286,7 +288,7 @@ function SharingPreview({ channel }: { channel?: Channel }) {
     {
       icon: "user",
       who: "The DFX team",
-      what: "Your answers and contact details, to prepare your result and any call.",
+      what: `Your answers and contact details, kept in our customer system (${business.processors.crm}), to prepare your result and any call.`,
       show: true,
     },
     {
@@ -297,14 +299,20 @@ function SharingPreview({ channel }: { channel?: Channel }) {
     },
     {
       icon: "mail",
-      who: "Our email provider",
+      who: `Our email service (${business.processors.email})`,
       what: "Your email address and a secure link. Never your answers.",
       show: channel !== "whatsapp",
     },
     {
       icon: "shield",
       who: "Lenders",
-      what: "Nothing yet. We’ll ask you before sharing anything with a lender.",
+      what: "Nothing, unless you agree on a call or in writing to be introduced to a named lender.",
+      show: true,
+    },
+    {
+      icon: "layers",
+      who: `Site analytics (${business.processors.analytics})`,
+      what: "Which steps are used, as codes and counts. Never your answers or contact details.",
       show: true,
     },
   ];
@@ -314,8 +322,7 @@ function SharingPreview({ channel }: { channel?: Channel }) {
         Who sees what
       </h2>
       <p className={styles.panelLead}>
-        Before anything leaves this site, here’s who receives what.{" "}
-        <Placeholder note="Confirmed data flows: messaging provider, email provider, CRM, and whether and when lenders receive details" />
+        Before anything leaves this site, here’s who receives what. Service providers act only on our instructions.
       </p>
       <dl className={styles.sharing}>
         {rows

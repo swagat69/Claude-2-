@@ -26,13 +26,15 @@ test("the lifecycle allows only brief §20's transitions", () => {
 
 /* Results stub ------------------------------------------------------------------ */
 
-test("the stub results never rank or score, and reasons avoid sensitive answers", () => {
+test("results never rank or score, and reasons avoid sensitive answers", () => {
   const result = stubResult({
     goal: "consolidation",
     debtCount: "3-4",
     residency: "citizen",
     ageBand: "30-39",
+    employment: "employed",
     income: "4k-6k",
+    amount: "20k-50k",
     term: "1-3y",
     priorities: ["monthly"],
   });
@@ -45,8 +47,51 @@ test("the stub results never rank or score, and reasons avoid sensitive answers"
     "You’d like a lower monthly repayment",
     "You’d like to repay over 1 to 3 years",
   ]);
-  const text = JSON.stringify(result);
-  for (const sensitive of ["citizen", "30", "4,000", "income", "%"]) assert.ok(!text.includes(sensitive), sensitive);
+  const reasons = JSON.stringify(result.routes.map((r) => r.reasons));
+  for (const sensitive of ["citizen", "30 to 39", "4,000", "income", "age"])
+    assert.ok(!reasons.includes(sensitive), sensitive);
+  assert.ok(!/score|rank|% match|best/i.test(JSON.stringify(result)));
+});
+
+test("the Debt Consolidation Plan only when it can apply (citizens and PRs, debt above 12x income, income under S$120,000)", () => {
+  const base = {
+    goal: "consolidation",
+    residency: "citizen",
+    ageBand: "30-39",
+    employment: "employed",
+    income: "4k-6k",
+  };
+  const ids = (answers: Record<string, string>) => stubResult(answers).routes.map((r) => r.id);
+  assert.ok(ids({ ...base, amount: "50k-plus" }).includes("consolidation-plan"));
+  assert.ok(
+    !ids({ ...base, residency: "pass-holder", income: "6k-10k", amount: "50k-plus" }).includes("consolidation-plan"),
+  );
+  assert.ok(!ids({ ...base, amount: "5k-20k" }).includes("consolidation-plan"));
+  assert.ok(!ids({ ...base, income: "10k-plus", amount: "50k-plus" }).includes("consolidation-plan"));
+  assert.match(stubResult({ ...base, residency: "pass-holder", amount: "50k-plus" }).note ?? "", /citizens and PRs/);
+});
+
+test("soft rules send people to a specialist instead of stopping them", () => {
+  const base = { goal: "personal", residency: "citizen", ageBand: "30-39", employment: "employed", income: "4k-6k" };
+  assert.equal(stubResult(base).kind, "fit");
+  assert.equal(stubResult({ ...base, ageBand: "65-plus" }).reason, "age-upper");
+  assert.equal(stubResult({ ...base, employment: "retired" }).reason, "income-check");
+  assert.equal(stubResult({ ...base, income: "lt-2k" }).reason, "income-low");
+  assert.equal(stubResult({ ...base, residency: "pass-holder", income: "2k-4k" }).reason, "income-foreigner");
+  assert.equal(
+    stubResult({ goal: "business", businessRegistered: "yes", tradingTime: "lt-6m" }).reason,
+    "trading-young",
+  );
+  // Renting: a personal loan, with the reason the renovation loan isn't shown.
+  const renting = stubResult({ ...base, goal: "renovation", homeOwnership: "rent" });
+  assert.deepEqual(
+    renting.routes.map((r) => r.id),
+    ["personal-instalment"],
+  );
+  assert.match(renting.note ?? "", /homeowners/);
+  for (const result of [stubResult({ ...base, ageBand: "65-plus" }), stubResult({ ...base, employment: "retired" })]) {
+    assert.ok(reasonCopy[result.reason], result.reason);
+  }
 });
 
 test("unclear goals and pending registrations go to a person; every reason has words", () => {
@@ -72,6 +117,12 @@ test("slots are Singapore working days from tomorrow, at Singapore office times"
     ["9:00 am", "10:30 am", "1:00 pm", "2:30 pm", "4:00 pm", "5:30 pm"],
   );
   assert.ok(slots.some((s) => !s.available) && slots.some((s) => s.available));
+  // Public holidays are skipped: National Day is observed on Monday 10 Aug 2026.
+  const august = availableSlots(new Date("2026-08-07T02:00:00Z"));
+  assert.deepEqual(
+    [...new Set(august.map((s) => localDateKey(s.start, SINGAPORE)))],
+    ["2026-08-11", "2026-08-12", "2026-08-13", "2026-08-14", "2026-08-17"],
+  );
   // Stable: the same moment gives the same availability.
   assert.deepEqual(availableSlots(new Date("2026-10-09T15:00:00Z")), slots);
 });
@@ -190,7 +241,7 @@ test("expired links and bounced emails are reported as such", async () => {
   advance(5000);
   assert.equal(service.emailStatus(service.getRecord(draft.id)!), "bounced");
   const { token } = service.outbox().at(-1)!;
-  advance(25 * 60 * 60 * 1000);
+  advance(16 * 60 * 1000);
   await assert.rejects(service.resume(token), (e: ServiceError) => e.code === "expired");
 });
 

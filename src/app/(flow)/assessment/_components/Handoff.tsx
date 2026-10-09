@@ -30,7 +30,7 @@ import { useHeadingFocus } from "@/lib/useHeadingFocus";
 import { PrototypeActions, PrototypeMessage, PrototypePanel, SettingChoice } from "../../_prototype/PrototypePanel";
 import styles from "./handoff.module.css";
 
-const LINK_HOURS = Math.round(LINK_TTL_MS / 3_600_000);
+const LINK_MINUTES = Math.round(LINK_TTL_MS / 60_000);
 
 /**
  * Part 5: the handoff to WhatsApp or email (brief §9 W1, E1). The website
@@ -178,7 +178,7 @@ function WhatsAppHandoff({ record, onSwitch }: { record: ServerRecord; onSwitch:
         <div>
           <p className={styles.accountName}>
             {WHATSAPP_BUSINESS.name}{" "}
-            <Placeholder note="Confirmed WhatsApp Business account name, number and verification" />
+            <Placeholder note="DFX’s WhatsApp Business display name and number, which only DFX can provide" />
           </p>
           <p className={styles.muted}>DFX’s official WhatsApp account</p>
         </div>
@@ -210,7 +210,7 @@ function WhatsAppHandoff({ record, onSwitch }: { record: ServerRecord; onSwitch:
             </p>
             <p>
               Once you send it, we’ll reply in the chat with a secure link to your result. The link works once, for{" "}
-              {LINK_HOURS} hours.
+              {LINK_MINUTES} minutes.
             </p>
           </div>
         ) : null}
@@ -335,7 +335,7 @@ function EmailHandoff({ record, onSwitch }: { record: ServerRecord; onSwitch: ()
             onChange={(e) => setAddress(e.target.value)}
             onBlur={() => address.trim() && setError(validateEmail(address))}
             error={error}
-            hint={`One email with a link to your result. The link works once, for ${LINK_HOURS} hours.`}
+            hint={`One email with a link to your result. The link works once, for ${LINK_MINUTES} minutes.`}
           />
           {suggestion && !error ? (
             <p className={styles.suggestion}>
@@ -438,7 +438,7 @@ function HandoffPrototype({ record }: { record: ServerRecord }) {
           ) : null}
           {latest ? (
             <PrototypeMessage from={WHATSAPP_BUSINESS.name} meta="automatic reply">
-              <p>Thanks! Here’s your secure link. It works once, for {LINK_HOURS} hours:</p>
+              <p>Thanks! Here’s your secure link. It works once, for {LINK_MINUTES} minutes:</p>
               <p>
                 <Link href={`/resume?token=${latest.token}`}>See my result</Link>
               </p>
@@ -462,7 +462,7 @@ function HandoffPrototype({ record }: { record: ServerRecord }) {
               </p>
               <p>
                 Hi{record.contact.firstName ? ` ${record.contact.firstName}` : ""}, here’s your secure link. It works
-                once, for {LINK_HOURS} hours.
+                once, for {LINK_MINUTES} minutes.
               </p>
               <p>
                 <Link href={`/resume?token=${latest.token}`}>See my result</Link>

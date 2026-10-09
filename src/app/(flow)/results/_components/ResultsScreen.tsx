@@ -9,7 +9,8 @@ import { EmptyState } from "@/components/feedback/EmptyState";
 import { Notice } from "@/components/feedback/Notice";
 import { Checkbox } from "@/components/form/Choices";
 import { Icon } from "@/components/icon/Icon";
-import { Placeholder } from "@/components/placeholder/Placeholder";
+import { business } from "@/config/business";
+import { help } from "@/config/help";
 import { RouteCard } from "@/components/result/RouteCard";
 import { ReviewSummary } from "@/components/review/ReviewSummary";
 import { StatusCard } from "@/components/status/StatusCard";
@@ -17,7 +18,7 @@ import { pathVariant, reviewGroups } from "@/lib/assessment/flow.ts";
 import { track } from "@/lib/assessment/analytics.ts";
 import { draftStore } from "@/lib/assessment/draft.ts";
 import { api, reference, type ServerRecord } from "@/lib/service/api.ts";
-import { reasonCopy, type ResultKind } from "@/lib/service/engine.ts";
+import { FACTS_AS_OF, reasonCopy, type ResultKind } from "@/lib/service/engine.ts";
 import { useNow, useRecord, useSession } from "@/lib/service/hooks.ts";
 import { SINGAPORE, formatDay, formatTime } from "@/lib/time.ts";
 import { useHeadingFocus } from "@/lib/useHeadingFocus";
@@ -29,11 +30,11 @@ type View = "pending" | "processing" | "failed" | ResultKind;
 const statusFor: Record<ResultKind, string> = { fit: "result_ready", review: "human_review", "no-match": "no_match" };
 
 export const callDetails = {
-  who: "A DFX loan specialist",
+  who: business.call.who,
   /** The same, mid-sentence. */
-  whoInSentence: "a DFX loan specialist",
-  duration: "About 15 minutes",
-  format: "Phone or video call",
+  whoInSentence: business.call.whoInSentence,
+  duration: `About ${business.call.minutes} minutes, free`,
+  format: `Phone, or video on ${business.call.videoTool}`,
   agenda: ["Check what you need", "Walk through the routes that may fit", "Agree next steps, if any"],
 };
 
@@ -191,8 +192,8 @@ function Processing({ record, now }: { record: ServerRecord; now: number }) {
     <div className={styles.narrow}>
       <StatusCard status="processing" headingLevel={1} title="We’re checking the information you shared." steps={steps}>
         <p>
-          This usually takes a few seconds. You can leave this page: your result will be here when you open your link
-          again. <Placeholder note="How and when people are told a result is ready, if checking takes longer" />
+          This usually takes a few seconds. If a specialist needs to look, we’ll tell you here and on the channel you
+          chose, {business.reviewTime}.
         </p>
       </StatusCard>
       <p role="status" className="visually-hidden">
@@ -256,6 +257,7 @@ function Fit({ record }: { record: ServerRecord }) {
             Based on your answers, {count} may fit. Nothing is approved until a lender decides, and they may run their
             own checks.
           </p>
+          {record.result?.note ? <p>{record.result.note}</p> : null}
         </StatusCard>
 
         <section className={styles.routes} aria-labelledby="routes-title">
@@ -263,8 +265,7 @@ function Fit({ record }: { record: ServerRecord }) {
             Routes that may fit
           </h2>
           <p className={styles.muted}>
-            In no particular order.{" "}
-            <Placeholder note="Example routes from a stand-in engine; real routes, facts and disclosures come from the results engine" />
+            In no particular order. We suggest kinds of loan; the lender you’re introduced to sets the offer.
           </p>
           {routes.map((route, i) => (
             <div key={route.id} ref={i === 0 ? firstRoute : undefined}>
@@ -272,7 +273,7 @@ function Fit({ record }: { record: ServerRecord }) {
                 title={route.title}
                 reasons={route.reasons}
                 facts={route.facts}
-                factsAsOf="Example values for design only"
+                factsAsOf={FACTS_AS_OF}
                 action={
                   <ButtonLink
                     href="/results/book"
@@ -472,8 +473,8 @@ function Review({ record }: { record: ServerRecord }) {
       <div role="status" className={styles.live}>
         {later ? (
           <Notice tone="info" title="Your result is saved">
-            Open your link again whenever you’re ready, or ask for a new one.{" "}
-            <Placeholder note="How long results stay available" />
+            It stays available for {business.retentionDays} days. Open your link again whenever you’re ready, or ask for
+            a new one.
           </Notice>
         ) : null}
       </div>
@@ -486,18 +487,7 @@ function Review({ record }: { record: ServerRecord }) {
 /* R3: no match                                                               */
 /* -------------------------------------------------------------------------- */
 
-const otherHelp = [
-  {
-    name: "MoneySense",
-    text: "Free, impartial guides on borrowing and managing debt, from the Singapore government.",
-    href: "https://www.moneysense.gov.sg/",
-  },
-  {
-    name: "Credit Counselling Singapore",
-    text: "Free, confidential help if repayments are getting hard to manage.",
-    href: "https://www.ccs.org.sg/",
-  },
-];
+const otherHelp = [help.moneySense, help.creditCounselling, help.creditBureau];
 
 function NoMatch({ record }: { record: ServerRecord }) {
   const router = useRouter();
@@ -559,9 +549,6 @@ function NoMatch({ record }: { record: ServerRecord }) {
             <span className={styles.muted}>If you think this result is wrong, tell us why.</span>
           </li>
         </ul>
-        <p className={styles.muted}>
-          <Placeholder note="Approved list of alternative support organisations" />
-        </p>
       </section>
 
       <section className={styles.section} aria-labelledby="notify-title">

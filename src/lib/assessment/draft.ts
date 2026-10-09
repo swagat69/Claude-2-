@@ -7,14 +7,15 @@
  * sent anywhere until the review step is submitted.
  */
 
+import { business } from "../../config/business.ts";
 import { QUESTION_IDS, type Answers } from "./questions.ts";
 import type { Channel, Contact } from "./flow.ts";
 
-/** Placeholder policy: product and legal to confirm how long a draft may be kept (brief §25). */
-export const DRAFT_TTL_MS = 60 * 60 * 1000;
+/** How long an unsent draft is kept in the tab (docs/decisions.md). */
+export const DRAFT_TTL_MS = business.draftHours * 60 * 60 * 1000;
 export const DRAFT_KEY = "dfx.assessment";
-/** Placeholder: the version of the consent wording shown on the review step (brief §19). */
-export const CONSENT_VERSION = "2026-10-08-draft";
+/** The version of the consent wording on the review step, matching the privacy notice's date (brief §19). */
+export const CONSENT_VERSION = business.policyVersion;
 
 /** Brief §20 lifecycle, as far as the website goes before the handoff. */
 export type DraftStatus = "in_progress" | "review" | "submitted";

@@ -118,18 +118,47 @@ Fixed along the way: the skip link now targets the visible `main` (Next 16 keeps
 | 7 | Confirmation (C2) | Only after the scheduler confirms: date, time and zone (and the device's time if different), how and with whom, what to have ready, an add-to-calendar file (.ics, UTC), change time, and cancel with a confirmation. | Brief C2, §24 "Timezone and daylight saving". |
 | 8 | Analytics | The brief §21 events for Parts 5–6 (handoff, resume, processing, result, card opened, call CTA, booking) through the same allow-list: codes, counts and coarse time buckets only. | Brief §21. |
 
-## Open business questions (brief §25)
+## Answers decided on the owner's instruction (9 Oct 2026)
 
-These must be answered before the relevant part is finalised. They don't
-block Parts 1–2.
+The owner asked me to research the 17 open questions and decide them myself.
+Each answer below is applied in the code; where it replaces a Part 5 or 6
+Placeholder above, this table wins. Business facts live in one file,
+`src/config/business.ts`, so any of them is a one-line change. The rules
+follow public Singapore norms, not any lender's private criteria, and should
+be checked against DFX's actual lending partners once they're signed.
 
-- Exact assessment topics, fields and qualification logic (Part 4 runs on placeholders until then).
-- Which hard stops are real policy, and their wording (Part 4).
-- How long answers may be kept in the browser, and whether a saved draft may be resumed later (Part 4).
-- Are results instant, manually reviewed, or both? What can safely be shown, and how long are results kept? (Part 6 runs on a stand-in)
-- What "right profile" means operationally: hard gates, CRM fit rubric (Parts 4, 6).
-- WhatsApp and email: which WhatsApp Business account and number, which email provider, link lifetime and resend limits, consent wording (Part 5 runs on Placeholders).
-- Who books the call: which scheduler or CRM, working hours, public holidays, phone or video tool, and is the call free? (Part 6)
-- Approved claims, testimonials, partner logos, legal entity and disclosures (Part 3).
-- Regulatory status in Singapore and required disclosures for a loan-matching service.
-- Analytics, CRM and hosting stack.
+| Q | Topic | Decision | Why, and sources |
+| --- | --- | --- | --- |
+| 1 | Company and licence | DFX is a **loan-matching service, not a lender**, introducing people only to **banks and financial institutions regulated by MAS**. It doesn't work with licensed moneylenders. Footer, terms and gate pages say so. Legal entity and UEN stay Placeholders. | Since 1 April 2025, licensed moneylenders may advertise only in directories, on their own websites and at their premises, which rules out a third-party matching site ([Registrar's advertising directions](https://rom.mlaw.gov.sg/files/Directions_Moneylendersadvertisements.pdf)). Introducing borrowers to banks for loans isn't a regulated financial advisory service (loans aren't investment products), but the wording needs a Singapore lawyer before launch. |
+| 2 | Loan types | Keep all six: personal, debt consolidation, renovation, business, education, not sure. "Not sure" always goes to a person. | Each is a mainstream bank product in Singapore with public eligibility norms (sources in Q4). |
+| 3 | Partners and proof | No lender names, logos or testimonials until DFX has written permission. The trust strip keeps the three promises that are true by design. | Brief H0.3; MAS-regulated banks control the use of their marks. |
+| 4 | Assessment questions | Kept as built, plus one: **who owns the home** (own / family / rent) for renovation, because renovation loans are for owners and their families. The results engine (`src/lib/service/engine.ts`) now suggests real kinds of loan with typical October 2026 terms: personal instalment loan, credit line, Debt Consolidation Plan, balance transfer, renovation loan, education loan, business term loan, and working capital (EFS). | DCP: Singapore citizens and PRs earning S$20,000 to S$119,999, unsecured debt over 12× monthly income ([Credit Counselling Singapore](https://ccs.org.sg/debt-consolidation-plan/)); renovation: up to 6× monthly income or S$30,000 ([SingSaver](https://www.singsaver.com.sg/personal-loan/blog/how-much-renovation-loan-can-i-get)); EFS working capital up to S$500,000 over 5 years ([Enterprise Singapore](https://enterprisesg.gov.sg/financial-support/enterprise-financing-scheme---sme-working-capital)); balance transfer fees and periods ([MoneySmart](https://moneysmart.sg/personal-loan/balance-transfer-singapore-ms)). |
+| 5 | Hard stops | **Real**: lives in Singapore, aged 21 or over, business registered in Singapore with a UEN. **Soft** (sends the person to a specialist, never stops them): 65 or over; not working or retired; income under S$2,000 a month; work pass holder earning under S$4,000; business trading under 6 months; registration in progress; goal not sure. The DCP is shown only to citizens and PRs who owe S$20,000 or more and earn under S$10,000 a month; otherwise balance transfer and a personal loan, with a note saying why. Renters asking about renovation get a personal loan, with a note. | Bank minimums are about S$20,000 to S$30,000 a year for locals and S$40,000 to S$60,000 or more for foreigners ([MoneySmart](https://www.moneysmart.sg/personal-loan/can-foreigners-get-personal-loans-in-singapore-ms), [SingSaver](https://www.singsaver.com.sg/personal-loan/comparison/best-personal-loans-for-foreigners-in-singapore)); most cap age at 65. Brief §8: only verified gates may stop someone. |
+| 6 | Saving answers | Unsent answers stay **in this tab only, for 1 hour** after the last change. No resume on another device before sending; after sending, the secure link resumes. | Answers include income and residency; on a shared device, the tab should forget them. Once sent, the server copy and the link cover "carry on later". |
+| 7 | WhatsApp | **WhatsApp Business Platform (Cloud API) through a provider**, not the Business app. Click-to-chat from the site; replies inside the free 24-hour customer service window. Display name "DFX"; the number is DFX's to supply. | The API gives delivery status, templates, CRM logging and several agents; the app doesn't. Messages inside the customer service window are free ([Meta pricing updates](https://developers.facebook.com/docs/whatsapp/pricing/updates-to-pricing)). |
+| 8 | Email | **Postmark** for transactional email (delivery and bounce webhooks drive the "delivered / bounced" states). Links are **single use, 15 minutes**; resend after 60 seconds, at most 3 per 15 minutes. The sender address waits on DFX's domain. | Short-lived, single-use tokens are standard practice for emailed sign-in links ([OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html)); 24 hours was longer than needed when a new link takes seconds. |
+| 9 | Who sees the data | **HubSpot** CRM for answers and contact details; WhatsApp (Meta) and Postmark get only the number or email and a reference; Google Analytics gets codes and counts. **Lenders get nothing** unless the person agrees, on a call or in writing, to a named lender. Retention: **30 days after last activity**; a record of any introduction kept 5 years. | PDPA consent, purpose, retention and transfer obligations ([PDPC](https://www.pdpc.gov.sg/)); marketing only with the unticked per-channel boxes, which also satisfies the Do Not Call rules ([PDPC DNC](https://www.pdpc.gov.sg/overview-of-pdpa/do-not-call-registry/individual/do-not-call-registry-and-you)); 5 years matches the Companies Act record-keeping period. |
+| 10 | Results | **Instant**, from the rules above; anything the rules can't settle goes to a specialist **within one working day**. Results are kept 30 days after the last activity. | People expect an answer on screen; the review covers the cases a rule shouldn't decide alone. |
+| 11 | Route facts | Typical terms only (tenure, who it's for, fees), labelled "Typical in Singapore, October 2026. Your lender sets the actual terms." **No interest rates**: "Set by the lender after review". | Rates change often and depend on the person; a stale or average rate would be an invented claim (brief §19). Sources as in Q4. |
+| 12 | Other help | Yes: **MoneySense**, **Credit Counselling Singapore**, **Credit Bureau Singapore**, and **Enterprise Singapore** for businesses. Contact page adds **FIDReC** for disputes with a bank. | All free, public or independent ([MoneySense](https://www.moneysense.gov.sg/), [CCS](https://www.ccs.org.sg/), [Credit Bureau Singapore](https://www.creditbureau.com.sg/), [FIDReC](https://www.fidrec.com.sg/)). |
+| 13 | The call | **Free, about 15 minutes**, by phone or **Google Meet** video (opens in a browser, no install), with "a DFX loan specialist": a role, no names or photos until DFX supplies them. | Short and free keeps it low-pressure (brief C1: a call is never required). |
+| 14 | Booking | **HubSpot Meetings** (same system as the CRM). **Monday to Friday, 9am to 6pm Singapore time**; calls start 9:00 to 17:30; **Singapore public holidays skipped** (2026 and 2027 lists in `src/lib/service/slots.ts`). Confirmation by the chosen channel plus a calendar invite, and a reminder the day before. | One system for contacts and meetings; holiday dates from the gazetted lists ([MOM](https://www.mom.gov.sg/employment-practices/public-holidays)). |
+| 15 | Support | **WhatsApp and email**, Monday to Friday 9am to 6pm except public holidays, reply **within one working day**, by "loan specialists based in Singapore". The number and address wait on DFX. | Matches the booking hours, so promises are consistent. |
+| 16 | Brand | **Keep the text wordmark** until DFX commissions a logo. | No brand assets exist; a made-up logo would need replacing. |
+| 17 | Going live | **Google Analytics 4 through Google Tag Manager** (the site already pushes an allow-listed `dataLayer`), **Vercel** hosting in its Singapore region. A live preview needs DFX's own Vercel account. | GTM reads `dataLayer` as built; Vercel is made by the Next.js team and has a Singapore region. |
+
+The info pages are now real: privacy notice (written to the PDPA obligations),
+terms of use, contact and an accessibility statement. Privacy and terms carry
+one Placeholder each: review by a Singapore lawyer before launch.
+
+## Still needed from DFX
+
+Only DFX can supply these. Each is a Placeholder tag on the site.
+
+- Registered company name, UEN and address (footer, privacy notice, terms).
+- WhatsApp Business display name approval and number (handoff, contact page).
+- Email domain and sending address (contact page, email handoff).
+- Data Protection Officer contact (privacy notice, contact page).
+- A Singapore lawyer's review of the privacy notice, terms and the regulatory line.
+- A Vercel account, if you'd like a live preview link.
+- Later: lending partners' own criteria (to replace the indicative rules), names or photos of the people who take calls, and any lender logos or customer quotes you have permission to use.

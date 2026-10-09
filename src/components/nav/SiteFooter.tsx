@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { Placeholder } from "@/components/placeholder/Placeholder";
+import { business } from "@/config/business";
 import { footerGroups } from "@/config/site";
 import styles from "./SiteFooter.module.css";
 
@@ -11,7 +12,9 @@ export function SiteFooter() {
       <div className={`container ${styles.inner}`}>
         <div className={styles.brand}>
           <Wordmark />
-          <p className={styles.tagline}>Loan matching for Singapore. We help you find a route that fits, then you decide.</p>
+          <p className={styles.tagline}>
+            Loan matching for Singapore. We help you find a route that fits, then you decide.
+          </p>
         </div>
         <nav className={styles.groups} aria-label="Footer">
           {footerGroups.map((group) => (
@@ -31,11 +34,8 @@ export function SiteFooter() {
           <p>
             <Placeholder note="Registered legal entity name and UEN">© 2026 DFX Pte. Ltd. · UEN 000000000X</Placeholder>
           </p>
-          <p>
-            <Placeholder note="Regulatory status and required disclosure, confirmed by legal for Singapore">
-              DFX is not a lender. Loan approval, rates and terms are decided by the lender.
-            </Placeholder>
-          </p>
+          <p>{business.regulatoryLine}</p>
+          <p>{business.feeLine}</p>
         </div>
       </div>
     </footer>

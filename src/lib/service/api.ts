@@ -15,6 +15,7 @@ import type { ConsentRecord, Draft } from "../assessment/draft.ts";
 import { forcedResult, stubResult, type Result } from "./engine.ts";
 import { canTransition, type Status } from "./lifecycle.ts";
 import { availableSlots } from "./slots.ts";
+import { business } from "../../config/business.ts";
 import type { Slot } from "../time.ts";
 
 /* -------------------------------------------------------------------------- */
@@ -103,14 +104,14 @@ export interface StorageLike {
 /* Policy placeholders (brief §25)                                            */
 /* -------------------------------------------------------------------------- */
 
-/** Placeholder: how long a link works. Single use. */
-export const LINK_TTL_MS = 24 * 60 * 60 * 1000;
-/** Placeholder: wait between email sends, and the most sends in a window. */
+/** How long a link works: single use, 15 minutes (see business.linkMinutes). */
+export const LINK_TTL_MS = business.linkMinutes * 60 * 1000;
+/** Wait between email sends, and the most sends in a window (common practice; docs/decisions.md). */
 export const RESEND_COOLDOWN_MS = 60 * 1000;
 export const MAX_SENDS = 3;
 export const SEND_WINDOW_MS = 15 * 60 * 1000;
-/** Placeholder until a WhatsApp Business account exists: no number, so the prototype simulates the chat. */
-export const WHATSAPP_BUSINESS = { name: "DFX Singapore", number: null as string | null };
+/** DFX's WhatsApp Business Platform number isn't known yet, so the prototype simulates the chat. */
+export const WHATSAPP_BUSINESS = { name: "DFX", number: null as string | null };
 
 const DB_KEY = "dfx.mock-server";
 const SETTINGS_KEY = "dfx.prototype";

@@ -5,12 +5,21 @@ import { AmbientOrb } from "@/components/decor/AmbientOrb";
 import { Faq, type FaqItem } from "@/components/faq/Faq";
 import { Icon, type IconName } from "@/components/icon/Icon";
 import { Reveal } from "@/components/motion/Reveal";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import { DisplayText } from "@/components/type/DisplayText";
 import { startHref } from "@/config/site";
 import styles from "./home.module.css";
 
-function SectionHead({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children?: ReactNode }) {
+function SectionHead({
+  id,
+  eyebrow,
+  title,
+  children,
+}: {
+  id: string;
+  eyebrow: string;
+  title: string;
+  children?: ReactNode;
+}) {
   return (
     <Reveal className={styles.sectionHead} amount={0.25}>
       <p className={`type-eyebrow ${styles.eyebrow}`}>{eyebrow}</p>
@@ -26,7 +35,11 @@ function SectionHead({ id, eyebrow, title, children }: { id: string; eyebrow: st
 
 const proofPoints: { icon: IconName; title: string; text: string }[] = [
   { icon: "document", title: "A few short questions", text: "Review every answer before you send it." },
-  { icon: "message", title: "You choose how we contact you", text: "Email or WhatsApp. No marketing unless you say yes." },
+  {
+    icon: "message",
+    title: "You choose how we contact you",
+    text: "Email or WhatsApp. No marketing unless you say yes.",
+  },
   { icon: "phone", title: "A call only if it helps", text: "Your result comes first. Booking is up to you." },
 ];
 
@@ -103,12 +116,48 @@ export function HowItWorks() {
 /* H0.5 ---------------------------------------------------------------------- */
 
 const tiles: { theme: TileTheme; icon: IconName; title: string; text: string; goal: string }[] = [
-  { theme: "green", icon: "wallet", title: "Personal loan", text: "For everyday costs, travel or a big purchase.", goal: "personal" },
-  { theme: "orange", icon: "layers", title: "Debt consolidation", text: "Bring several debts into one monthly repayment.", goal: "consolidation" },
-  { theme: "lime", icon: "home", title: "Home renovation", text: "For works on a home you own or rent.", goal: "renovation" },
-  { theme: "blue", icon: "briefcase", title: "Business loan", text: "Working capital or equipment for your business.", goal: "business" },
-  { theme: "peach", icon: "document", title: "Education loan", text: "Course fees for you or someone in your family.", goal: "education" },
-  { theme: "sage", icon: "help", title: "Not sure yet", text: "Answer a few questions and we’ll suggest where to start.", goal: "not-sure" },
+  {
+    theme: "green",
+    icon: "wallet",
+    title: "Personal loan",
+    text: "For everyday costs, travel or a big purchase.",
+    goal: "personal",
+  },
+  {
+    theme: "orange",
+    icon: "layers",
+    title: "Debt consolidation",
+    text: "Bring several debts into one monthly repayment.",
+    goal: "consolidation",
+  },
+  {
+    theme: "lime",
+    icon: "home",
+    title: "Home renovation",
+    text: "For works on a home you own or rent.",
+    goal: "renovation",
+  },
+  {
+    theme: "blue",
+    icon: "briefcase",
+    title: "Business loan",
+    text: "Working capital or equipment for your business.",
+    goal: "business",
+  },
+  {
+    theme: "peach",
+    icon: "document",
+    title: "Education loan",
+    text: "Course fees for you or someone in your family.",
+    goal: "education",
+  },
+  {
+    theme: "sage",
+    icon: "help",
+    title: "Not sure yet",
+    text: "Answer a few questions and we’ll suggest where to start.",
+    goal: "not-sure",
+  },
 ];
 
 export function WhoItsFor() {
@@ -116,8 +165,7 @@ export function WhoItsFor() {
     <section id="who-its-for" className={styles.section} aria-labelledby="who-title">
       <div className="container">
         <SectionHead id="who-title" eyebrow="Who it’s for" title="Start from what you need.">
-          Pick the closest match, or start with “Not sure yet”. You can change it in the first question.{" "}
-          <Placeholder note="The loan categories DFX actually supports, confirmed by the product team" />
+          Pick the closest match, or start with “Not sure yet”. You can change it in the first question.
         </SectionHead>
         <div className={styles.tiles}>
           {tiles.map((tile, i) => (
@@ -158,11 +206,10 @@ const faqItems: FaqItem[] = [
     question: "Who will contact me?",
     answer: (
       <>
-        <p>Only the DFX team, and only through the channel you choose: email or WhatsApp.</p>
+        <p>Only the DFX team, through the channel you choose: WhatsApp or email.</p>
         <p>
-          <Placeholder note="Who contacts users, when, and whether and when details are shared with lenders">
-            Whether and when your details go to a lender is explained before anything is shared.
-          </Placeholder>
+          We never pass your details to a lender unless you agree, for that lender, on a call or in writing. Marketing
+          messages only if you tick the box for them.
         </p>
       </>
     ),
@@ -213,7 +260,7 @@ export function Support() {
           </span>
           <Reveal className={styles.annotation} variant="fade" index={3} amount={0.5}>
             <Icon name="clock" size={20} />
-            <Placeholder note="Committed reply time">Replies within one working day</Placeholder>
+            Replies within one working day
           </Reveal>
         </div>
         <div>
@@ -223,21 +270,15 @@ export function Support() {
           <ul className={styles.supportList}>
             <li>
               <Icon name="clock" />
-              <span>
-                Monday to Friday, 9 am to 6 pm Singapore time <Placeholder note="Confirmed service hours" />
-              </span>
+              <span>Monday to Friday, 9am to 6pm Singapore time, except public holidays</span>
             </li>
             <li>
               <Icon name="message" />
-              <span>
-                WhatsApp and email <Placeholder note="Confirmed support channels and the WhatsApp business account" />
-              </span>
+              <span>WhatsApp and email</span>
             </li>
             <li>
               <Icon name="user" />
-              <span>
-                Loan specialists based in Singapore <Placeholder note="Team location, roles and, when ready, real team photos" />
-              </span>
+              <span>Loan specialists based in Singapore</span>
             </li>
           </ul>
           <ButtonLink href="/contact" variant="secondary" iconEnd="arrow-right">

@@ -10,12 +10,14 @@ each reviewed before the next starts.
 | 1 | Foundations: colour, type, space, radius, elevation, grid, motion tokens | §11–§16 | Approved 8 Oct 2026 |
 | 2 | Component library (all 20 families, every state), in three batches: 2a form controls, 2b feedback and overlays, 2c cards, booking and navigation | §13 | 2a approved; 2b and 2c in review |
 | 3 | Homepage with scroll motion | §6, §15 | In review |
-| 4 | Assessment A0–A4 with branching (placeholder questions) | §7, §8 | In review |
+| 4 | Assessment A0–A4 with branching | §7, §8 | In review |
 | 5 | WhatsApp / email handoff and processing | §9 | In review |
 | 6 | Results, no-match, manual review, booking | §10 | In review |
 
-Decisions made so far, and the brief's open questions, are logged in
-[`docs/decisions.md`](docs/decisions.md).
+Decisions made so far, with sources, and the few facts only DFX can supply,
+are logged in [`docs/decisions.md`](docs/decisions.md). Business facts and
+policies (regulatory line, fees, hours, retention, link lifetime, call
+details) live in one file, `src/config/business.ts`.
 
 Parts 5 and 6 run on a stand-in for DFX's systems, WhatsApp and email
 (`src/lib/service/api.ts`), so every state can be clicked through before the
@@ -35,7 +37,7 @@ npm run dev        # http://localhost:3000: homepage at /, assessment at /assess
 | --- | --- |
 | `npm run dev` / `build` / `start` | Next.js; both `dev` and `build` regenerate tokens first |
 | `npm run tokens` | Regenerates token files from `src/design/tokens.ts` |
-| `npm test` | Unit tests: contrast audit (every allowed colour pair meets WCAG 2.2 AA), fluid type maths, generated files up to date, Singapore phone / S$ amount / email rules, booking time zones and daylight saving, assessment routing, validation, hard stops and pruning, saved-answer storage, analytics privacy filter, lifecycle transitions, results stub, booking times, calendar file, email typo hints, link expiry and rate limits |
+| `npm test` | Unit tests: contrast audit (every allowed colour pair meets WCAG 2.2 AA), fluid type maths, generated files up to date, Singapore phone / S$ amount / email rules, booking time zones and daylight saving, assessment routing, validation, hard stops and pruning, saved-answer storage, analytics privacy filter, lifecycle transitions, results rules (soft referrals, Debt Consolidation Plan eligibility), booking times and public holidays, calendar file, email typo hints, link expiry and rate limits |
 | `npm run test:e2e` | Browser tests on a production build: axe WCAG 2.2 AA scan and console-error check of every page, no sideways scroll at 320px, keyboard, dialog, error and booking flows, and the assessment's QA scenarios from brief §24 (branching, change from review, hard stop, refresh and Back, deep links, start again, no PII in analytics), and Parts 5–6 (WhatsApp and email handoff, expired and used links, every result state, booking conflict, calendar file, cancel). Desktop and mobile Chromium |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
 | `npm run typecheck` | Generates Next route types, then `tsc --noEmit` |
@@ -64,8 +66,8 @@ element with `data-motion="reduced"`.
 ```
 src/
   app/
-    (site)/                public site: homepage (/), legal and contact placeholders,
-                           sharing SiteHeader + SiteFooter
+    (site)/                public site: homepage (/), privacy, terms, contact and
+                           accessibility, sharing SiteHeader + SiteFooter
     (flow)/assessment/     Part 4: start screen, goal, situation, preferences, review and
                            hard stop; Part 5 handoff at /assessment/continue
     (flow)/resume/         Part 5: opening a WhatsApp or email link
@@ -80,22 +82,23 @@ src/
                            result (route card), advisor, booking (slot picker),
                            category (ticket tile), decor (ambient orb), nav (header,
                            back link), icon, brand
+  config/                  business facts and policies, independent help services
   design/                  tokens, generators and the contrast audit
   lib/format.ts            Singapore phone, S$ amount and email formatting and validation
   lib/time.ts              booking times: Singapore time by default, any zone, DST-safe
-  lib/assessment/          questions (one file, all placeholders), routing and validation,
+  lib/assessment/          questions (one file), routing and validation,
                            saved draft (sessionStorage), privacy-safe analytics
   lib/service/             PROTOTYPE stand-in for the assessment API, messaging and scheduler,
-                           lifecycle state machine, placeholder results engine, booking times
+                           lifecycle state machine, indicative results engine, booking times
   lib/ics.ts               calendar file for a booked call
   styles/tokens.css        generated
 e2e/                       Playwright + axe browser tests
 scripts/build-tokens.ts    writes the generated token files
-docs/decisions.md          decision log and open business questions
+docs/decisions.md          decision log, sources, and what DFX still needs to supply
 ```
 
-Content that needs approved facts (legal entity, regulatory line, support
-hours and channels, loan categories, contact details) is wrapped in
+Facts only DFX can supply (legal entity and UEN, WhatsApp number, email
+address, Data Protection Officer contact) and the pending legal review are wrapped in
 `<Placeholder>`: it renders a visible "Placeholder" tag and a
 `data-placeholder` attribute. Before launch, `grep -rn "<Placeholder" src`
 must return nothing.

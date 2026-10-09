@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { ButtonLink } from "@/components/button/Button";
 import { Icon } from "@/components/icon/Icon";
-import { Placeholder } from "@/components/placeholder/Placeholder";
+import { help, type HelpResource } from "@/config/help";
 import { StatusCard } from "@/components/status/StatusCard";
 import { firstIncompleteStep, hardGate } from "@/lib/assessment/flow.ts";
 import { stepInfo, type GateReason } from "@/lib/assessment/questions.ts";
@@ -25,39 +25,10 @@ function useRedirect(to: string | null) {
 /* Hard stop                                                                  */
 /* -------------------------------------------------------------------------- */
 
-interface Resource {
-  name: string;
-  text: string;
-  href?: string;
-}
-
-const moneySense: Resource = {
-  name: "MoneySense",
-  text: "Free, impartial guides on borrowing and managing debt, from the Singapore government.",
-  href: "https://www.moneysense.gov.sg/",
-};
-const creditCounselling: Resource = {
-  name: "Credit Counselling Singapore",
-  text: "Free, confidential help if repayments are getting hard to manage.",
-  href: "https://www.ccs.org.sg/",
-};
-const resources: Record<GateReason, Resource[]> = {
-  residency: [
-    { name: "A bank or licensed lender where you live", text: "They can tell you what you’re eligible for locally." },
-    moneySense,
-  ],
-  age: [moneySense, creditCounselling],
-  "business-jurisdiction": [
-    {
-      name: "A bank or lender where the business is registered",
-      text: "They can tell you what the business is eligible for.",
-    },
-    {
-      name: "Enterprise Singapore",
-      text: "Financing schemes for businesses that register in Singapore.",
-      href: "https://www.enterprisesg.gov.sg/",
-    },
-  ],
+const resources: Record<GateReason, HelpResource[]> = {
+  residency: [help.localLender, help.moneySense],
+  age: [help.moneySense, help.creditCounselling],
+  "business-jurisdiction": [help.localBusinessLender, help.enterpriseSingapore],
 };
 
 /**
@@ -103,9 +74,7 @@ export function GateScreen() {
             </>
           }
         >
-          <p>
-            {copy.body} <Placeholder note="Eligibility policy and wording, approved by product and legal" />
-          </p>
+          <p>{copy.body}</p>
           <p>If you chose that answer by mistake, change it and carry on. We haven’t sent your answers anywhere.</p>
         </StatusCard>
 
@@ -129,9 +98,6 @@ export function GateScreen() {
               </li>
             ))}
           </ul>
-          <p className={styles.panelNote}>
-            <Placeholder note="Approved list of alternative support organisations" />
-          </p>
         </section>
 
         <StepFooter step="not-available" />

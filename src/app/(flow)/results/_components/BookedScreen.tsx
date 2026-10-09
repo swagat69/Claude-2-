@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Button, ButtonLink } from "@/components/button/Button";
 import { Icon } from "@/components/icon/Icon";
 import { Dialog } from "@/components/overlay/Dialog";
-import { Placeholder } from "@/components/placeholder/Placeholder";
+import { business } from "@/config/business";
 import { track } from "@/lib/assessment/analytics.ts";
 import { formatSgPhone } from "@/lib/format.ts";
 import { calendarFile } from "@/lib/ics.ts";
@@ -101,7 +101,7 @@ export function BookedScreen() {
   const how =
     booking.format === "phone"
       ? `We’ll call +65 ${formatSgPhone(booking.phone ?? record.contact.mobile ?? "")}.`
-      : `We’ll send a video link ${record.channel === "whatsapp" ? "on WhatsApp" : `to ${record.contact.email}`} before the call.`;
+      : `We’ll send a ${business.call.videoTool} link ${record.channel === "whatsapp" ? "on WhatsApp" : `to ${record.contact.email}`} before the call.`;
 
   return (
     <div ref={container} className="container">
@@ -138,9 +138,7 @@ export function BookedScreen() {
             </div>
             <div>
               <dt>Who</dt>
-              <dd>
-                {callDetails.who} <Placeholder note="Real advisor role, and name and photo only if genuine" />
-              </dd>
+              <dd>{callDetails.who}</dd>
             </div>
             <div>
               <dt>Length</dt>
@@ -163,8 +161,9 @@ export function BookedScreen() {
 
           <p className={styles.muted}>
             <Icon name="mail" size={20} />
-            We’ve also sent these details {record.channel === "whatsapp" ? "on WhatsApp" : `to ${record.contact.email}`}
-            . <Placeholder note="Confirmation message channel and wording" />
+            We’ve also sent these details, with a calendar invite,{" "}
+            {record.channel === "whatsapp" ? "on WhatsApp" : `to ${record.contact.email}`}. We’ll remind you the day
+            before.
           </p>
 
           <div className={styles.actionsRow}>

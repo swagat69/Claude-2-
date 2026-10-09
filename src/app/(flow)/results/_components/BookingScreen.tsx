@@ -11,7 +11,7 @@ import { ErrorSummary, type SummaryError } from "@/components/form/ErrorSummary"
 import { PhoneField } from "@/components/form/SpecialFields";
 import { Icon } from "@/components/icon/Icon";
 import { BackLink } from "@/components/nav/SiteHeader";
-import { Placeholder } from "@/components/placeholder/Placeholder";
+import { business } from "@/config/business";
 import { track } from "@/lib/assessment/analytics.ts";
 import { formatSgPhone, validateSgPhone } from "@/lib/format.ts";
 import { api, ServiceError, type CallFormat } from "@/lib/service/api.ts";
@@ -126,8 +126,8 @@ export function BookingScreen() {
               Choose a time to talk
             </h1>
             <p className={`type-body-l ${styles.muted}`}>
-              In a short call, we’ll review your needs and answer your questions. There’s no obligation.{" "}
-              <Placeholder note="Confirm the call is free and who it is with" />
+              A free {business.call.minutes}-minute call with {business.call.whoInSentence}. We’ll review your needs and
+              answer your questions. There’s no obligation.
             </p>
           </header>
 
@@ -162,7 +162,7 @@ export function BookingScreen() {
                 {
                   value: "video",
                   label: "Video call",
-                  description: `We’ll send a video link ${contactWord} before the call.`,
+                  description: `We’ll send a ${business.call.videoTool} link ${contactWord} before the call.`,
                   icon: "user",
                 },
               ]}

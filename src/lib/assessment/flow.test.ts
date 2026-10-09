@@ -56,6 +56,7 @@ test("only questions the goal needs are asked", () => {
     "ageBand",
     "employment",
     "propertyType",
+    "homeOwnership",
     "timeline",
   ]);
   // Income is asked only of people with an income.

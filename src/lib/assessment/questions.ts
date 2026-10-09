@@ -1,11 +1,11 @@
 /**
  * The assessment's questions, in one place (brief §17: one source of truth
- * for labels and messages). Every question here is a PLACEHOLDER: brief §7
- * says product, operations and legal must approve each question, whether it
- * is required, and how it affects outcomes. The two hard stops (living in
- * Singapore, aged 21 or over) and the business registration stop are
- * examples of the "verified hard gate" pattern in brief §8, not confirmed
- * policy.
+ * for labels and messages). Brief §7 says product, operations and legal must
+ * approve every question. On the owner's instruction (9 Oct 2026) these were
+ * set from research into Singapore bank eligibility: the three hard stops
+ * (living in Singapore, aged 21 or over, a business registered in
+ * Singapore) match what Singapore banks require; everything else only
+ * tailors the result or sends it to a person. Sources: docs/decisions.md.
  */
 
 import type { IconName } from "@/components/icon/Icon";
@@ -46,6 +46,7 @@ export const QUESTION_IDS = [
   "employment",
   "income",
   "propertyType",
+  "homeOwnership",
   "tradingTime",
   "revenue",
   "timeline",
@@ -278,6 +279,22 @@ export const questions: Question[] = [
     ],
     showIf: (a) => single(a, "goal") === "renovation",
     requiredMessage: "Select what kind of home it is",
+  },
+  {
+    id: "homeOwnership",
+    step: "situation",
+    panel: "home",
+    control: "cards",
+    label: "Who owns the home?",
+    reviewLabel: "Owner",
+    why: "Renovation loans are for homeowners and their families. If you rent, a different kind of loan is usually the route.",
+    options: [
+      { value: "own", label: "I own it, alone or jointly" },
+      { value: "family", label: "A family member owns it" },
+      { value: "rent", label: "I rent it" },
+    ],
+    showIf: (a) => single(a, "goal") === "renovation",
+    requiredMessage: "Select who owns the home",
   },
   {
     id: "tradingTime",

@@ -101,7 +101,7 @@ export function ResumeScreen({ token }: { token: string | null }) {
   const copy = {
     expired: {
       title: "This link has expired",
-      text: "Links work once, for 24 hours, to keep your result private. Ask for a new one below.",
+      text: "Links work once, for 15 minutes, to keep your result private. Ask for a new one below.",
     },
     used: {
       title: "This link has already been used",
