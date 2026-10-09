@@ -42,6 +42,16 @@ npm run dev        # http://localhost:3000: homepage at /, assessment at /assess
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
 | `npm run typecheck` | Generates Next route types, then `tsc --noEmit` |
 
+## Live preview
+
+The repository is connected to Vercel. Every push to a branch builds a
+preview at that branch's own link, which stays the same and updates on each
+push; open `/hub` there to reach every part and state. Reviewers can pin
+comments to any spot with Vercel's preview toolbar. Text and business facts
+can be edited on GitHub in `src/config/business.ts` and `src/config/media.ts`;
+the preview rebuilds on commit. Set `SITE_URL` in the Vercel project once
+DFX's domain exists, so share links use it.
+
 ## Design tokens
 
 `src/design/tokens.ts` is the single source of truth. `npm run tokens` writes:
