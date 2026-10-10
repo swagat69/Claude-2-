@@ -119,3 +119,10 @@
 .panel a:not([class]) {
   color: var(--palette-lime);
 }
+
+.panel { background: var(--color-surface-sunken); color: var(--color-text-primary); border-radius: 4px; animation: none; }
+.panel::before { display: none; }
+.who, .body, .agendaLabel { color: var(--color-text-secondary); }
+.avatar { background: transparent; color: var(--color-text-primary); border-radius: 0; width: 24px; height: 24px; }
+.meta svg, .panel a:not([class]) { color: var(--color-text-primary); }
+.agenda { border-top-color: var(--color-border-subtle); }

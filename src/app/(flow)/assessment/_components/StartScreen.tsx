@@ -73,10 +73,10 @@ export function StartScreen({ goal, from }: { goal: string | null; from: string 
       <div className={styles.start}>
         <p className={`type-eyebrow ${styles.eyebrow}`}>Loan assessment</p>
         <h1 className={`type-h1 ${styles.startTitle}`} tabIndex={-1}>
-          Let’s find the next step that fits you.
+          Four short steps, then you choose what happens next
         </h1>
         <p className={`type-body-l ${styles.startLead}`}>
-          This takes a few minutes. You can review your answers before sending.
+          Answer at your own pace. At review, choose email or WhatsApp to receive your result link.
         </p>
 
         <ol className={styles.stages} aria-label="The four stages">

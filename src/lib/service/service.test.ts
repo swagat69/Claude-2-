@@ -290,12 +290,16 @@ test("booking rechecks the slot at confirm time; cancelling returns to the resul
   await assert.rejects(service.book(draft.id, slot.start, "phone"), (e: ServiceError) => e.code === "taken");
   assert.equal(service.slots().find((s) => s.start === slot.start)?.available, false);
   const other = service.slots().find((s) => s.available)!;
-  const booking = await service.book(draft.id, other.start, "video");
+  const booking = await service.book(draft.id, other.start, "video", undefined, "personal-instalment");
   assert.equal(booking.status, "confirmed");
+  assert.equal(booking.routeId, "personal-instalment");
   assert.equal(service.getRecord(draft.id)!.status, "booking_confirmed");
   await service.cancelBooking(draft.id);
   assert.equal(service.getRecord(draft.id)!.status, "result_ready");
   assert.equal(service.getRecord(draft.id)!.booking?.status, "cancelled");
+  const fresh = service.slots().find((s) => s.available)!;
+  const invalidRoute = await service.book(draft.id, fresh.start, "video", undefined, "unrecognized-route");
+  assert.equal(invalidRoute.routeId, undefined);
 });
 
 test("the reference is short and carries no personal data", () => {

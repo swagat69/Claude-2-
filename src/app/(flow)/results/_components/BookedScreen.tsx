@@ -49,6 +49,8 @@ export function BookedScreen() {
   if (!record) return <NotFound />;
   if (!booking) return <div className={styles.pending} aria-busy="true" />;
 
+  const selectedRoute = record.result?.routes.find(route => route.id === booking.routeId);
+
   const cancel = async () => {
     setCancelling(true);
     await api.cancelBooking(record.id);
@@ -63,7 +65,7 @@ export function BookedScreen() {
       start: booking.start,
       minutes: CALL_MINUTES,
       title: "Call with DFX",
-      description: `Your call with ${callDetails.whoInSentence} about your loan options. Reference ${reference(record.id)}.`,
+      description: `Your call with ${callDetails.whoInSentence} about ${selectedRoute?.title ?? "your loan options"}. Reference ${reference(record.id)}.`,
     });
     const url = URL.createObjectURL(new Blob([file], { type: "text/calendar" }));
     const link = document.createElement("a");
@@ -117,6 +119,7 @@ export function BookedScreen() {
           <p className="type-body-l">You’ll speak with {callDetails.whoInSentence}. Here’s what to expect.</p>
 
           <dl className={styles.details}>
+            {selectedRoute ? <div><dt>Loan route</dt><dd>{selectedRoute.title}</dd></div> : null}
             <div>
               <dt>When</dt>
               <dd>

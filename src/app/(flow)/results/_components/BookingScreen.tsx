@@ -32,7 +32,7 @@ const fieldIds: Record<Field, string> = { format: "booking-format", phone: "book
  * Singapore time always labelled, and nothing booked until the scheduler
  * confirms the time is still free.
  */
-export function BookingScreen() {
+export function BookingScreen({ routeId }: { routeId?: string }) {
   const { session, record } = useVerifiedRecord();
   const router = useRouter();
   const container = useRef<HTMLDivElement>(null);
@@ -72,6 +72,7 @@ export function BookingScreen() {
   if (!allowed) return <div className={styles.pending} aria-busy="true" />;
 
   const mobile = phone ?? record.contact.mobile ?? "";
+  const selectedRoute = record.result?.routes.find(route => route.id === (routeId ?? existing?.routeId));
   const slots = api.slots();
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -93,7 +94,7 @@ export function BookingScreen() {
 
     setBusy(true);
     try {
-      await api.book(record.id, slot, format, format === "phone" ? mobile : undefined);
+      await api.book(record.id, slot, format, format === "phone" ? mobile : undefined, selectedRoute?.id);
       track("booking_confirmed", {
         booking_source: "results",
         timezone_bucket: device === SINGAPORE ? "sg" : "other",
@@ -130,6 +131,7 @@ export function BookingScreen() {
               answer your questions. There’s no obligation.
             </p>
           </header>
+          {selectedRoute ? <p className={styles.routeContext}><strong>Discussing: {selectedRoute.title}</strong><br />{selectedRoute.summary}</p> : null}
 
           {existing ? (
             <Notice tone="info" title="You already have a call booked">

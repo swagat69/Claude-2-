@@ -47,9 +47,9 @@ const channelOptions = [
 ];
 
 const submitLabels: Record<Channel | "none", string> = {
-  none: "See my next step",
-  whatsapp: "Continue with WhatsApp",
-  email: "Continue with email",
+  none: "Choose how to receive my result",
+  whatsapp: "Save answers and continue to WhatsApp",
+  email: "Save answers and continue to email",
 };
 
 const setContact = (field: keyof Contact, value: string) =>
@@ -268,7 +268,7 @@ export function ReviewStep() {
               label: "Send me occasional tips and offers on WhatsApp",
               hint: "Reply STOP at any time.",
             },
-          ]}
+          ].filter(option => option.name === `marketing_${contact.channel}`)}
         />
         <div role="alert" className={styles.gateLive}>
           {submitError ? (

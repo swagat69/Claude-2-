@@ -52,8 +52,8 @@ const setAnswer: AnswerChange = (id, value) =>
  * §7); missing answers are reported only on Continue; answers that a new
  * goal no longer needs are named before they are removed (brief §24).
  */
-export function QuestionStep({ step }: { step: QuestionStepId }) {
-  const guard = useStepGuard(step);
+export function QuestionStep({ step, initialGoal }: { step: QuestionStepId; initialGoal?: string }) {
+  const guard = useStepGuard(step, initialGoal);
   const router = useRouter();
   const [errors, setErrors] = useState<FieldError[]>([]);
   const [attempt, setAttempt] = useState(0);

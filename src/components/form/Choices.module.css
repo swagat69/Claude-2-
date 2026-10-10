@@ -373,3 +373,11 @@
     outline: 3px solid Highlight;
   }
 }
+
+
+.cardIcon { display: none; }
+.card, .card:not(:has(.cardIcon)) { grid-template-columns: minmax(0, 1fr) auto; background: var(--color-surface-base); }
+.card:has(:checked) { background: var(--palette-lime); }
+.cardLabel { font-size: 18px; font-weight: 500; }
+.card:has(:focus-visible), .checkboxInput:focus-visible + .box, .segment:has(:focus-visible), .chip:has(:focus-visible) { outline: 3px solid var(--palette-lime); outline-offset: 3px; box-shadow: 0 0 0 2px var(--palette-ink); }
+.chip { border-radius: 8px; }

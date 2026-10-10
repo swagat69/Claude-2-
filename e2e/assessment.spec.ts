@@ -59,7 +59,7 @@ async function fillPersonalSituation(page: Page) {
 
 async function fillPersonalPreferences(page: Page) {
   await page.getByRole("radio", { name: "S$5,000 to S$19,999" }).check();
-  await page.getByRole("radio", { name: "1 to 3 years" }).check();
+  await page.getByRole("radio", { name: "1 year to under 3 years" }).check();
 }
 
 /** Personal loan, all the way to the review. */
@@ -79,7 +79,7 @@ async function toReview(page: Page) {
 
 test("A0 sets expectations and preselects the goal from a homepage tile", async ({ page }) => {
   await page.goto("/assessment?goal=renovation&from=tile");
-  await expect(h1(page)).toHaveText("Let’s find the next step that fits you.");
+  await expect(h1(page)).toHaveText("Four short steps, then you choose what happens next");
   await expect(page.getByRole("list", { name: "The four stages" }).getByRole("listitem")).toHaveCount(4);
   await expect(page.getByText("Starting with Home renovation")).toBeVisible();
   await page.getByRole("button", { name: "Begin" }).click();
@@ -89,20 +89,13 @@ test("A0 sets expectations and preselects the goal from a homepage tile", async 
   expect(await events(page)).toContainEqual({ event: "assessment_started", source: "tile", goal_preset: "renovation" });
 });
 
-test("the hero and final CTA reach the same start, tracked apart", async ({ page }) => {
-  for (const [name, source] of [
-    ["hero", "hero"],
-    ["final", "final"],
-  ] as const) {
-    await page.goto("/");
-    const links = page.getByRole("main").getByRole("link", { name: "Find my next step" });
-    await (source === "hero" ? links.first() : links.last()).click();
-    await expect(page, name).toHaveURL(new RegExp(`/assessment\\?from=${source}$`));
-    await page.getByRole("button", { name: "Begin" }).click();
-    await expect(page).toHaveURL(/\/assessment\/goal$/);
-    expect(await events(page)).toContainEqual({ event: "assessment_started", source, goal_preset: "none" });
-    await page.evaluate(() => sessionStorage.clear());
-  }
+test("the closing action starts the assessment and records its source", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("main").getByRole("link", { name: "Start assessment", exact: true }).click();
+  await expect(page).toHaveURL(/\/assessment\?from=final$/);
+  await page.getByRole("button", { name: "Begin" }).click();
+  await expect(page).toHaveURL(/\/assessment\/goal$/);
+  expect(await events(page)).toContainEqual({ event: "assessment_started", source: "final", goal_preset: "none" });
 });
 
 test("happy path: answers, review, contact choice and separate consent", async ({ page }) => {
@@ -117,10 +110,10 @@ test("happy path: answers, review, contact choice and separate consent", async (
   await expect(page.getByRole("region", { name: "Preferences" })).toContainText("Lowest monthly repayment");
 
   await page.getByRole("radio", { name: /^Email/ }).check();
-  await expect(page.getByRole("button", { name: "Continue with email" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Save answers and continue to email" })).toBeVisible();
   await page.getByLabel("Email address").fill("ana@example.com");
   await page.getByRole("checkbox", { name: "Send me occasional tips and offers by email" }).check();
-  await page.getByRole("button", { name: "Continue with email" }).click();
+  await page.getByRole("button", { name: "Save answers and continue to email" }).click();
 
   await expect(page).toHaveURL(/\/assessment\/continue$/);
   await expect(h1(page)).toHaveText("Get a secure link by email");
@@ -150,7 +143,7 @@ test("happy path: answers, review, contact choice and separate consent", async (
 test("missing answers: a summary first, then each link focuses its question", async ({ page }) => {
   await begin(page);
   await continueButton(page, /^Continue/).click();
-  const summary = page.getByRole("alert", { name: "There is a problem" });
+  const summary = page.getByRole("alert", { name: "Check these answers" });
   await expect(summary).toBeFocused();
   await summary.getByRole("link", { name: "Select what you’d like help with" }).click();
   await expect(page.locator("#q-goal")).toBeFocused();
@@ -159,7 +152,7 @@ test("missing answers: a summary first, then each link focuses its question", as
   await continueButton(page, "Continue to your situation").click();
   await page.getByRole("radio", { name: "Singapore citizen" }).check();
   await continueButton(page, "Continue to your preferences").click();
-  await expect(page.getByRole("alert", { name: "There is a problem" }).getByRole("link")).toHaveText([
+  await expect(page.getByRole("alert", { name: "Check these answers" }).getByRole("link")).toHaveText([
     "Select your age range",
     "Select your work situation",
     "Select when you need the money",
@@ -167,7 +160,7 @@ test("missing answers: a summary first, then each link focuses its question", as
   // What was already answered stays answered.
   await expect(page.getByRole("radio", { name: "Singapore citizen" })).toBeChecked();
   await page
-    .getByRole("alert", { name: "There is a problem" })
+    .getByRole("alert", { name: "Check these answers" })
     .getByRole("link", { name: "Select your age range" })
     .click();
   await expect(page.getByLabel("How old are you?")).toBeFocused();
@@ -196,11 +189,11 @@ test("changing goal from the review names the answers it removes, then asks the 
   await chooseGoal(page, "Business loan");
   await page.getByRole("radio", { name: "Yes, it has a UEN" }).check();
   await continueButton(page, "Continue to your situation").click();
-  await page.getByRole("radio", { name: "1 to 3 years" }).check();
+  await page.getByRole("radio", { name: "1 year to under 3 years" }).check();
   await page.getByRole("radio", { name: "Within 2 weeks" }).check();
   await continueButton(page, "Continue to your preferences").click();
   await page.getByRole("radio", { name: "S$50,000 to S$199,999" }).check();
-  await page.getByRole("radio", { name: "Up to 1 year" }).check();
+  await page.getByRole("radio", { name: "Less than 1 year" }).check();
   await continueButton(page, "Review my answers").click();
   await expect(page.getByRole("region", { name: "Your goals" })).toContainText("Business loan");
 
@@ -215,7 +208,7 @@ test("changing goal from the review names the answers it removes, then asks the 
   await fillPersonalSituation(page);
   await continueButton(page, "Continue to your preferences").click();
   // The repayment period still applies, so it is kept; the business amount band is not.
-  await expect(page.getByRole("radio", { name: "Up to 1 year" })).toBeChecked();
+  await expect(page.getByRole("radio", { name: "Less than 1 year" })).toBeChecked();
   await page.getByRole("radio", { name: "S$5,000 to S$19,999" }).check();
   await continueButton(page, "Review my answers").click();
 
@@ -337,8 +330,8 @@ test("Start again asks first, then clears everything", async ({ page }) => {
 
 test("contact details: format checked on blur, and only the chosen channel is required", async ({ page }) => {
   await toReview(page);
-  await page.getByRole("button", { name: "See my next step" }).click();
-  await expect(page.getByRole("alert", { name: "There is a problem" }).getByRole("link")).toHaveText([
+  await page.getByRole("button", { name: "Choose how to receive my result" }).click();
+  await expect(page.getByRole("alert", { name: "Check these answers" }).getByRole("link")).toHaveText([
     "Select how you’d like to continue",
   ]);
   await page.getByRole("radio", { name: /^WhatsApp/ }).check();
@@ -346,7 +339,7 @@ test("contact details: format checked on blur, and only the chosen channel is re
   await page.getByLabel(/First name/).click();
   await expect(page.getByText("Enter an 8-digit Singapore number, like 9123 4567").first()).toBeVisible();
   await page.getByLabel("Mobile number").fill("+65 9123 4567");
-  await page.getByRole("button", { name: "Continue with WhatsApp" }).click();
+  await page.getByRole("button", { name: "Save answers and continue to WhatsApp" }).click();
   await expect(h1(page)).toHaveText("Continue in WhatsApp");
   expect((await stored(page)).contact).toEqual({ channel: "whatsapp", mobile: "9123 4567" });
 });
@@ -355,18 +348,18 @@ test("after sending, Back shows a notice instead of an editable form", async ({ 
   await toReview(page);
   await page.getByRole("radio", { name: /^WhatsApp/ }).check();
   await page.getByLabel("Mobile number").fill("91234567");
-  await page.getByRole("button", { name: "Continue with WhatsApp" }).click();
+  await page.getByRole("button", { name: "Save answers and continue to WhatsApp" }).click();
   await expect(page).toHaveURL(/continue$/);
   await page.goBack();
   await expect(page).toHaveURL(/review$/);
   await expect(h1(page)).toHaveText("You’ve already sent your answers");
-  await expect(page.getByRole("button", { name: "Continue with WhatsApp" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Save answers and continue to WhatsApp" })).toHaveCount(0);
 });
 
 test("the skip link reaches the page on screen after moving between pages", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("main").getByRole("link", { name: "Find my next step" }).first().click();
-  await expect(h1(page)).toHaveText("Let’s find the next step that fits you.");
+  await page.getByRole("main").getByRole("link", { name: "Start assessment", exact: true }).click();
+  await expect(h1(page)).toHaveText("Four short steps, then you choose what happens next");
   await page.getByRole("link", { name: "Skip to main content" }).focus();
   await page.keyboard.press("Enter");
   const focused = await page.evaluate(() => {
@@ -375,7 +368,7 @@ test("the skip link reaches the page on screen after moving between pages", asyn
   });
   expect(focused.tag).toBe("MAIN");
   expect(focused.visible).toBe(true);
-  expect(focused.text).toContain("Let’s find the next step that fits you.");
+  expect(focused.text).toContain("Four short steps, then you choose what happens next");
 });
 
 test("every assessment state passes WCAG 2.2 AA and fits 320px", async ({ page }) => {
@@ -388,7 +381,7 @@ test("every assessment state passes WCAG 2.2 AA and fits 320px", async ({ page }
   await check();
   await page.getByRole("button", { name: "Begin" }).click();
   await continueButton(page, "Continue to your situation").click();
-  await expect(page.getByRole("alert", { name: "There is a problem" })).toBeVisible();
+  await expect(page.getByRole("alert", { name: "Check these answers" })).toBeVisible();
   await check();
   await page.getByRole("radio", { name: "3 or 4" }).check();
   await continueButton(page, "Continue to your situation").click();
@@ -411,11 +404,11 @@ test("every assessment state passes WCAG 2.2 AA and fits 320px", async ({ page }
   await check();
   await continueButton(page, "Review my answers").click();
   await page.getByRole("radio", { name: /^WhatsApp/ }).check();
-  await page.getByRole("button", { name: "Continue with WhatsApp" }).click();
-  await expect(page.getByRole("alert", { name: "There is a problem" })).toBeVisible();
+  await page.getByRole("button", { name: "Save answers and continue to WhatsApp" }).click();
+  await expect(page.getByRole("alert", { name: "Check these answers" })).toBeVisible();
   await check();
   await page.getByLabel("Mobile number").fill("81234567");
-  await page.getByRole("button", { name: "Continue with WhatsApp" }).click();
+  await page.getByRole("button", { name: "Save answers and continue to WhatsApp" }).click();
   await expect(page).toHaveURL(/continue$/);
   await expect(h1(page)).toHaveText("Continue in WhatsApp");
   await check();
@@ -437,7 +430,7 @@ test.describe("without JavaScript", () => {
 
   test("the start screen explains what to do instead", async ({ page }) => {
     await page.goto("/assessment");
-    await expect(h1(page)).toHaveText("Let’s find the next step that fits you.");
+    await expect(h1(page)).toHaveText("Four short steps, then you choose what happens next");
     // Playwright's text queries skip <noscript>, so check the element itself.
     const notice = await page.locator("main noscript").evaluate((n) => n.innerHTML);
     expect(notice).toContain("The assessment needs JavaScript");

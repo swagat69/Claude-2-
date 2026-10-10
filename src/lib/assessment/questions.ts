@@ -306,9 +306,9 @@ export const questions: Question[] = [
     reviewLabel: "Trading for",
     options: [
       { value: "lt-6m", label: "Less than 6 months" },
-      { value: "6-12m", label: "6 to 12 months" },
-      { value: "1-3y", label: "1 to 3 years" },
-      { value: "3y-plus", label: "More than 3 years" },
+      { value: "6-12m", label: "6 to 11 months" },
+      { value: "1-3y", label: "1 year to under 3 years" },
+      { value: "3y-plus", label: "3 years or more" },
     ],
     showIf: isBusiness,
     requiredMessage: "Select how long the business has been trading",
@@ -386,8 +386,8 @@ export const questions: Question[] = [
     label: "How long would you like to repay over?",
     reviewLabel: "Repay over",
     options: [
-      { value: "lt-1y", label: "Up to 1 year" },
-      { value: "1-3y", label: "1 to 3 years" },
+      { value: "lt-1y", label: "Less than 1 year" },
+      { value: "1-3y", label: "1 year to under 3 years" },
       { value: "3-5y", label: "3 to 5 years" },
       notSure(),
     ],

@@ -12,7 +12,7 @@ import { Stepper } from "@/components/progress/Stepper";
 import { track } from "@/lib/assessment/analytics.ts";
 import { draftStore, type Draft } from "@/lib/assessment/draft.ts";
 import { canVisit, firstIncompleteStep, pathVariant, previousStep } from "@/lib/assessment/flow.ts";
-import { STEPS, stageNames, stepInfo, type StepId } from "@/lib/assessment/questions.ts";
+import { STEPS, stageNames, stepInfo, goalOptions, type StepId } from "@/lib/assessment/questions.ts";
 import { useDraft } from "@/lib/assessment/useDraft.ts";
 import { useHeadingFocus } from "@/lib/useHeadingFocus";
 import styles from "./assessment.module.css";
@@ -29,21 +29,27 @@ type Guard = { state: "pending" } | { state: "submitted"; draft: Draft } | { sta
  * that is. A sent assessment shows a notice instead of the form, without
  * trapping the Back button.
  */
-export function useStepGuard(step: StepId): Guard {
+export function useStepGuard(step: StepId, initialGoal?: string): Guard {
   const draft = useDraft();
   const router = useRouter();
+  const preset = step === "goal" && goalOptions.some(option => option.value === initialGoal) ? initialGoal : undefined;
   const redirect =
     draft === undefined || draft?.status === "submitted"
       ? null
       : draft === null
-        ? "/assessment"
+        ? preset ? null : "/assessment"
         : canVisit(step, draft.answers)
           ? null
           : stepInfo[firstIncompleteStep(draft.answers)].href;
 
   useEffect(() => {
+    if (draft === null && preset && !draftStore.getSnapshot()) {
+      draftStore.start({ answers: { goal: preset }, source: "hero" });
+      track("assessment_started", { source: "hero", goal_preset: preset });
+      return;
+    }
     if (redirect) router.replace(redirect);
-  }, [redirect, router]);
+  }, [draft, preset, redirect, router]);
 
   if (!draft || redirect) return { state: "pending" };
   if (draft.status === "submitted") return { state: "submitted", draft };

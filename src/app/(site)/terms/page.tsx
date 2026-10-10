@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import { business } from "@/config/business";
 import { InfoPage, InfoSection } from "../_shared/InfoPage";
 
@@ -21,7 +20,7 @@ export default function Page() {
     >
       <InfoSection title="What DFX is">
         <p>
-          <Placeholder note="DFX’s registered company name and UEN">DFX</Placeholder> is a loan-matching service, not a
+          {business.legalName ?? "DFX"}{business.uen ? ` (UEN ${business.uen})` : ""} is a loan-matching service, not a
           lender. We suggest kinds of loan that may fit your answers, and, if you agree, introduce you to{" "}
           {business.lenders}. They decide on approval, rates and terms.
         </p>

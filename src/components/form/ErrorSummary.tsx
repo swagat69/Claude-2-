@@ -36,7 +36,7 @@ export function ErrorSummary({ errors, attempt }: { errors: SummaryError[]; atte
   return (
     <div ref={ref} className={styles.summary} tabIndex={-1} role="alert" aria-labelledby={titleId}>
       <h2 id={titleId} className="type-h3">
-        There is a problem
+        Check these answers
       </h2>
       <ul className={styles.list}>
         {errors.map(({ fieldId, message }) => (

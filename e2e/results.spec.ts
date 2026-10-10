@@ -183,6 +183,28 @@ test("routes found: no ranks or scores, the call comes second, and declining kee
   await expect(routes.getByRole("article")).toHaveCount(2);
 });
 
+test("a route-specific call keeps the chosen option through confirmation", async ({ page }) => {
+  await shortcut(page, "Routes found");
+  const route = page.getByRole("article").filter({ has: page.getByRole("heading", { name: "Personal credit line", exact: true }) });
+  await route.getByRole("link", { name: "Discuss this option" }).click();
+  await expect(page).toHaveURL(/\/results\/book\?route=credit-line$/);
+  await expect(page.getByText("Discussing: Personal credit line", { exact: true })).toBeVisible();
+  await page.getByRole("radio", { name: /^Video call/ }).check();
+  await page.locator("input[name=slot]:not([disabled])").first().check();
+  await button(page, "Confirm this time").click();
+  await expect(h1(page)).toHaveText("Your call is booked.");
+  await expect(page.getByRole("main").getByText("Personal credit line", { exact: true }).filter({ visible: true })).toBeVisible();
+});
+
+test("updating a result restores the answers for review", async ({ page }) => {
+  await shortcut(page, "Routes found");
+  await page.getByText("Answers you sent", { exact: true }).click();
+  await button(page, "Update my answers").click();
+  await expect(page).toHaveURL(/\/assessment\/review$/);
+  await expect(page.getByRole("region", { name: "Your goals" })).toContainText("Personal loan");
+  await expect(page.getByRole("region", { name: "Preferences" })).toContainText("Lowest monthly repayment");
+});
+
 test("a person needs to look: what is known, what is missing, and no urgency", async ({ page }) => {
   await shortcut(page, "A person needs to look");
   await expect(h1(page)).toHaveText("We need one more detail to recommend the best next step.");
@@ -233,7 +255,7 @@ test("booking: missing choices are explained, a taken slot is rechecked, then it
   await expect(h1(page)).toHaveText("Choose a time to talk");
   await expect(page.getByText(/Times in Singapore time \(GMT\+8\)/)).toBeVisible();
   await button(page, "Confirm this time").click();
-  await expect(page.getByRole("alert", { name: "There is a problem" }).getByRole("link")).toHaveText([
+  await expect(page.getByRole("alert", { name: "Check these answers" }).getByRole("link")).toHaveText([
     "Choose how you’d like to talk",
     "Choose a time for your call",
   ]);
@@ -244,7 +266,7 @@ test("booking: missing choices are explained, a taken slot is rechecked, then it
   const start = await first.getAttribute("value");
   await first.check();
   await button(page, "Confirm this time").click();
-  await expect(page.getByRole("alert", { name: "There is a problem" })).toContainText("That time has just been taken by someone else");
+  await expect(page.getByRole("alert", { name: "Check these answers" })).toContainText("That time has just been taken by someone else");
   await expect(page.locator(`input[name=slot][value="${start}"]`)).toBeDisabled();
   // The other choices are kept.
   await expect(page.getByRole("radio", { name: /^Phone call/ })).toBeChecked();

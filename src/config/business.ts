@@ -3,13 +3,16 @@
  * for wording). Decided on 9 Oct 2026 on the owner's instruction, from
  * research into Singapore rules and common practice; the reasoning and
  * sources are in docs/decisions.md. Values set to null are facts only DFX
- * can supply; the pages show a Placeholder tag where they are needed.
+ * can supply; the pages acknowledge missing contact details without inventing them.
  */
 
 export const business = {
   /** Registered name and UEN: only DFX knows these. */
-  legalName: null as string | null,
-  uen: null as string | null,
+  legalName: process.env.NEXT_PUBLIC_DFX_LEGAL_NAME || null,
+  uen: process.env.NEXT_PUBLIC_DFX_UEN || null,
+  supportEmail: process.env.NEXT_PUBLIC_DFX_SUPPORT_EMAIL || null,
+  privacyEmail: process.env.NEXT_PUBLIC_DFX_PRIVACY_EMAIL || null,
+  whatsappNumber: process.env.NEXT_PUBLIC_DFX_WHATSAPP_NUMBER || null,
   /** Domain for email and the privacy contact: not chosen yet. */
   emailDomain: null as string | null,
 

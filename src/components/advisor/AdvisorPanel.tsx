@@ -1,10 +1,8 @@
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "@/components/icon/Icon";
 import { Photo } from "@/components/photo/Photo";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import type { PhotoAsset } from "@/config/media";
 import styles from "./AdvisorPanel.module.css";
-
 interface AdvisorPanelProps {
   title: string;
   body: ReactNode;
@@ -44,18 +42,14 @@ export function AdvisorPanel({
   decline,
 }: AdvisorPanelProps) {
   return (
-    <aside className={styles.panel} data-surface="inverse" aria-label="Talk to our team">
+    <aside className={styles.panel} aria-label="Talk to our team">
       <div className={styles.who}>
-        {photo ? (
+        {photo?.asset ? (
           <Photo asset={photo.asset} needed={photo.needed} variant="avatar" size={48} className={styles.photo} />
-        ) : (
-          <span className={styles.avatar} aria-hidden="true">
-            <Icon name="user" />
-          </span>
-        )}
+        ) : null}
         <p>
           {who}
-          {photo && !photo.asset ? <Placeholder note={photo.needed} /> : null}
+
         </p>
       </div>
       <h2 className={`type-h2 ${styles.title}`}>{title}</h2>

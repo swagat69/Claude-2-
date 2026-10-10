@@ -19,7 +19,8 @@ import { pathVariant, reviewGroups } from "@/lib/assessment/flow.ts";
 import { track } from "@/lib/assessment/analytics.ts";
 import { draftStore } from "@/lib/assessment/draft.ts";
 import { api, reference, type ServerRecord } from "@/lib/service/api.ts";
-import { FACTS_AS_OF, reasonCopy, type ResultKind } from "@/lib/service/engine.ts";
+import { reasonCopy, type ResultKind } from "@/lib/service/engine.ts";
+import { explainRoute, priorityChecks } from "@/lib/service/presentation.ts";
 import { useNow, useRecord, useSession } from "@/lib/service/hooks.ts";
 import { SINGAPORE, formatDay, formatTime } from "@/lib/time.ts";
 import { useHeadingFocus } from "@/lib/useHeadingFocus";
@@ -273,13 +274,14 @@ function Fit({ record }: { record: ServerRecord }) {
             <div key={route.id} ref={i === 0 ? firstRoute : undefined}>
               <RouteCard
                 title={route.title}
-                reasons={route.reasons}
-                facts={route.facts}
-                factsAsOf={FACTS_AS_OF}
+                description={route.summary}
+                reasons={[explainRoute(route.id).reason]}
+                tradeoff={explainRoute(route.id).tradeoff}
+                facts={[{ label: "Rates, fees and final terms", value: "Needs lender confirmation" }]}
                 action={
                   <ButtonLink
-                    href="/results/book"
-                    variant={i === 0 ? "primary" : "secondary"}
+                    href={`/results/book?route=${encodeURIComponent(route.id)}`}
+                    variant="secondary"
                     iconEnd="arrow-right"
                     onClick={() =>
                       track("call_cta_selected", { result_status: "result_ready", cta_location: "route-card" })
@@ -288,7 +290,7 @@ function Fit({ record }: { record: ServerRecord }) {
                     Discuss this option
                   </ButtonLink>
                 }
-                details={<p>{route.summary}</p>}
+                details={<p>Compare a lender’s written terms, all charges and total amount repayable before deciding. These are possible kinds of loan, not priced offers.</p>}
                 smallPrint={route.smallPrint}
                 onDetailsToggle={(open) =>
                   open && track("result_card_opened", { route_id_safe: route.id, position: i + 1 })
@@ -298,6 +300,7 @@ function Fit({ record }: { record: ServerRecord }) {
           ))}
         </section>
 
+        {priorityChecks(record.answers).length ? <section className={styles.section} aria-labelledby="priorities-title"><h2 id="priorities-title" className="type-h2">How your preferences are handled</h2><dl className={styles.knownList}>{priorityChecks(record.answers).map(item => <div key={item.id}><dt>{item.label}</dt><dd>{item.note}</dd></div>)}</dl></section> : null}
         <AnswersSent record={record} />
       </div>
 
@@ -601,6 +604,12 @@ function NoMatch({ record }: { record: ServerRecord }) {
 /* -------------------------------------------------------------------------- */
 
 function AnswersSent({ record }: { record: ServerRecord }) {
+  const router = useRouter();
+  const revise = () => {
+    draftStore.start({ answers: record.answers, source: "revise" });
+    draftStore.update(draft => ({ ...draft, status: "review", contact: record.contact }));
+    router.push("/assessment/review");
+  };
   const groups = reviewGroups(record.answers).map((group) => ({
     id: `sent-${group.step}`,
     title: group.title,
@@ -615,9 +624,9 @@ function AnswersSent({ record }: { record: ServerRecord }) {
       <div className={styles.answersBody}>
         <ReviewSummary groups={groups} />
         <p className={styles.muted}>
-          Reference {reference(record.id)}. To change your answers,{" "}
-          <Link href="/assessment">start a new assessment</Link>.
+          Reference {reference(record.id)}. Updating your answers starts a new check. Your original result and any existing booking are kept.
         </p>
+        <Button variant="secondary" iconStart="edit" onClick={revise}>Update my answers</Button>
       </div>
     </details>
   );

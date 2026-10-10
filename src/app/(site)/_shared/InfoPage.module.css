@@ -50,3 +50,16 @@
 .section strong {
   color: var(--color-text-primary);
 }
+
+.page { max-width: calc(var(--layout-container-max) + 2 * var(--grid-margin)); }
+.page > .lead, .page > .note { max-width: 62ch; }
+.contentGrid { display: grid; grid-template-columns: 230px minmax(0, 680px); gap: 64px; width: 100%; margin-top: 32px; align-items: start; }
+.contents { position: sticky; top: 96px; }
+.contents h2 { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+.contents ol { list-style: none; padding: 0; }
+.contents a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; }
+.body { margin-top: 0; }
+.section { scroll-margin-top: 96px; }
+.contactLines { display: grid; gap: 12px; }
+.contactLines a { font-size: 20px; overflow-wrap: anywhere; min-height: 48px; display: inline-flex; align-items: center; }
+@media (max-width: 900px) { .contentGrid { grid-template-columns: minmax(0, 1fr); gap: 32px; } .contents { position: static; } }

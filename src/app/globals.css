@@ -169,3 +169,8 @@ html:has(dialog:modal) {
 .display-punct {
   margin-left: -0.06em;
 }
+
+
+/* Adviser-on-paper direction: a single readable typeface and a two-colour focus treatment. */
+:focus-visible { outline: 3px solid var(--palette-lime); outline-offset: 3px; box-shadow: 0 0 0 2px var(--palette-ink); }
+@media (forced-colors: active) { :focus-visible { outline: 3px solid Highlight; box-shadow: none; } }

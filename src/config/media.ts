@@ -1,9 +1,8 @@
 /**
  * Photos and logos that only DFX can supply (brief H0.3, H0.8, §11: real
  * people and authorised logos only, never stock or generated faces). Each
- * slot is null or empty until DFX provides the file; the page then shows a
- * labelled placeholder of the same size, so the layout doesn't change when
- * the real file arrives. Put files in /public/media and fill in the slot.
+ * slot is null or empty until DFX provides the file. Public pages omit
+ * missing imagery. Put approved files in /public/media and fill in the slot.
  */
 
 export interface PhotoAsset {
@@ -28,7 +27,7 @@ export const media = {
   supportPhoto: null as PhotoAsset | null,
   /** Headshot of the person who takes calls, shown beside the call invitation. Square. */
   specialistPhoto: null as PhotoAsset | null,
-  /** Lenders DFX has written permission to name. Empty: the strip shows placeholders. */
+  /** Lenders DFX has written permission to name. The strip needs at least three. */
   lenderLogos: [] as LogoAsset[],
   /** How many logo spaces to hold open until the real logos arrive. */
   lenderLogoSlots: 5,

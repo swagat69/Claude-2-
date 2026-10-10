@@ -221,3 +221,9 @@
     background: rgba(255, 255, 255, 0.1);
   }
 }
+
+
+.secondary { border-color: transparent; background: transparent; padding-inline: 0; text-decoration: underline; text-underline-offset: .2em; }
+.accent { background: var(--color-action-primary-bg); color: var(--color-action-primary-fg); }
+.button:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) { .button:active:not(:disabled, [aria-disabled="true"]) { transform: none; } }
