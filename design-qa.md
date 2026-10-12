@@ -60,7 +60,7 @@ Additional task deliverables include the 768px homepage, validation, policies an
 - The existing handoff and booking service remains a browser-based prototype. No production backend or policy sign-off is claimed. Real contact details, company registration, approved lender assets and real team photography remain DFX inputs, as specified in the brief.
 - The existing outline icon set remains consistent but is not replaced by Phosphor. The optional paper texture is omitted. These are P3 refinements; neither blocks the implemented flows or paper-and-ink direction.
 - Manual testing with VoiceOver, NVDA and TalkBack, and browser coverage in Safari/Firefox, remains outstanding. Automated accessibility checks are not a claim of full conformance.
-- GitHub publishing and live deployment are outside this local QA result. The saved GitHub sign-in must be refreshed before publishing the prepared branch.
+- Published on 13 October 2026 as [draft pull request #1](https://github.com/swagat69/Claude-2-/pull/1), on `codex/dfx-design-audit`. Live deployment is outside this QA result; the pull request has not been merged.
 
 ## Implementation checklist
 
