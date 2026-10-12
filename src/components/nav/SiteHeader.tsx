@@ -16,7 +16,7 @@ export interface NavLink {
 
 interface SiteHeaderProps {
   links: NavLink[];
-  cta: { href: string; label: string; shortLabel: string };
+  cta: { href: string; label: string; shortLabel: string; variant?: "primary" | "secondary" };
   /** Force a state for documentation; otherwise it follows the scroll position. */
   compact?: boolean;
   /** Sticky from 768px. Off for previews. */
@@ -77,10 +77,10 @@ export function SiteHeader({ links, cta, compact: forcedCompact, sticky = true }
           {linkList}
         </nav>
         <div className={styles.actions}>
-          <ButtonLink href={cta.href} size="compact" className={styles.ctaLong}>
+          <ButtonLink href={cta.href} variant={cta.variant} size="compact" className={styles.ctaLong}>
             {cta.label}
           </ButtonLink>
-          <ButtonLink href={cta.href} size="compact" className={styles.ctaShort}>
+          <ButtonLink href={cta.href} variant={cta.variant} size="compact" className={styles.ctaShort}>
             {cta.shortLabel}
           </ButtonLink>
           <button
@@ -101,6 +101,7 @@ export function SiteHeader({ links, cta, compact: forcedCompact, sticky = true }
         </nav>
         <ButtonLink
           href={cta.href}
+          variant={cta.variant}
           fullWidth
           iconEnd="arrow-right"
           className={styles.sheetCta}

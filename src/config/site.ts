@@ -14,18 +14,19 @@ export function startHref(from: "hero" | "final" | "header" | "tile" | "footer",
 
 export const navLinks = [
   { href: "/#how-it-works", label: "How it works" },
-  { href: "/#who-its-for", label: "Who it’s for" },
+  { href: "/#who-its-for", label: "Loan purposes" },
   { href: "/#faqs", label: "FAQs" },
+  { href: "/contact", label: "Contact" },
 ];
 
-export const navCta = { href: startHref("header"), label: "Start assessment", shortLabel: "Start" };
+export const navCta = { href: startHref("header"), label: "Start assessment", shortLabel: "Start assessment" };
 
 export const footerGroups = [
   {
     title: "DFX",
     links: [
       { href: "/#how-it-works", label: "How it works" },
-      { href: "/#who-its-for", label: "Who it’s for" },
+      { href: "/#who-its-for", label: "Loan purposes" },
       { href: "/#faqs", label: "FAQs" },
       { href: startHref("footer"), label: "Start assessment" },
     ],

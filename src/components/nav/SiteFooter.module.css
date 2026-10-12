@@ -75,3 +75,7 @@
     grid-column: 1 / -1;
   }
 }
+
+
+.legal { font-size: 16px; line-height: 1.6; }
+.group:first-child .groupTitle { display: none; }

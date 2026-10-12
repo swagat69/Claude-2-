@@ -1,20 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Schibsted_Grotesk } from "next/font/google";
 import { SkipLink } from "@/components/nav/SkipLink";
 import "@/styles/tokens.css";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const schibsted = Schibsted_Grotesk({
+  variable: "--font-schibsted",
   subsets: ["latin"],
   display: "swap",
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const description = "Check your loan options in a few short questions, then decide whether to speak with the DFX team.";
 
@@ -38,14 +33,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F7F6F2",
+  themeColor: "#F6F5F1",
   colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // data-scroll-behavior: Next turns smooth scrolling off while it changes page, so new pages start at the top at once.
-    <html lang="en-SG" className={`${inter.variable} ${plusJakarta.variable}`} data-scroll-behavior="smooth">
+    <html lang="en-SG" className={schibsted.variable} data-scroll-behavior="smooth">
       <body>
         <SkipLink />
         {children}

@@ -9,6 +9,8 @@ const port = 3200;
  */
 export default defineConfig({
   testDir: "e2e",
+  // Multi-state accessibility scans need room to complete on slower machines.
+  timeout: 60_000,
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,

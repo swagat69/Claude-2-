@@ -30,3 +30,7 @@
     opacity: 0;
   }
 }
+
+
+.summary { border: 0; border-left: 4px solid var(--color-feedback-error-fg); border-radius: 0; background: var(--color-surface-base); }
+.summary:focus { outline: 3px solid var(--palette-lime); box-shadow: 0 0 0 2px var(--palette-ink); outline-offset: 3px; }

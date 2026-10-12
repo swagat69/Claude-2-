@@ -14,6 +14,8 @@ interface RouteCardProps {
    */
   eyebrow?: string;
   title: string;
+  description?: string;
+  tradeoff?: string;
   /** One or two plain-language reasons derived from the answers. */
   reasons: string[];
   /** Verified facts only: provider, costs, timing, rates. Leave out anything unconfirmed. */
@@ -34,6 +36,8 @@ interface RouteCardProps {
 export function RouteCard({
   eyebrow = "Suggested route",
   title,
+  description,
+  tradeoff,
   reasons,
   facts,
   factsAsOf,
@@ -48,6 +52,7 @@ export function RouteCard({
     <article className={styles.card}>
       <p className={styles.eyebrow}>{eyebrow}</p>
       <Heading className={styles.title}>{title}</Heading>
+      {description ? <p>{description}</p> : null}
 
       <div className={styles.fit}>
         <p className={styles.fitLabel}>Why it may fit</p>
@@ -60,6 +65,8 @@ export function RouteCard({
           ))}
         </ul>
       </div>
+
+      {tradeoff ? <div className={styles.tradeoff}><p className={styles.fitLabel}>What to weigh up</p><p>{tradeoff}</p></div> : null}
 
       {facts?.length ? (
         <div className={styles.factsWrap}>

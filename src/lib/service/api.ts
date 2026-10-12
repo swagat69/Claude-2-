@@ -30,6 +30,7 @@ export interface Booking {
   start: string;
   format: CallFormat;
   phone?: string;
+  routeId?: string;
   status: "confirmed" | "cancelled";
   confirmedAt: number;
 }
@@ -388,7 +389,7 @@ export function createApi({
      * Checks the slot again at confirm time (brief §20). With the prototype's
      * "conflict" setting, the first attempt finds the slot just taken.
      */
-    async book(id: string, start: string, format: CallFormat, phone?: string): Promise<Booking> {
+    async book(id: string, start: string, format: CallFormat, phone?: string, routeId?: string): Promise<Booking> {
       await wait(900);
       const current = db();
       const slot = slotsFrom(current, now()).find((s) => s.start === start);
@@ -397,7 +398,8 @@ export function createApi({
         save({ ...current, taken: [...current.taken, start] });
         throw new ServiceError("taken");
       }
-      const booking: Booking = { id: newId(), start, format, phone, status: "confirmed", confirmedAt: now() };
+      const route = current.records[id]?.result?.routes.find(route => route.id === routeId);
+      const booking: Booking = { id: newId(), start, format, phone, routeId: route?.id, status: "confirmed", confirmedAt: now() };
       update(id, (r) => ({ ...move(move(r, "booking_started"), "booking_confirmed"), booking }));
       return booking;
     },

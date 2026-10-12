@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/brand/Wordmark";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import { business } from "@/config/business";
 import { footerGroups } from "@/config/site";
 import styles from "./SiteFooter.module.css";
@@ -32,7 +31,7 @@ export function SiteFooter() {
         </nav>
         <div className={styles.legal}>
           <p>
-            <Placeholder note="Registered legal entity name and UEN">© 2026 DFX Pte. Ltd. · UEN 000000000X</Placeholder>
+            © 2026 {business.legalName ?? "DFX"}{business.uen ? ` · UEN ${business.uen}` : ""}
           </p>
           <p>{business.regulatoryLine}</p>
           <p>{business.feeLine}</p>

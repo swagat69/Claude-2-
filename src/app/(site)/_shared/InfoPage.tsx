@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
 import { BackLink } from "@/components/nav/SiteHeader";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import styles from "./InfoPage.module.css";
 
 interface InfoPageProps {
@@ -9,13 +8,14 @@ interface InfoPageProps {
   lead: ReactNode;
   /** e.g. "9 October 2026". */
   updated?: string;
-  /** Something that must still happen before launch, shown as a Placeholder tag. */
+  /** Something that must still happen before launch, shown as a plain notice. */
   note?: string;
   children: ReactNode;
 }
 
 /** Help and legal pages: one reading column, plain sections. */
 export function InfoPage({ eyebrow, title, lead, updated, note, children }: InfoPageProps) {
+  const sections = Children.toArray(children).filter(isValidElement<{ title: string }>).filter(child => typeof child.props.title === "string");
   return (
     <main id="main" className={`container ${styles.page}`}>
       <BackLink href="/">Home</BackLink>
@@ -25,10 +25,13 @@ export function InfoPage({ eyebrow, title, lead, updated, note, children }: Info
       {updated || note ? (
         <p className={styles.note}>
           {updated ? <>Last updated {updated}. </> : null}
-          {note ? <Placeholder note={note}>{note}.</Placeholder> : null}
+          {note ? <span>{note}.</span> : null}
         </p>
       ) : null}
-      <div className={styles.body}>{children}</div>
+      <div className={styles.contentGrid}>
+        <nav className={styles.contents} aria-label="On this page"><h2>On this page</h2><ol>{sections.map(section => <li key={section.props.title}><a href={`#${sectionId(section.props.title)}`}>{section.props.title}</a></li>)}</ol></nav>
+        <div className={styles.body}>{children}</div>
+      </div>
     </main>
   );
 }
@@ -36,9 +39,11 @@ export function InfoPage({ eyebrow, title, lead, updated, note, children }: Info
 /** A titled section of an info page. */
 export function InfoSection({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className={styles.section}>
+    <section id={sectionId(title)} className={styles.section}>
       <h2 className="type-h3">{title}</h2>
       {children}
     </section>
   );
 }
+
+function sectionId(title: string) { return title.toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }

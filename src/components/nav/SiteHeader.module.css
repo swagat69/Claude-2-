@@ -155,3 +155,8 @@
 .back {
   margin-left: calc(var(--space-3) * -1);
 }
+
+
+.header { background: var(--color-surface-base); }
+.menuButton { border-color: transparent; background: transparent; padding-inline: 8px; }
+@media (max-width: 359px) { .actions { gap: 0; } .ctaShort { padding-inline: 8px; font-size: 13px; } .menuButton { font-size: 13px; gap: 4px; } }

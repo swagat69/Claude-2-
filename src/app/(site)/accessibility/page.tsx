@@ -5,7 +5,7 @@ import { InfoPage, InfoSection } from "../_shared/InfoPage";
 
 export const metadata: Metadata = {
   title: "Accessibility",
-  description: "How DFX meets WCAG 2.2 AA, what we test, and how to tell us when something gets in your way.",
+  description: "Our WCAG 2.2 AA target, what we test, and how to tell us when something gets in your way.",
   robots: { index: false, follow: true },
 };
 
@@ -36,8 +36,7 @@ export default function Page() {
 
       <InfoSection title="How we check">
         <p>
-          Every page, and every state of the assessment, results and booking, is tested automatically against WCAG 2.2
-          AA on desktop and phone sizes before each release, along with keyboard-only paths through the forms.
+          Our automated checks cover public pages and key assessment, result and booking states at desktop and phone sizes, including keyboard paths through the forms. Automated checks do not establish full WCAG conformance.
         </p>
       </InfoSection>
 

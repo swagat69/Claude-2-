@@ -509,3 +509,22 @@
   align-items: center;
   gap: var(--space-3) var(--space-4);
 }
+
+
+/* Stable main column on every step; supporting information follows the form. */
+.step, .step[data-rail], .step[data-rail][data-wide] { --main-w: 720px; --frame-w: 720px; }
+.step[data-rail] .columns { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+.rail { position: static; }
+.railCard { padding: 24px 0 0; border: 0; border-top: 1px solid var(--color-border-subtle); border-radius: 0; background: transparent; }
+.panel, .start { background: transparent; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+.panel + .panel { border-top: 1px solid var(--color-border-subtle); padding-top: 24px; }
+.stages { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.stage { background: transparent; border-radius: 0; border-top: 1px solid var(--color-border-subtle); padding: 16px 0; }
+.stageNum { background: transparent; border: 0; border-radius: 0; justify-content: start; }
+.railIcon, .goodIcon { background: transparent; border-radius: 0; }
+.mainColumn { gap: 24px; }
+.questions, .form { gap: 24px; }
+@media (max-width: 767px) {
+  .form > .actions { position: sticky; bottom: 0; z-index: 20; padding: 12px 0 max(12px, env(safe-area-inset-bottom)); background: var(--color-surface-base); border-top: 1px solid var(--color-border-subtle); }
+  .question :global(input), .question :global(select) { scroll-margin-bottom: 100px; }
+}

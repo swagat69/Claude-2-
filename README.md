@@ -1,9 +1,12 @@
 # DFX website
 
-Design and build of the DFX loan-matching funnel: homepage → 3–4 assessment
-steps → WhatsApp or email handoff → results → a qualified call. It follows
-the **DFX Design Brief v1.0** (8 October 2026) and is designed in six parts,
-each reviewed before the next starts.
+DFX loan-matching prototype: homepage → four assessment steps → WhatsApp or
+email handoff → results → an optional call. The 10 October 2026 design update
+applies the supplied paper-and-ink brief and UX audit. See the
+[redesign handoff](docs/redesign-handoff.md) for changes and configuration,
+and [design QA](design-qa.md) for validation and known prototype limits.
+
+Original delivery plan:
 
 | Part | Scope | Brief | Status |
 | --- | --- | --- | --- |

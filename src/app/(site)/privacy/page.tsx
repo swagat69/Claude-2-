@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Placeholder } from "@/components/placeholder/Placeholder";
 import { business } from "@/config/business";
 import { InfoPage, InfoSection } from "../_shared/InfoPage";
 
@@ -10,8 +9,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-const entity = "DFX’s registered company name, UEN and address";
-const dpo = "DFX’s Data Protection Officer email address";
 
 /**
  * Written to the Personal Data Protection Act 2012 obligations (notification,
@@ -29,12 +26,11 @@ export default function Page() {
     >
       <InfoSection title="Who we are">
         <p>
-          <Placeholder note={entity}>DFX</Placeholder> runs this website and the loan-matching service. We decide how
+          {business.legalName ?? "DFX"}{business.uen ? ` (UEN ${business.uen})` : ""} runs this website and the loan-matching service. We decide how
           your information is used, and we’re responsible for it under Singapore’s Personal Data Protection Act (PDPA).
         </p>
         <p>
-          Our Data Protection Officer answers every privacy question and request:{" "}
-          <Placeholder note={dpo}>privacy email</Placeholder>.
+          {business.privacyEmail ? <>For privacy questions or requests, contact our Data Protection Officer at <a href={`mailto:${business.privacyEmail}`}>{business.privacyEmail}</a>.</> : <>The privacy contact has not been published yet. This is a draft notice for the prototype.</>}
         </p>
       </InfoSection>
 

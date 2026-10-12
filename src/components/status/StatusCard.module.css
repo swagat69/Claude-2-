@@ -6,18 +6,15 @@
   display: grid;
   gap: var(--space-3);
   max-width: var(--layout-result-detail);
-  padding: var(--space-6) var(--space-5);
-  overflow: hidden;
-  border: var(--border-hairline) solid var(--color-border-subtle);
-  border-top: 4px solid var(--tone-band);
-  border-radius: var(--radius-card);
-  background: var(--color-surface-raised);
+  padding: var(--space-6) 0;
+  border-top: 3px solid var(--tone-band);
+  background: transparent;
   animation: status-in var(--motion-duration-results) var(--motion-easing-standard) both;
 }
 
 @media (min-width: 768px) {
   .card {
-    padding: var(--space-8);
+    padding-block: var(--space-8);
   }
 }
 
@@ -62,10 +59,8 @@
 .badge {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--tone-bg);
+  width: 24px;
+  height: 24px;
   color: var(--tone-fg);
 }
 
